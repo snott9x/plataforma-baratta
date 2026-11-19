@@ -50,7 +50,15 @@ import {
 // ============================================================================
 // CONFIGURAÇÃO DO FIREBASE (PERSISTÊNCIA EM NUVEM PRIVADA)
 // ============================================================================
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+const firebaseConfig = {
+  apiKey: "AIzaSyBVKB0rVVIJtL5WKUdyWBwdXl5Qx5HbD6w",
+  authDomain: "plataforma-baratta.firebaseapp.com",
+  projectId: "plataforma-baratta",
+  storageBucket: "plataforma-baratta.firebasestorage.app",
+  messagingSenderId: "77988152295",
+  appId: "1:77988152295:web:b006ed4e09f47a2ec3b342"
+};
+typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
 const app = firebaseConfig ? initializeApp(firebaseConfig) : null;
 const auth = app ? getAuth(app) : null;
 const db = app ? getFirestore(app) : null;
