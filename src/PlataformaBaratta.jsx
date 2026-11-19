@@ -63,6 +63,11 @@ const firebaseConfig = {
 typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
 const app = firebaseConfig ? initializeApp(firebaseConfig) : null;
 const auth = app ? getAuth(app) : null;
+if (auth) {
+  setPersistence(auth, browserLocalPersistence).catch((error) => {
+    console.error("Erro ao definir persistência:", error);
+  });
+}
 const db = app ? getFirestore(app) : null;
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'plataforma-baratta-v1';
 
