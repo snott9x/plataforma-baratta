@@ -1170,18 +1170,16 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex items-center justify-between h-16 gap-4">
               {/* LOGOTIPO EXCLUSIVAMENTE TEXTUAL */}
-              <button
-                onClick={() => setActiveTab('Dashboard')}
-                className="flex flex-col items-start text-left focus:outline-none group shrink-0"
-              >
-                <span className="text-[10px] font-semibold tracking-[0.24em] text-slate-500 dark:text-slate-400 uppercase leading-none">
-                  PLATAFORMA
-                </span>
-                <span className="text-xl font-extrabold tracking-tight text-[#007AFF] uppercase leading-tight group-hover:opacity-90 transition-opacity">
-                  BARATTA
-                </span>
-              </button>
-
+             <button 
+  onClick={() => setActiveTab('Dashboard')}
+  className="flex items-center focus:outline-none group shrink-0"
+>
+  <img 
+    src="/logocompleta.png" 
+    alt="Plataforma Baratta" 
+    className="h-8 w-auto object-contain" 
+  />
+</button>
               {/* NAVEGAÇÃO PRINCIPAL (EXATAMENTE 8 ABAS) */}
               <nav className="hidden lg:flex items-center space-x-1 overflow-x-auto">
                 {TABS.map((tab) => {
