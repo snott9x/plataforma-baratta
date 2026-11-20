@@ -1167,38 +1167,54 @@ export default function App() {
       <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-[#007AFF]/20 selection:text-[#007AFF]">
         {/* CABEÇALHO FIXO ESTILO APPLE */}
         <header className="sticky top-0 z-30 bg-white/85 dark:bg-[#1C1C1E]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 print:hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="flex items-center justify-between h-16 gap-4">
-              {/* LOGOTIPO EXCLUSIVAMENTE TEXTUAL */}
-             <button 
-  onClick={() => setActiveTab('Dashboard')}
-  className="flex items-center focus:outline-none group shrink-0"
->
-  <img 
-    src="/logocompleta.png" 
-    alt="Plataforma Baratta" 
-    className="h-16 w-auto object-contain" 
-  />
-</button>
-              {/* NAVEGAÇÃO PRINCIPAL (EXATAMENTE 8 ABAS) */}
-              <nav className="hidden lg:flex items-center space-x-1 overflow-x-auto">
-                {TABS.map((tab) => {
-                  const isActive = activeTab === tab;
-                  return (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveTab(tab)}
-                      className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
-                        isActive
-                          ? 'bg-[#007AFF] text-white shadow-sm'
-                          : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10'
-                      }`}
-                    >
-                      {tab}
-                    </button>
-                  );
-                })}
-              </nav>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="flex items-center justify-between h-16 w-full">
+      
+      {/* 1. LADO ESQUERDO: LOGO */}
+      <div className="flex items-center shrink-0">
+        <button 
+          onClick={() => setActiveTab('Dashboard')}
+          className="flex items-center focus:outline-none group"
+        >
+          <img 
+            src="/logocompleta.png" 
+            alt="Plataforma Baratta" 
+            className="h-12 w-auto object-contain" 
+          />
+        </button>
+      </div>
+
+      {/* 2. CENTRO: ABAS DE NAVEGAÇÃO */}
+      <nav className="hidden lg:flex items-center space-x-1 mx-4">
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab;
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
+                isActive 
+                  ? 'bg-[#007AFF] text-white shadow-sm' 
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10'
+              }`}
+            >
+              {tab}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* 3. LADO DIREITO: CONTROLES, ANO E USUÁRIO */}
+      <div className="flex items-center shrink-0">
+        {/* Mantém os seus controles da direita originais aqui */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* ... restante do código original dos botões/status da direita ... */}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
 
               {/* CONTROLES GLOBAIS: ANO LETIVO, STATUS NUVEM E MODO CLARO/ESCURO */}
               <div className="flex items-center gap-2 sm:gap-3 shrink-0">
