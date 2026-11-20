@@ -2077,7 +2077,7 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
           }))
       : [];
 
-    const examId = editingExam ? editingExam.id : `${year}_${subjectId}_${examCode}_${Date.now()}`;
+    const examId = `${year}_${subjectId}_${examCode}_${currentTrimester}`;
 
     await onSaveExam({
       id: examId,
