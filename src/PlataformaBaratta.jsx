@@ -85,7 +85,7 @@ const INITIAL_SUBJECTS = [
   { id: 'geo', name: 'Geografia', area: 'Ciências Humanas' },
   { id: 'fil', name: 'Filosofia', area: 'Ciências Humanas' },
   { id: 'soc', name: 'Sociologia', area: 'Ciências Humanas' },
-  { id: 'art', name: 'História da Arte', area: 'Linguagens' }
+  { id: 'art', name: 'História da Arte', area: 'Linguagens' },
   { id: 'red', name: 'Redação', area: 'Redação' },
 ];
 
