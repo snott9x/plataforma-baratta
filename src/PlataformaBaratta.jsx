@@ -736,7 +736,7 @@ export default function App() {
   const awardXp = async (actionKey, label, refId) => {
     // Evita recompensar repetidamente a mesma referência
     const uniqueId = `${actionKey}_${refId}`;
-    if (xpActions.some((x) => x.id === uniqueId)) return;
+   // if (xpActions.some((x) => x.id === uniqueId)) return;
 
     const points = xpConfig[actionKey] || 25;
   // Pega o momento exato atual e injeta o ano do filtro (se houver)
