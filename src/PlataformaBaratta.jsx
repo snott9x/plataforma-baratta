@@ -2530,14 +2530,7 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
 // ============================================================================
 // ABA 3: BOLETIM ESCOLAR
 // ============================================================================
-function ReportCardTab({
-  selectedYear,
-  subjectYearMatrix,
-  bandLabels,
-  onUpdateBandLabels,
-  onEditExam,
-  onDeleteExam
-}) {
+function ReportCardTab({ selectedYear, subjectYearMatrix, bandLabels, onUpdateBandLabels, onEditExam, onDeleteExam }) {
   const [selectedSubjectFilter, setSelectedSubjectFilter] = useState('ALL');
   const [showBandConfig, setShowBandConfig] = useState(false);
   const [draftBands, setDraftBands] = useState(bandLabels);
