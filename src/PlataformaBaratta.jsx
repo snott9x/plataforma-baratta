@@ -734,6 +734,7 @@ export default function App() {
   };
 
   const awardXp = async (actionKey, label, refId) => {
+    console.log("CHAMOU awardXp:", actionKey, label, refId);
     // Evita recompensar repetidamente a mesma referência
     const uniqueId = `${actionKey}_${refId}`;
    // if (xpActions.some((x) => x.id === uniqueId)) return;
@@ -752,6 +753,8 @@ export default function App() {
       refId,
       createdAt: now.toISOString()
     };
+    console.log("ENTRY CRIADO:", entry);
+    
     setXpActions((prev) => [...prev, entry]);
     if (user && db) {
       try {
