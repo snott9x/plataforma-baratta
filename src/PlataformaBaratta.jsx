@@ -4674,6 +4674,18 @@ function AchievementsTab({
           </div>
         )}
       </AppleCard>
+   {/* Renderização visual do Toast no canto inferior direito */}
+{toast && (
+  <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#1C1C1E]/95 dark:bg-white/95 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/10 dark:border-slate-200 animate-bounce transition-all">
+    <div className="w-8 h-8 rounded-xl bg-[#007AFF] flex items-center justify-center text-white font-bold text-sm shadow-sm">
+      XP
+    </div>
+    <div>
+      <p className="text-xs font-semibold opacity-80">Reconhecimento</p>
+      <p className="text-sm font-bold">{toast.message}</p>
+    </div>
+  </div>
+)}
     </div>
   );
 }
