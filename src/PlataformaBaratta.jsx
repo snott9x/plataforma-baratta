@@ -2495,7 +2495,6 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
                     {area}
                   </option>
                 ))}
-              </select>
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <button
