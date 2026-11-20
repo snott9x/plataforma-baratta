@@ -1166,8 +1166,8 @@ export default function App() {
     <div className={darkMode ? 'dark' : ''}>
       <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-[#007AFF]/20 selection:text-[#007AFF]">
         {/* CABEÇALHO FIXO ESTILO APPLE */}
-       <header className="sticky top-0 z-30 bg-white/85 dark:bg-[#1C1C1E]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 print:hidden">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <header className="sticky top-0 z-30 w-full px-6 bg-white/85 dark:bg-[#1C1C1E]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 print:hidden">
+  <div className="flex items-center justify-between h-16 w-full">
     <div className="flex items-center justify-between h-16 w-full">
       
       {/* 1. LADO ESQUERDO: LOGO */}
