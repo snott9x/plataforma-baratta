@@ -2522,9 +2522,9 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
               </button>
             </div>
           </AppleCard>
-)}
+   )}
   </div>
-      )
+);
 }
 
 // ============================================================================
