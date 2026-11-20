@@ -564,6 +564,7 @@ export default function App() {
   const [reports, setReports] = useState([]); // { id, createdAt, year, scope, trimester, subjectId, area, content, metricsSnapshot }
   const [xpActions, setXpActions] = useState([]); // { id, actionKey, label, xp, createdAt, refId }
   const [xpConfig, setXpConfig] = useState(DEFAULT_XP_CONFIG);
+  const [filterYear, setFilterYear] = useState(String(selectedYear));
   const [bandLabels, setBandLabels] = useState(DEFAULT_BAND_LABELS);
   const [customQuotes, setCustomQuotes] = useState([]);
 
