@@ -6,5 +6,5 @@ body {
 }
 /* Aumenta o tamanho base da fonte para o site inteiro */
 html {
-  font-size: 112.5%; /* Isso eleva o padrão de 16px para 18px em todo o site */
+  font-size: 120%; /* Isso eleva o padrão de 16px para 18px em todo o site */
 }
