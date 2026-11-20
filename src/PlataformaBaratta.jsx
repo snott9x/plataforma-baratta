@@ -1104,8 +1104,15 @@ export default function App() {
   }, [customQuotes]);
 
   // Cálculo de XP e Nível (independente das 6 faixas escolares)
-  const gamificationStats = useMemo(() => {
-    const totalXp = xpActions.reduce((acc, cur) => acc + Number(cur.xp || 0), 0);
+const gamificationStats = useMemo(() => {
+    const filteredXpActions = xpActions.filter((cur) => {
+      if (filterYear === 'ALL') return true;
+      if (!cur.createdAt) return false;
+      const actionYear = new Date(cur.createdAt).getFullYear().toString();
+      return actionYear === String(filterYear);
+    });
+
+    const totalXp = filteredXpActions.reduce((acc, cur) => acc + Number(cur.xp || 0), 0);
     let currentLevel = XP_LEVELS[0];
     let nextLevel = XP_LEVELS[1] || null;
 
@@ -1126,7 +1133,7 @@ export default function App() {
       : 100;
 
     return { totalXp, currentLevel, nextLevel, progressPercent };
-  }, [xpActions]);
+  }, [xpActions, filterYear]);
 
   // Estado de edição rápida enviada do Boletim para Inserir Notas
   const [editingExamToLoad, setEditingExamToLoad] = useState(null);
