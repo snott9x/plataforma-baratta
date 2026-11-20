@@ -4,3 +4,7 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
 }
+/* Aumenta o tamanho base da fonte para o site inteiro */
+html {
+  font-size: 112.5%; /* Isso eleva o padrão de 16px para 18px em todo o site */
+}
