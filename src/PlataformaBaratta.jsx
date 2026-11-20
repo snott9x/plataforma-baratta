@@ -2092,10 +2092,20 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
       isDemo: false,
       updatedAt: new Date().toISOString()
     });
-// 1. Calcula o XP baseado no nível da nota (exemplo de 1 a 6, onde cada nível dá nível * 10 de XP)
-    // Supondo que você já tenha uma variável ou lógica que define o nível da nota inserida:
-    const nivelNota = 4; // Ajuste para a variável real que calcula o nível da nota (1 a 6)
+// Descobre o nível da nota (de 1 a 6) com base no numericScore
+    let nivelNota = 1;
+    if (numericScore > 85) nivelNota = 6;      // Notas altas (ex: 100) = Nível 6 -> 60 XP
+    else if (numericScore > 70) nivelNota = 5; // Nível 5 -> 50 XP
+    else if (numericScore > 55) nivelNota = 4; // Nível 4 -> 40 XP
+    else if (numericScore > 40) nivelNota = 3; // Nível 3 -> 30 XP
+    else if (numericScore > 25) nivelNota = 2; // Nível 2 -> 20 XP
+    // Se for abaixo disso, fica no Nível 1 -> 10 XP
+
+    // Calcula o XP: Nível × 10
     const xpGanho = nivelNota * 10;
+
+    // Dispara a notificação toast com o XP correto
+    showToast(`+${xpGanho} XP conquistados! (Nota 100 - Nível ${nivelNota})`, 'success');
 
     // 2. Dispara a notificação toast no canto inferior direito
     showToast(`+${xpGanho} XP! Nota registrada com sucesso.`, 'success');
