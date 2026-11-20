@@ -2130,12 +2130,17 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
                 onChange={(e) => setSubjectId(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2.5 text-sm font-medium focus:border-[#007AFF] focus:outline-none"
               >
-                {subjects.map((s) => (
-                  <option key={s.id} value={s.id} className="bg-white dark:bg-[#1C1C1E]">
-                    {s.name} ({s.area})
-                  </option>
-                ))}
-              </select>
+             <select
+  value={subjectFilter}
+  onChange={(e) => setSubjectFilter(e.target.value)}
+  className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-3 py-2.5 text-sm font-medium"
+>
+  {subjects.map((s) => (
+    <option key={s.id} value={s.id} className="bg-white dark:bg-[#1C1C1E]">
+      {s.name} ({s.area})
+    </option>
+  ))}
+</select>
             </div>
 
             <div>
@@ -2143,16 +2148,17 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
                 Prova (Trimestre Automático)
               </label>
               
-                value={examCode}
-                onChange={(e) => setExamCode(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2.5 text-sm font-medium focus:border-[#007AFF] focus:outline-none"
-              >
-                {EXAMS_MAP.map((ex) => (
-                  <option key={ex.id} value={ex.id} className="bg-white dark:bg-[#1C1C1E]">
-                    {ex.label} — {ex.trimester}º Trimestre
-                  </option>
-                ))}
-              </select>
+                <select
+  value={examCode}
+  onChange={(e) => setExamCode(e.target.value)}
+  className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-3 py-2.5 text-sm font-medium focus:border-[#007AFF] focus:outline-none"
+>
+  {EXAMS_MAP.map((ex) => (
+    <option key={ex.id} value={ex.id} className="bg-white dark:bg-[#1C1C1E]">
+      {ex.label} — {ex.trimester}º Trimestre
+    </option>
+  ))}
+</select>
             </div>
 
             <div>
