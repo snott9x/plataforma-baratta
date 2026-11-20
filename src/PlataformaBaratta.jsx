@@ -80,11 +80,13 @@ const INITIAL_SUBJECTS = [
   { id: 'qui', name: 'Química', area: 'Ciências da Natureza' },
   { id: 'bio', name: 'Biologia', area: 'Ciências da Natureza' },
   { id: 'por', name: 'Português', area: 'Linguagens' },
+  { id: 'ing', name: 'Inglês', area: 'Linguagens' },
   { id: 'his', name: 'História', area: 'Ciências Humanas' },
   { id: 'geo', name: 'Geografia', area: 'Ciências Humanas' },
   { id: 'fil', name: 'Filosofia', area: 'Ciências Humanas' },
   { id: 'soc', name: 'Sociologia', area: 'Ciências Humanas' },
   { id: 'art', name: 'História da Arte', area: 'Linguagens' }
+  { id: 'red', name: 'Redação', area: 'Redação' },
 ];
 
 const AREAS_ORDER = [
@@ -105,12 +107,12 @@ const EXAMS_MAP = [
 ];
 
 const DEFAULT_BAND_LABELS = {
-  1: 'Faixa 1',
-  2: 'Faixa 2',
-  3: 'Faixa 3',
-  4: 'Faixa 4',
-  5: 'Faixa 5',
-  6: 'Faixa 6'
+  1: 'Péssimo',
+  2: 'Ruim',
+  3: 'Melhore',
+  4: 'Ok',
+  5: 'Bom',
+  6: 'Perfeito!'
 };
 
 const DEFAULT_MOTIVATIONAL_QUOTES = [
