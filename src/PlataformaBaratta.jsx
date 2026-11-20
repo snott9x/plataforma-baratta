@@ -2125,7 +2125,7 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-medium text-slate-500 mb-1">Matéria</label>
-              <select
+              
                 value={subjectId}
                 onChange={(e) => setSubjectId(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2.5 text-sm font-medium focus:border-[#007AFF] focus:outline-none"
@@ -2142,7 +2142,7 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
               <label className="block text-xs font-medium text-slate-500 mb-1">
                 Prova (Trimestre Automático)
               </label>
-              <select
+              
                 value={examCode}
                 onChange={(e) => setExamCode(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2.5 text-sm font-medium focus:border-[#007AFF] focus:outline-none"
@@ -2479,7 +2479,7 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
               <label className="block text-xs font-medium text-slate-500 mb-1">
                 Área do Conhecimento
               </label>
-              <select
+              
                 value={newSubjArea}
                 onChange={(e) => setNewSubjArea(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2 text-sm"
@@ -2888,11 +2888,11 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
             <select
               value={filterYear}
               onChange={(e) => setFilterYear(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
+         className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
             >
-              <option value="ALL">Todos os anos</option>
+            <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todos os anos</option>
               {availableYears.map((y) => (
-                <option key={y} value={y}>
+                <option key={y} value={y} className="dark:bg-slate-900 dark:text-white">
                   {y}
                 </option>
               ))}
@@ -2904,11 +2904,11 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
             <select
               value={filterArea}
               onChange={(e) => setFilterArea(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
+              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
             >
-              <option value="ALL">Todas as áreas</option>
+             <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as áreas</option>
               {AREAS_ORDER.map((a) => (
-                <option key={a} value={a}>
+                <option key={a} value={a} className="dark:bg-slate-900 dark:text-white">
                   {a}
                 </option>
               ))}
@@ -2920,11 +2920,11 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
             <select
               value={filterSubject}
               onChange={(e) => setFilterSubject(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
+              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
             >
-              <option value="ALL">Todas as matérias</option>
+              <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as matérias</option>
               {subjects.map((s) => (
-                <option key={s.id} value={s.id}>
+                <option key={s.id} value={s.id} className="dark:bg-slate-900 dark:text-white">
                   {s.name}
                 </option>
               ))}
@@ -2936,12 +2936,12 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
             <select
               value={filterTrimester}
               onChange={(e) => setFilterTrimester(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
+              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
             >
-              <option value="ALL">Todos</option>
-              <option value="1">1º Trimestre</option>
-              <option value="2">2º Trimestre</option>
-              <option value="3">3º Trimestre</option>
+              <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todos</option>
+<option value="1" className="dark:bg-slate-900 dark:text-white">1º Trimestre</option>
+<option value="2" className="dark:bg-slate-900 dark:text-white">2º Trimestre</option>
+<option value="3" className="dark:bg-slate-900 dark:text-white">3º Trimestre</option>
             </select>
           </div>
 
@@ -2950,11 +2950,11 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
             <select
               value={filterSemester}
               onChange={(e) => setFilterSemester(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
+              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
             >
-              <option value="ALL">Ambos</option>
-              <option value="1">1º Semestre (T1+T2)</option>
-              <option value="2">2º Semestre (T3)</option>
+              <option value="ALL" className="dark:bg-slate-900 dark:text-white">Ambos</option>
+<option value="1" className="dark:bg-slate-900 dark:text-white">1º Semestre (T1+T2)</option>
+<option value="2" className="dark:bg-slate-900 dark:text-white">2º Semestre (T3)</option>
             </select>
           </div>
 
@@ -2963,11 +2963,11 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
             <select
               value={filterExamCode}
               onChange={(e) => setFilterExamCode(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
+              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
             >
-              <option value="ALL">P1 a P6</option>
+             <option value="ALL" className="dark:bg-slate-900 dark:text-white">P1 a P6</option>
               {EXAMS_MAP.map((m) => (
-                <option key={m.id} value={m.id}>
+                <option key={m.id} value={m.id} className="dark:bg-slate-900 dark:text-white">
                   {m.label}
                 </option>
               ))}
