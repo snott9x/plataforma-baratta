@@ -2887,100 +2887,108 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
       </div>
 
       {/* BARRA DE FILTROS INTERATIVOS */}
-      <AppleCard>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          <div>
-            <label className="block text-[11px] font-medium text-slate-400 mb-1">Ano</label>
-            <select
-              value={filterYear}
-              onChange={(e) => setFilterYear(e.target.value)}
-         className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
-            >
-            <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todos os anos</option>
-              {availableYears.map((y) => (
-                <option key={y} value={y} className="dark:bg-slate-900 dark:text-white">
-                  {y}
-                </option>
-              ))}
-            </select>
-          </div>
+     <AppleCard>
+  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    
+    {/* Filtro de Ano */}
+    <div>
+      <label className="block text-[11px] font-medium text-slate-400 mb-1">Ano</label>
+      <select
+        value={filterYear}
+        onChange={(e) => setFilterYear(e.target.value)}
+        className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
+      >
+        <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todos os anos</option>
+        {availableYears.map((y) => (
+          <option key={y} value={y} className="dark:bg-slate-900 dark:text-white">
+            {y}
+          </option>
+        ))}
+      </select>
+    </div>
 
-          <div>
-            <label className="block text-[11px] font-medium text-slate-400 mb-1">Área</label>
-            <select
-              value={filterArea}
-              onChange={(e) => setFilterArea(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
-            >
-             <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as áreas</option>
-              {AREAS_ORDER.map((a) => (
-                <option key={a} value={a} className="dark:bg-slate-900 dark:text-white">
-                  {a}
-                </option>
-              ))}
-            </select>
-          </div>
+    {/* Filtro de Área */}
+    <div>
+      <label className="block text-[11px] font-medium text-slate-400 mb-1">Área</label>
+      <select
+        value={filterArea}
+        onChange={(e) => setFilterArea(e.target.value)}
+        className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
+      >
+        <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as áreas</option>
+        {AREAS_ORDER.map((a) => (
+          <option key={a} value={a} className="dark:bg-slate-900 dark:text-white">
+            {a}
+          </option>
+        ))}
+      </select>
+    </div>
 
-          <div>
-            <label className="block text-[11px] font-medium text-slate-400 mb-1">Matéria</label>
-            <select
-              value={filterSubject}
-              onChange={(e) => setFilterSubject(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
-            >
-              <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as matérias</option>
-              {subjects.map((s) => (
-                <option key={s.id} value={s.id} className="dark:bg-slate-900 dark:text-white">
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </div>
+    {/* Filtro de Matéria */}
+    <div>
+      <label className="block text-[11px] font-medium text-slate-400 mb-1">Matéria</label>
+      <select
+        value={subjectFilter}
+        onChange={(e) => setSubjectFilter(e.target.value)}
+        className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
+      >
+        <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as matérias</option>
+        {subjects.map((s) => (
+          <option key={s.id} value={s.id} className="dark:bg-slate-900 dark:text-white">
+            {s.name}
+          </option>
+        ))}
+      </select>
+    </div>
 
-          <div>
-            <label className="block text-[11px] font-medium text-slate-400 mb-1">Trimestre</label>
-            <select
-              value={filterTrimester}
-              onChange={(e) => setFilterTrimester(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
-            >
-              <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todos</option>
-<option value="1" className="dark:bg-slate-900 dark:text-white">1º Trimestre</option>
-<option value="2" className="dark:bg-slate-900 dark:text-white">2º Trimestre</option>
-<option value="3" className="dark:bg-slate-900 dark:text-white">3º Trimestre</option>
-            </select>
-          </div>
+    {/* Filtro de Trimestre */}
+    <div>
+      <label className="block text-[11px] font-medium text-slate-400 mb-1">Trimestre</label>
+      <select
+        value={filterTrimester}
+        onChange={(e) => setFilterTrimester(e.target.value)}
+        className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
+      >
+        <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todos</option>
+        <option value="1" className="dark:bg-slate-900 dark:text-white">1º Trimestre</option>
+        <option value="2" className="dark:bg-slate-900 dark:text-white">2º Trimestre</option>
+        <option value="3" className="dark:bg-slate-900 dark:text-white">3º Trimestre</option>
+      </select>
+    </div>
 
-          <div>
-            <label className="block text-[11px] font-medium text-slate-400 mb-1">Semestre</label>
-            <select
-              value={filterSemester}
-              onChange={(e) => setFilterSemester(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
-            >
-              <option value="ALL" className="dark:bg-slate-900 dark:text-white">Ambos</option>
-<option value="1" className="dark:bg-slate-900 dark:text-white">1º Semestre (T1+T2)</option>
-<option value="2" className="dark:bg-slate-900 dark:text-white">2º Semestre (T3)</option>
-            </select>
-          </div>
+    {/* Filtro de Semestre */}
+    <div>
+      <label className="block text-[11px] font-medium text-slate-400 mb-1">Semestre</label>
+      <select
+        value={filterSemester}
+        onChange={(e) => setFilterSemester(e.target.value)}
+        className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
+      >
+        <option value="ALL" className="dark:bg-slate-900 dark:text-white">Ambos</option>
+        <option value="1" className="dark:bg-slate-900 dark:text-white">1º Semestre (T1+T2)</option>
+        <option value="2" className="dark:bg-slate-900 dark:text-white">2º Semestre (T3)</option>
+      </select>
+    </div>
 
-          <div>
-            <label className="block text-[11px] font-medium text-slate-400 mb-1">Avaliação</label>
-            <select
-              value={filterExamCode}
-              onChange={(e) => setFilterExamCode(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
-            >
-             <option value="ALL" className="dark:bg-slate-900 dark:text-white">P1 a P6</option>
-              {EXAMS_MAP.map((m) => (
-                <option key={m.id} value={m.id} className="dark:bg-slate-900 dark:text-white">
-                  {m.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </AppleCard>
+    {/* Filtro de Avaliação */}
+    <div>
+      <label className="block text-[11px] font-medium text-slate-400 mb-1">Avaliação</label>
+      <select
+        value={examCode}
+        onChange={(e) => setExamCode(e.target.value)}
+        className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-2.5 py-2 text-xs font-medium"
+      >
+        <option value="ALL" className="dark:bg-slate-900 dark:text-white">P1 a P6</option>
+        {EXAMS_MAP.map((m) => (
+          <option key={m.id} value={m.id} className="dark:bg-slate-900 dark:text-white">
+            {m.label}
+          </option>
+        ))}
+      </select>
+    </div>
+
+  </div>
+</AppleCard>
 
       {/* INDICADORES FILTRADOS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
