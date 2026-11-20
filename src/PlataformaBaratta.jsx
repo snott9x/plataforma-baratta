@@ -1296,7 +1296,7 @@ export default function App() {
                 const updated = [...subjects, newSubj];
                 setSubjects(updated);
                 await savePreferences({ subjects: updated });
-                showToast(`Matéria "${newSubj.name}" adicionada.`, 'success');
+                showToast(` "${newSubj.name}" adicionada.`, 'success');
               }}
               examSyllabi={examSyllabi}
               onSaveExam={async (examObj) => {
@@ -1570,7 +1570,7 @@ function DashboardTab({
 
         <AppleCard>
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Melhor Matéria
+            Melhor 
           </span>
           <div className="mt-2">
             <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
@@ -1611,7 +1611,7 @@ function DashboardTab({
             <span className="text-xs text-slate-500">provas em {selectedYear}</span>
           </div>
           <p className="text-xs text-slate-400 mt-2">
-            {metrics.subjectsWithData.length} de {subjects.length} matérias avaliadas
+            {metrics.subjectsWithData.length} de {subjects.length} s avaliadas
           </p>
         </AppleCard>
       </div>
@@ -1648,7 +1648,7 @@ function DashboardTab({
 
         <AppleCard>
           <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
-            Comparação entre Matérias
+            Comparação entre s
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
             Médias anuais (ou provisórias) das matérias avaliadas
@@ -3334,11 +3334,11 @@ REGRAS CRÍTICAS:
               <select
                 value={areaFilter}
                 onChange={(e) => setAreaFilter(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2 text-xs sm:text-sm font-medium"
+                className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-3 py-2 text-xs sm:text-sm font-medium"
               >
-                <option value="ALL">Todas as Áreas</option>
+               <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as Áreas</option>
                 {AREAS_ORDER.map((a) => (
-                  <option key={a} value={a}>
+                  <option key={a} value={a} className="dark:bg-slate-900 dark:text-white">
                     {a}
                   </option>
                 ))}
@@ -3351,12 +3351,12 @@ REGRAS CRÍTICAS:
             <select
               value={trimester}
               onChange={(e) => setTrimester(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2 text-xs sm:text-sm font-medium"
+            className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-3 py-2 text-xs sm:text-sm font-medium"
             >
-              <option value="ALL">Acumulado {selectedYear}</option>
-              <option value="1">1º Trimestre</option>
-              <option value="2">2º Trimestre</option>
-              <option value="3">3º Trimestre</option>
+              <option value="ALL" className="dark:bg-slate-900 dark:text-white">Acumulado {selectedYear}</option>
+<option value="1" className="dark:bg-slate-900 dark:text-white">1º Trimestre</option>
+<option value="2" className="dark:bg-slate-900 dark:text-white">2º Trimestre</option>
+<option value="3" className="dark:bg-slate-900 dark:text-white">3º Trimestre</option>
             </select>
           </div>
 
