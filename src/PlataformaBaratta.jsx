@@ -564,7 +564,6 @@ export default function App() {
   const [reports, setReports] = useState([]); // { id, createdAt, year, scope, trimester, subjectId, area, content, metricsSnapshot }
   const [xpActions, setXpActions] = useState([]); // { id, actionKey, label, xp, createdAt, refId }
   const [xpConfig, setXpConfig] = useState(DEFAULT_XP_CONFIG);
-  const [filterYear, setFilterYear] = useState(String(selectedYear));
   const [bandLabels, setBandLabels] = useState(DEFAULT_BAND_LABELS);
   const [customQuotes, setCustomQuotes] = useState([]);
 
@@ -734,27 +733,20 @@ export default function App() {
   };
 
   const awardXp = async (actionKey, label, refId) => {
-    console.log("CHAMOU awardXp:", actionKey, label, refId);
     // Evita recompensar repetidamente a mesma referência
     const uniqueId = `${actionKey}_${refId}`;
-   // if (xpActions.some((x) => x.id === uniqueId)) return;
+    if (xpActions.some((x) => x.id === uniqueId)) return;
 
     const points = xpConfig[actionKey] || 25;
-  // Pega o momento exato atual e injeta o ano do filtro (se houver)
-    const now = new Date();
-    const targetYear = filterYear && filterYear !== 'ALL' ? Number(filterYear) : now.getFullYear();
-    now.setFullYear(targetYear);
-
     const entry = {
       id: uniqueId,
       actionKey,
       label,
       xp: points,
       refId,
-      createdAt: now.toISOString()
+      createdAt: new Date().toISOString()
     };
-    console.log("ENTRY CRIADO:", entry);
-    
+
     setXpActions((prev) => [...prev, entry]);
     if (user && db) {
       try {
@@ -1112,15 +1104,8 @@ export default function App() {
   }, [customQuotes]);
 
   // Cálculo de XP e Nível (independente das 6 faixas escolares)
-const gamificationStats = useMemo(() => {
-    const filteredXpActions = xpActions.filter((cur) => {
-      if (filterYear === 'ALL') return true;
-      if (!cur.createdAt) return false;
-      const actionYear = new Date(cur.createdAt).getFullYear().toString();
-      return actionYear === String(filterYear);
-    });
-
-    const totalXp = filteredXpActions.reduce((acc, cur) => acc + Number(cur.xp || 0), 0);
+  const gamificationStats = useMemo(() => {
+    const totalXp = xpActions.reduce((acc, cur) => acc + Number(cur.xp || 0), 0);
     let currentLevel = XP_LEVELS[0];
     let nextLevel = XP_LEVELS[1] || null;
 
@@ -1141,7 +1126,7 @@ const gamificationStats = useMemo(() => {
       : 100;
 
     return { totalXp, currentLevel, nextLevel, progressPercent };
-  }, [xpActions, filterYear]);
+  }, [xpActions]);
 
   // Estado de edição rápida enviada do Boletim para Inserir Notas
   const [editingExamToLoad, setEditingExamToLoad] = useState(null);
