@@ -8,3 +8,8 @@ body {
 html {
   font-size: 120%; /* Isso eleva o padrão de 16px para 18px em todo o site */
 }
+.dark select,
+.dark option {
+  background-color: #1C1C1E;
+  color: #F8FAFC;
+}
