@@ -129,21 +129,21 @@ const DEFAULT_MOTIVATIONAL_QUOTES = [
 ];
 
 const DEFAULT_XP_CONFIG = {
-  registerExam: 50,
-  completeDiagnosis: 40,
-  uploadChapter: 35,
-  approveSyllabus: 30,
-  generateReport: 60
+  completeDiagnosis: 20,
+  uploadChapter: 1,
+  approveSyllabus: 5,
+  generateReport: 5
 };
 
 const XP_LEVELS = [
-  { level: 1, name: 'Iniciante', minXp: 0 },
-  { level: 2, name: 'Explorador', minXp: 150 },
-  { level: 3, name: 'Aprendiz', minXp: 350 },
-  { level: 4, name: 'Estrategista', minXp: 650 },
-  { level: 5, name: 'Especialista', minXp: 1050 },
-  { level: 6, name: 'Mestre', minXp: 1600 },
-  { level: 7, name: 'Elite', minXp: 2300 }
+  { level: 1, name: 'Bronze', minXp: 0 },
+  { level: 2, name: 'Prata', minXp: 1000 },
+  { level: 3, name: 'Ouro', minXp: 2000 },
+  { level: 4, name: 'Platina', minXp: 2500 },
+  { level: 5, name: 'Diamante', minXp: 3000 },
+  { level: 6, name: 'Elite', minXp: 3500 },
+  { level: 7, name: 'Lenda', minXp: 3700 },
+  { level: 8, name: 'Surreal', minXp: 3800 }
 ];
 
 const TABS = [
