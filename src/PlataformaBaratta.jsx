@@ -1136,31 +1136,7 @@ export default function App() {
     setActiveTab('Inserir notas');
   };
 
-  // ==========================================================================
-  // RENDERIZAÇÃO DA TELA DE ABERTURA (SPLASH SCREEN)
-  // ==========================================================================
-  if (showSplash || isLoadingData) {
-    return (
-      <div
-        className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#F5F5F7] dark:bg-[#000000] transition-opacity duration-500 ${
-          splashFading && !isLoadingData ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
-      >
-        <div className="flex flex-col items-start select-none animate-fade-in">
-          <span className="text-xs sm:text-sm font-medium tracking-[0.28em] text-slate-500 dark:text-slate-400 uppercase mb-0.5">
-            PLATAFORMA
-          </span>
-          <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#007AFF] uppercase">
-            BARATTA
-          </span>
-          <div className="w-full h-1 bg-slate-200 dark:bg-white/10 rounded-full mt-5 overflow-hidden">
-            <div className="h-full bg-[#007AFF] rounded-full animate-pulse w-2/3" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  
   // ==========================================================================
   // INTERFACE PRINCIPAL
   // ==========================================================================
