@@ -2522,9 +2522,8 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
               </button>
             </div>
           </AppleCard>
-      )
-    </div>
-     }
+)}
+  </div>
 
 // ============================================================================
 // ABA 3: BOLETIM ESCOLAR
