@@ -1166,7 +1166,7 @@ export default function App() {
     <div className={darkMode ? 'dark' : ''}>
       <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-[#007AFF]/20 selection:text-[#007AFF]">
         {/* CABEÇALHO FIXO ESTILO APPLE */}
-        <header className="sticky top-0 z-30 bg-white/85 dark:bg-[#1C1C1E]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 print:hidden">
+       <header className="sticky top-0 z-30 bg-white/85 dark:bg-[#1C1C1E]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 print:hidden">
   <div className="max-w-7xl mx-auto px-4 sm:px-6">
     <div className="flex items-center justify-between h-16 w-full">
       
@@ -1184,7 +1184,7 @@ export default function App() {
         </button>
       </div>
 
-      {/* 2. CENTRO: ABAS DE NAVEGAÇÃO */}
+      {/* 2. CENTRO: ABAS DE NAVEGAÇÃO PRINCIPAL */}
       <nav className="hidden lg:flex items-center space-x-1 mx-4">
         {TABS.map((tab) => {
           const isActive = activeTab === tab;
@@ -1204,69 +1204,59 @@ export default function App() {
         })}
       </nav>
 
-      {/* 3. LADO DIREITO: CONTROLES, ANO E USUÁRIO */}
-      <div className="flex items-center shrink-0">
-        {/* Mantém os seus controles da direita originais aqui */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* ... restante do código original dos botões/status da direita ... */}
+      {/* 3. LADO DIREITO: CONTROLES GLOBAIS (ANO, STATUS, TEMA) */}
+      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#007AFF]" />
+          <span>{syncStatus}</span>
         </div>
+
+        <select
+          aria-label="Selecionar ano letivo"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(Number(e.target.value))}
+          className="bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-slate-100 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-xl border border-transparent focus:border-[#007AFF] focus:outline-none cursor-pointer"
+        >
+          {availableYears.map((yr) => (
+            <option key={yr} value={yr} className="bg-white dark:bg-[#1C1C1E]">
+              {yr}
+            </option>
+          ))}
+        </select>
+
+        <button
+          onClick={toggleDarkMode}
+          aria-label="Alternar tema claro ou escuro"
+          className="p-2 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-white/15 transition-colors"
+        >
+          {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
       </div>
 
     </div>
+
+    {/* BARRA DE NAVEGAÇÃO MOBILE / TABLET (LOGO ABAIXO DO TOPO EM TELAS MENORES) */}
+    <div className="flex lg:hidden items-center gap-1.5 pb-3 overflow-x-auto no-scrollbar">
+      {TABS.map((tab) => {
+        const isActive = activeTab === tab;
+        return (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all whitespace-nowrap ${
+              isActive
+                ? 'bg-[#007AFF] text-white'
+                : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300'
+            }`}
+          >
+            {tab}
+          </button>
+        );
+      })}
+    </div>
+
   </div>
 </header>
-
-              {/* CONTROLES GLOBAIS: ANO LETIVO, STATUS NUVEM E MODO CLARO/ESCURO */}
-              <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#007AFF]" />
-                  <span>{syncStatus}</span>
-                </div>
-
-                <select
-                  aria-label="Selecionar ano letivo"
-                  value={selectedYear}
-                  onChange={(e) => setSelectedYear(Number(e.target.value))}
-                  className="bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-slate-100 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-xl border border-transparent focus:border-[#007AFF] focus:outline-none cursor-pointer"
-                >
-                  {availableYears.map((yr) => (
-                    <option key={yr} value={yr} className="bg-white dark:bg-[#1C1C1E]">
-                      {yr}
-                    </option>
-                  ))}
-                </select>
-
-                <button
-                  onClick={toggleDarkMode}
-                  aria-label="Alternar tema claro ou escuro"
-                  className="p-2 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-white/15 transition-colors"
-                >
-                  {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-
-            {/* BARRA DE NAVEGAÇÃO MOBILE / TABLET */}
-            <div className="flex lg:hidden items-center gap-1.5 pb-3 overflow-x-auto no-scrollbar">
-              {TABS.map((tab) => {
-                const isActive = activeTab === tab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all whitespace-nowrap ${
-                      isActive
-                        ? 'bg-[#007AFF] text-white'
-                        : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300'
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </header>
 
         {/* BANNER DISCRETO PARA DADOS DE EXEMPLO */}
         {hasDemoData && (
