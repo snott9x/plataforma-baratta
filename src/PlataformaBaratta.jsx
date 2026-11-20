@@ -2092,7 +2092,13 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
       isDemo: false,
       updatedAt: new Date().toISOString()
     });
+// 1. Calcula o XP baseado no nível da nota (exemplo de 1 a 6, onde cada nível dá nível * 10 de XP)
+    // Supondo que você já tenha uma variável ou lógica que define o nível da nota inserida:
+    const nivelNota = 4; // Ajuste para a variável real que calcula o nível da nota (1 a 6)
+    const xpGanho = nivelNota * 10;
 
+    // 2. Dispara a notificação toast no canto inferior direito
+    showToast(`+${xpGanho} XP! Nota registrada com sucesso.`, 'success');
     // Resetar formulário
     setScore('');
     setDate('');
