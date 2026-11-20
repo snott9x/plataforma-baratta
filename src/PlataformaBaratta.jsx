@@ -732,10 +732,16 @@ export default function App() {
     savePreferences({ darkMode: next });
   };
 
-  const awardXp = async (actionKey, label, refId) => {
-    // Evita recompensar repetidamente a mesma referência
+ const awardXp = async (actionKey, label, refId) => {
+    console.log("1. Clique detectado:", { actionKey, label, refId });
+    console.log("2. Estado atual:", { userUid: user?.uid, temDb: !!db, appId });
+
     const uniqueId = `${actionKey}_${refId}`;
-    if (xpActions.some((x) => x.id === uniqueId)) return;
+    
+    // Verifica se a trava de duplicação está barrandos
+    const jaExiste = xpActions.some((x) => x.id === uniqueId);
+    console.log("3. Já existe no estado local?", jaExiste, "ID:", uniqueId);
+    if (jaExiste) return;
 
     const points = xpConfig[actionKey] || 25;
     const entry = {
@@ -748,15 +754,21 @@ export default function App() {
     };
 
     setXpActions((prev) => [...prev, entry]);
+    console.log("4. Estado local atualizado com:", entry);
+
     if (user && db) {
       try {
+        console.log("5. Enviando para o Firestore...");
         await setDoc(
           doc(db, 'artifacts', appId, 'users', user.uid, 'xpActions', uniqueId),
           entry
         );
+        console.log("6. SUCESSO! Gravado no Firestore.");
       } catch (e) {
-        // Silencioso
+        console.error("ERRO NO FIRESTORE:", e);
       }
+    } else {
+      console.error("BLOQUEADO: user ou db está vazio!", { user, db });
     }
   };
 
