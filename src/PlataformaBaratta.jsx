@@ -547,7 +547,7 @@ export default function App() {
 
   // Autenticação e sincronização
   const [user, setUser] = useState(null);
-  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const [syncStatus, setSyncStatus] = useState('Conectando...');
 
   // Preferências visuais e navegação
