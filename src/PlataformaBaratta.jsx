@@ -739,9 +739,10 @@ export default function App() {
     if (xpActions.some((x) => x.id === uniqueId)) return;
 
     const points = xpConfig[actionKey] || 25;
-   // Define o ano com base no filtro atual (se for 'ALL', usa o ano atual do sistema)
-    const targetYear = filterYear && filterYear !== 'ALL' ? filterYear : new Date().getFullYear();
-    const dynamicDate = new Date(`${targetYear}-01-01T00:00:00.000Z`);
+  // Pega o momento exato atual e injeta o ano do filtro (se houver)
+    const now = new Date();
+    const targetYear = filterYear && filterYear !== 'ALL' ? Number(filterYear) : now.getFullYear();
+    now.setFullYear(targetYear);
 
     const entry = {
       id: uniqueId,
@@ -749,7 +750,7 @@ export default function App() {
       label,
       xp: points,
       refId,
-      createdAt: dynamicDate.toISOString()
+      createdAt: now.toISOString()
     };
     setXpActions((prev) => [...prev, entry]);
     if (user && db) {
