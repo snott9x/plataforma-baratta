@@ -1177,7 +1177,7 @@ export default function App() {
   <img 
     src="/logocompleta.png" 
     alt="Plataforma Baratta" 
-    className="h-8 w-auto object-contain" 
+    className="h-16 w-auto object-contain" 
   />
 </button>
               {/* NAVEGAÇÃO PRINCIPAL (EXATAMENTE 8 ABAS) */}
