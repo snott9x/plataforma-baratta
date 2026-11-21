@@ -4520,14 +4520,14 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
       {/* CONTEÚDO CONDICIONAL CONFORME A ESCOLHA */}
       {rankingType === 'subjects' ? (
         <div className="space-y-8">
-          {/* PÓDIO DE MATÉRIAS (TOP 3) - COM ALTURAS E DESTAQUES DIFERENCIADOS */}
+          {/* PÓDIO DE MATÉRIAS (TOP 3) */}
           {top3Subjects.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-6">
               {/* 2º Lugar (Prata) */}
               {top3Subjects[1] && (
                 <div className="relative p-6 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/60 dark:from-white/[0.07] dark:to-white/[0.02] border-2 border-slate-300 dark:border-white/20 shadow-md flex flex-col justify-between order-2 md:order-1 h-44">
-                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-slate-300 dark:bg-white/20 text-slate-800 dark:text-white font-black text-sm flex items-center justify-center shadow">
-                    🥈 2º
+                  <div className="absolute -top-4 left-6 px-3 py-1 rounded-xl bg-slate-300 dark:bg-white/20 text-slate-800 dark:text-white font-black text-xs flex items-center justify-center gap-1.5 shadow">
+                    <span>🥈</span> <span>2º</span>
                   </div>
                   <div className="mt-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Prata</span>
@@ -4543,11 +4543,11 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
                 </div>
               )}
 
-              {/* 1º Lugar (Ouro / Campeão - Mais Alto e Destacado) */}
+              {/* 1º Lugar (Ouro / Campeão) */}
               {top3Subjects[0] && (
                 <div className="relative p-6 rounded-2xl bg-gradient-to-b from-blue-500/15 via-blue-500/5 to-slate-100/80 dark:from-[#007AFF]/25 dark:to-white/[0.03] border-2 border-[#007AFF] shadow-xl flex flex-col justify-between order-1 md:order-2 h-52 md:-translate-y-4">
-                  <div className="absolute -top-5 left-6 w-11 h-11 rounded-xl bg-[#007AFF] text-white font-black text-base flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-[#121212]">
-                    👑 1º
+                  <div className="absolute -top-5 left-6 px-3.5 py-1.5 rounded-xl bg-[#007AFF] text-white font-black text-sm flex items-center justify-center gap-1.5 shadow-lg ring-4 ring-white dark:ring-[#121212]">
+                    <span>👑</span> <span>1º</span>
                   </div>
                   <div className="mt-3">
                     <span className="text-[11px] font-black uppercase tracking-wider text-[#007AFF]">Campeão Absoluto</span>
@@ -4566,8 +4566,8 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
               {/* 3º Lugar (Bronze) */}
               {top3Subjects[2] && (
                 <div className="relative p-6 rounded-2xl bg-gradient-to-b from-amber-500/10 to-amber-500/5 dark:from-amber-500/20 dark:to-white/[0.02] border-2 border-amber-500/40 shadow-md flex flex-col justify-between order-3 h-40">
-                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-amber-500/30 text-amber-700 dark:text-amber-300 font-black text-sm flex items-center justify-center shadow">
-                    🥉 3º
+                  <div className="absolute -top-4 left-6 px-3 py-1 rounded-xl bg-amber-500/30 text-amber-800 dark:text-amber-300 font-black text-xs flex items-center justify-center gap-1.5 shadow">
+                    <span>🥉</span> <span>3º</span>
                   </div>
                   <div className="mt-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Bronze</span>
@@ -4648,14 +4648,14 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
         </div>
       ) : (
         <div className="space-y-8">
-          {/* PÓDIO DE ÁREAS (TOP 3) - COM ALTURAS E DESTAQUES DIFERENCIADOS */}
+          {/* PÓDIO DE ÁREAS (TOP 3) */}
           {top3Areas.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-6">
               {/* 2º Lugar (Prata) */}
               {top3Areas[1] && (
                 <div className="relative p-6 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/60 dark:from-white/[0.07] dark:to-white/[0.02] border-2 border-slate-300 dark:border-white/20 shadow-md flex flex-col justify-between order-2 md:order-1 h-44">
-                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-slate-300 dark:bg-white/20 text-slate-800 dark:text-white font-black text-sm flex items-center justify-center shadow">
-                    🥈 2º
+                  <div className="absolute -top-4 left-6 px-3 py-1 rounded-xl bg-slate-300 dark:bg-white/20 text-slate-800 dark:text-white font-black text-xs flex items-center justify-center gap-1.5 shadow">
+                    <span>🥈</span> <span>2º</span>
                   </div>
                   <div className="mt-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Prata</span>
@@ -4671,11 +4671,11 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
                 </div>
               )}
 
-              {/* 1º Lugar (Ouro / Campeão - Mais Alto e Destacado) */}
+              {/* 1º Lugar (Ouro / Campeã) */}
               {top3Areas[0] && (
                 <div className="relative p-6 rounded-2xl bg-gradient-to-b from-blue-500/15 via-blue-500/5 to-slate-100/80 dark:from-[#007AFF]/25 dark:to-white/[0.03] border-2 border-[#007AFF] shadow-xl flex flex-col justify-between order-1 md:order-2 h-52 md:-translate-y-4">
-                  <div className="absolute -top-5 left-6 w-11 h-11 rounded-xl bg-[#007AFF] text-white font-black text-base flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-[#121212]">
-                    👑 1º
+                  <div className="absolute -top-5 left-6 px-3.5 py-1.5 rounded-xl bg-[#007AFF] text-white font-black text-sm flex items-center justify-center gap-1.5 shadow-lg ring-4 ring-white dark:ring-[#121212]">
+                    <span>👑</span> <span>1º</span>
                   </div>
                   <div className="mt-3">
                     <span className="text-[11px] font-black uppercase tracking-wider text-[#007AFF]">Área Campeã</span>
@@ -4694,8 +4694,8 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
               {/* 3º Lugar (Bronze) */}
               {top3Areas[2] && (
                 <div className="relative p-6 rounded-2xl bg-gradient-to-b from-amber-500/10 to-amber-500/5 dark:from-amber-500/20 dark:to-white/[0.02] border-2 border-amber-500/40 shadow-md flex flex-col justify-between order-3 h-40">
-                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-amber-500/30 text-amber-700 dark:text-amber-300 font-black text-sm flex items-center justify-center shadow">
-                    🥉 3º
+                  <div className="absolute -top-4 left-6 px-3 py-1 rounded-xl bg-amber-500/30 text-amber-800 dark:text-amber-300 font-black text-xs flex items-center justify-center gap-1.5 shadow">
+                    <span>🥉</span> <span>3º</span>
                   </div>
                   <div className="mt-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Bronze</span>
