@@ -2596,28 +2596,48 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
 // ABA 3: BOLETIM ESCOLAR
 // ============================================================================
 // Função auxiliar de estilo para as faixas
+// Função auxiliar de estilo corrigida para mapear corretamente as faixas de desempenho
 function getBandPillStyle(score, bandLabels, isAverage = false) {
   if (score === null || score === undefined || score === '—') {
     return 'text-slate-500';
   }
 
   const band = getPerformanceBand(score, bandLabels);
-  const level = typeof band === 'number' ? band : (band?.level || band?.num || band?.band || 1);
+  
+  // Extrai o nível de forma robusta cobrindo todas as variações possíveis de retorno
+  let level = 1;
+  if (typeof band === 'number') {
+    level = band;
+  } else if (band) {
+    level = band.level || band.num || band.band || band.id || 1;
+  }
+
+  // Fallback de segurança baseado nos cortes numéricos tradicionais caso a faixa venha vazia
+  if (!level || level === 1) {
+    const numScore = Number(score);
+    if (numScore >= 90) level = 6;
+    else if (numScore >= 80) level = 5;
+    else if (numScore >= 60) level = 4;
+    else if (numScore >= 50) level = 3;
+    else if (numScore >= 40) level = 2;
+    else level = 1;
+  }
 
   const baseStyle = `inline-flex items-center justify-center px-2.5 py-0.5 rounded-full border text-xs tabular-nums transition-all ${
     isAverage ? 'font-bold' : 'font-medium'
   }`;
 
   const colors = {
-    1: 'bg-[#881337]/25 text-rose-300 border-[#881337]/50', // Vinho
-    2: 'bg-rose-500/20 text-rose-400 border-rose-500/35',     // Vermelho Coral
-    3: 'bg-orange-500/20 text-orange-400 border-orange-500/35', // Laranja Âmbar
-    4: 'bg-amber-400/20 text-amber-300 border-amber-400/35',   // Amarelo Dourado
-    5: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/35',     // Azul Ciano
-    6: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35', // Verde Esmeralda
+    1: 'bg-[#881337]/25 text-rose-300 border-[#881337]/50',       // 1. Vinho (< 40)
+    2: 'bg-rose-500/20 text-rose-400 border-rose-500/35',         // 2. Vermelho Coral (40 a 49,9)
+    3: 'bg-orange-500/20 text-orange-400 border-orange-500/35',   // 3. Laranja Âmbar (50 a 59,9)
+    4: 'bg-amber-400/20 text-amber-300 border-amber-400/35',     // 4. Amarelo Dourado (60 a 79,9)
+    5: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/35',         // 5. Azul Ciano (80 a 89,9)
+    6: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35', // 6. Verde Esmeralda (90 a 100)
   };
 
   return `${baseStyle} ${colors[level] || colors[1]}`;
+}
 }
 function ReportCardTab({
   selectedYear,
