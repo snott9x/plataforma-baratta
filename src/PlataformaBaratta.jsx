@@ -735,41 +735,38 @@ export default function App() {
 
  const awardXp = async (actionKey, label, refId) => {
     console.log("1. Clique detectado:", { actionKey, label, refId });
-    console.log("2. Estado atual:", { userUid: user?.uid, temDb: !!db, appId });
+    console.log("2. Estado atual:", { userUid: user?.uid, temDb: !!db, appId, selectedYear });
 
     const uniqueId = `${actionKey}_${refId}`;
     
-    // Verifica se a trava de duplicação está barrandos
     const jaExiste = xpActions.some((x) => x.id === uniqueId);
-    console.log("3. Já existe no estado local?", jaExiste, "ID:", uniqueId);
     if (jaExiste) return;
 
     const points = xpConfig[actionKey] || 25;
+    
+    // AQUI ESTÁ O SEGREDO: Salvamos o ano atual junto com a ação de XP!
     const entry = {
       id: uniqueId,
       actionKey,
       label,
       xp: points,
       refId,
+      year: Number(selectedYear), // <-- Garante que o XP pertence ao ano selecionado (2026 ou 2027)
       createdAt: new Date().toISOString()
     };
 
     setXpActions((prev) => [...prev, entry]);
-    console.log("4. Estado local atualizado com:", entry);
 
     if (user && db) {
       try {
-        console.log("5. Enviando para o Firestore...");
         await setDoc(
           doc(db, 'artifacts', appId, 'users', user.uid, 'xpActions', uniqueId),
           entry
         );
-        console.log("6. SUCESSO! Gravado no Firestore.");
+        console.log("SUCESSO! Gravado no Firestore com o ano:", selectedYear);
       } catch (e) {
         console.error("ERRO NO FIRESTORE:", e);
       }
-    } else {
-      console.error("BLOQUEADO: user ou db está vazio!", { user, db });
     }
   };
 
@@ -1118,13 +1115,15 @@ export default function App() {
 
   // Cálculo de XP e Nível (independente das 6 faixas escolares)
 const gamificationStats = useMemo(() => {
+    // Filtra diretamente pelo ano gravado no XP ou pelo exame correspondente
     const filteredXpActions = xpActions.filter((action) => {
-      if (action.examId) {
-        const matchExam = exams.find((e) => String(e.id) === String(action.examId));
-        if (matchExam) return Number(matchExam.year) === Number(selectedYear);
+      if (action.year) {
+        return Number(action.year) === Number(selectedYear);
       }
-      const actionYear = action.year || (action.createdAt ? new Date(action.createdAt).getFullYear() : Number(selectedYear));
-      return Number(actionYear) === Number(selectedYear);
+      // Fallback para ações antigas que não tinham o campo year
+      const matchExam = exams.find((e) => String(e.id) === String(action.refId));
+      if (matchExam) return Number(matchExam.year) === Number(selectedYear);
+      return Number(selectedYear) === 2026; // Padrão antigo
     });
 
     const totalXp = filteredXpActions.reduce((acc, cur) => acc + Number(cur.xp || 0), 0);
@@ -1148,7 +1147,7 @@ const gamificationStats = useMemo(() => {
       : 100;
 
     return { totalXp, currentLevel, nextLevel, progressPercent };
-  }, [xpActions, yearExams]);
+  }, [xpActions, exams, selectedYear]);
 
   // Estado de edição rápida enviada do Boletim para Inserir Notas
   const [editingExamToLoad, setEditingExamToLoad] = useState(null);
