@@ -2671,69 +2671,108 @@ function ReportCardTab({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200/60 dark:divide-white/5 text-sm">
-              {filteredMatrix.map((row) => {
-                const band = getPerformanceBand(row.annualAvg, bandLabels);
-                return (
-                  <tr
-                    key={row.subject.id}
-                    className="hover:bg-slate-50/80 dark:hover:bg-white/[0.02] transition-colors"
-                  >
-                    <td className="py-3.5 px-4">
-                      <div className="font-semibold text-slate-900 dark:text-white">
-                        {row.subject.name}
-                      </div>
-                      <div className="text-[11px] text-slate-400">{row.subject.area}</div>
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center tabular-nums">
-                      {row.P1 ? formatScore(row.P1.score) : '—'}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center tabular-nums">
-                      {row.P2 ? formatScore(row.P2.score) : '—'}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center font-semibold bg-blue-500/5 text-[#007AFF] tabular-nums">
-                      {formatScore(row.T1)}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center tabular-nums">
-                      {row.P3 ? formatScore(row.P3.score) : '—'}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center tabular-nums">
-                      {row.P4 ? formatScore(row.P4.score) : '—'}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center font-semibold bg-blue-500/5 text-[#007AFF] tabular-nums">
-                      {formatScore(row.T2)}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center tabular-nums">
-                      {row.P5 ? formatScore(row.P5.score) : '—'}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center tabular-nums">
-                      {row.P6 ? formatScore(row.P6.score) : '—'}
-                    </td>
-                    <td className="py-3.5 px-2.5 text-center font-semibold bg-blue-500/5 text-[#007AFF] tabular-nums">
-                      {formatScore(row.T3)}
-                    </td>
-                    <td className="py-3.5 px-3 text-center">
-                      <span className="font-bold text-slate-900 dark:text-white tabular-nums">
-                        {formatScore(row.annualAvg)}
-                      </span>
-                      {row.isAnnualProvisional && (
-                        <span className="block text-[10px] text-slate-400">Provisória</span>
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-right">
-                      {band ? (
-                        <span
-                          className={`inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full border ${band.badgeClass}`}
-                        >
-                          {band.label}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-slate-400">Sem dados</span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+  {filteredMatrix.map((row) => {
+    const band = getPerformanceBand(row.annualAvg, bandLabels);
+    return (
+      <tr
+        key={row.subject.id}
+        className="hover:bg-slate-50/80 dark:hover:bg-white/[0.03] transition-colors"
+      >
+        {/* MATÉRIA */}
+        <td className="py-3.5 px-4">
+          <div className="font-semibold text-slate-900 dark:text-white">
+            {row.subject.name}
+          </div>
+          <div className="text-[11px] text-slate-400">{row.subject.area}</div>
+        </td>
+
+        {/* P1 */}
+        <td className="py-3.5 px-2.5 text-center">
+          <span className={getBandPillStyle(row.P1?.score, bandLabels, false)}>
+            {row.P1 ? formatScore(row.P1.score) : '—'}
+          </span>
+        </td>
+
+        {/* P2 */}
+        <td className="py-3.5 px-2.5 text-center">
+          <span className={getBandPillStyle(row.P2?.score, bandLabels, false)}>
+            {row.P2 ? formatScore(row.P2.score) : '—'}
+          </span>
+        </td>
+
+        {/* T1 (Média Trimestral - Negrito) */}
+        <td className="py-3.5 px-2.5 text-center bg-white/[0.015]">
+          <span className={getBandPillStyle(row.T1, bandLabels, true)}>
+            {formatScore(row.T1)}
+          </span>
+        </td>
+
+        {/* P3 */}
+        <td className="py-3.5 px-2.5 text-center">
+          <span className={getBandPillStyle(row.P3?.score, bandLabels, false)}>
+            {row.P3 ? formatScore(row.P3.score) : '—'}
+          </span>
+        </td>
+
+        {/* P4 */}
+        <td className="py-3.5 px-2.5 text-center">
+          <span className={getBandPillStyle(row.P4?.score, bandLabels, false)}>
+            {row.P4 ? formatScore(row.P4.score) : '—'}
+          </span>
+        </td>
+
+        {/* T2 (Média Trimestral - Negrito) */}
+        <td className="py-3.5 px-2.5 text-center bg-white/[0.015]">
+          <span className={getBandPillStyle(row.T2, bandLabels, true)}>
+            {formatScore(row.T2)}
+          </span>
+        </td>
+
+        {/* P5 */}
+        <td className="py-3.5 px-2.5 text-center">
+          <span className={getBandPillStyle(row.P5?.score, bandLabels, false)}>
+            {row.P5 ? formatScore(row.P5.score) : '—'}
+          </span>
+        </td>
+
+        {/* P6 */}
+        <td className="py-3.5 px-2.5 text-center">
+          <span className={getBandPillStyle(row.P6?.score, bandLabels, false)}>
+            {row.P6 ? formatScore(row.P6.score) : '—'}
+          </span>
+        </td>
+
+        {/* T3 (Média Trimestral - Negrito) */}
+        <td className="py-3.5 px-2.5 text-center bg-white/[0.015]">
+          <span className={getBandPillStyle(row.T3, bandLabels, true)}>
+            {formatScore(row.T3)}
+          </span>
+        </td>
+
+        {/* MÉDIA ANUAL (Negrito) */}
+        <td className="py-3.5 px-3 text-center">
+          <span className={getBandPillStyle(row.annualAvg, bandLabels, true)}>
+            {formatScore(row.annualAvg)}
+          </span>
+          {row.isAnnualProvisional && (
+            <span className="block text-[10px] text-slate-400 mt-1">Provisória</span>
+          )}
+        </td>
+
+        {/* CLASSIFICAÇÃO */}
+        <td className="py-3.5 px-4 text-right">
+          {band ? (
+            <span className={getBandPillStyle(row.annualAvg, bandLabels, true)}>
+              {band.label}
+            </span>
+          ) : (
+            <span className="text-xs text-slate-400">Sem dados</span>
+          )}
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
           </table>
         </div>
       </AppleCard>
