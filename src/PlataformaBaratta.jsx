@@ -787,7 +787,7 @@ export default function App() {
       );
     }
 
-    
+    if (isNew && !examObj.isDemo) {
       await awardXp('registerExam', `Avaliação registrada (${examObj.examCode})`, examObj.id);
       if (examObj.topics && examObj.topics.length > 0) {
         await awardXp(
@@ -1450,7 +1450,7 @@ export default function App() {
       </div>
     </div>
   );
-
+}
 
 // ============================================================================
 // ABA 1: DASHBOARD
