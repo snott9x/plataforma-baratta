@@ -4765,7 +4765,8 @@ function AchievementsTab({
   exams,
   libraryChapters,
   reports,
-  onUpdateXpConfig
+  onUpdateXpConfig,
+  toast 
 }) {
   const [showConfig, setShowConfig] = useState(false);
   const [draftConfig, setDraftConfig] = useState(xpConfig);
