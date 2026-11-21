@@ -1118,10 +1118,14 @@ export default function App() {
 
   // Cálculo de XP e Nível (independente das 6 faixas escolares)
 const gamificationStats = useMemo(() => {
-    // Filtra apenas as ações de XP cujos exames pertencem ao ano selecionado (yearExams)
-    const filteredXpActions = xpActions.filter(action => 
-      yearExams.some(exam => String(exam.id) === String(action.examId))
-    );
+    const filteredXpActions = xpActions.filter((action) => {
+      if (action.examId) {
+        const matchExam = exams.find((e) => String(e.id) === String(action.examId));
+        if (matchExam) return Number(matchExam.year) === Number(selectedYear);
+      }
+      const actionYear = action.year || (action.createdAt ? new Date(action.createdAt).getFullYear() : Number(selectedYear));
+      return Number(actionYear) === Number(selectedYear);
+    });
 
     const totalXp = filteredXpActions.reduce((acc, cur) => acc + Number(cur.xp || 0), 0);
     let currentLevel = XP_LEVELS[0];
