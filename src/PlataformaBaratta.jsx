@@ -4758,73 +4758,38 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
 // ============================================================================
 // ABA 8: PROGRESSO — GAMIFICAÇÃO POR CONSISTÊNCIA
 // ============================================================================
+const XP_LEVELS_TRAIL = [
+  { level: 1, name: 'Bronze', minXp: 0, badge: '🥉' },
+  { level: 2, name: 'Prata', minXp: 1000, badge: '🥈' },
+  { level: 3, name: 'Ouro', minXp: 2000, badge: '🥇' },
+  { level: 4, name: 'Platina', minXp: 2500, badge: '💠' },
+  { level: 5, name: 'Diamante', minXp: 3000, badge: '💎' },
+  { level: 6, name: 'Elite', minXp: 3500, badge: '🔥' },
+  { level: 7, name: 'Lenda', minXp: 3700, badge: '⚡' },
+  { level: 8, name: 'Surreal', minXp: 3800, badge: '👑' }
+];
+
 function AchievementsTab({
   gamificationStats,
-  xpActions,
   xpConfig,
-  exams,
-  libraryChapters,
-  reports,
   onUpdateXpConfig,
-  toast 
+  toast
 }) {
   const [showConfig, setShowConfig] = useState(false);
   const [draftConfig, setDraftConfig] = useState(xpConfig);
 
-  const realExams = useMemo(() => exams.filter((e) => !e.isDemo), [exams]);
-  const diagnosedExamsCount = useMemo(
-    () => realExams.filter((e) => (e.topics || []).length > 0).length,
-    [realExams]
-  );
-
-  const medals = [
-    {
-      id: 'first_step',
-      title: 'Primeiro Registro',
-      desc: 'Cadastrou sua primeira avaliação oficial na Plataforma Baratta.',
-      unlocked: realExams.length >= 1
-    },
-    {
-      id: 'diagnostician',
-      title: 'Analista de Conteúdos',
-      desc: 'Completou o diagnóstico detalhado por assunto em pelo menos 3 provas.',
-      unlocked: diagnosedExamsCount >= 3
-    },
-    {
-      id: 'librarian',
-      title: 'Curador de Acervo',
-      desc: 'Organizou pelo menos 3 capítulos de livros em PDF na Biblioteca.',
-      unlocked: libraryChapters.length >= 3
-    },
-    {
-      id: 'strategist_enem',
-      title: 'Estrategista ENEM',
-      desc: 'Gerou seu primeiro relatório integrado de diagnóstico e relevância ENEM.',
-      unlocked: reports.length >= 1
-    },
-    {
-      id: 'consistent_10',
-      title: 'Constância Acadêmica',
-      desc: 'Acumulou 10 ou mais avaliações registradas no histórico.',
-      unlocked: realExams.length >= 10
-    },
-    {
-      id: 'xp_500',
-      title: 'Disciplina Consolidada',
-      desc: 'Alcançou 500 XP por uso consistente da plataforma.',
-      unlocked: gamificationStats.totalXp >= 500
-    }
-  ];
+  const currentXp = gamificationStats?.totalXp || 0;
 
   return (
     <div className="space-y-6">
+      {/* CABEÇALHO DA ABA PROGRESSO */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Conquistas e Consistência
+            Progresso
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Reconhecimento pelo hábito de registrar, organizar e analisar seus estudos.
+            Acompanhe sua evolução de XP e veja o quanto falta para alcançar os próximos níveis.
           </p>
         </div>
 
@@ -4833,28 +4798,28 @@ function AchievementsTab({
             setDraftConfig(xpConfig);
             setShowConfig(!showConfig);
           }}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-white/10"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-white/10 hover:border-[#007AFF]/50 transition-colors"
         >
           <Sliders className="w-3.5 h-3.5 text-[#007AFF]" /> Configurar Valores de XP
         </button>
       </div>
 
-      {/* CARTÃO DE NÍVEL DE EXPERIÊNCIA */}
-      <AppleCard className="bg-gradient-to-r from-[#007AFF]/10 via-transparent to-transparent">
+      {/* CARTÃO PRINCIPAL DO NÍVEL ATUAL */}
+      <AppleCard className="bg-gradient-to-r from-[#007AFF]/15 via-[#007AFF]/5 to-transparent border-[#007AFF]/30">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-[#007AFF]">
-              Nível de Experiência • {gamificationStats.currentLevel.name}
+              Patente Atual • {gamificationStats.currentLevel.name}
             </span>
-            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
-              {gamificationStats.totalXp} XP
+            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1 tabular-nums">
+              {currentXp} XP
             </h2>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               {gamificationStats.nextLevel
                 ? `Faltam ${
-                    gamificationStats.nextLevel.minXp - gamificationStats.totalXp
+                    gamificationStats.nextLevel.minXp - currentXp
                   } XP para alcançar o nível ${gamificationStats.nextLevel.name}.`
-                : 'Você atingiu o nível máximo de consistência!'}
+                : 'Você atingiu o topo da trilha: Nível Surreal!'}
             </p>
           </div>
 
@@ -4873,7 +4838,7 @@ function AchievementsTab({
         </div>
       </AppleCard>
 
-      {/* CONFIGURAÇÃO DE XP */}
+      {/* CONFIGURAÇÃO DE XP (OPCIONAL) */}
       {showConfig && (
         <AppleCard className="space-y-4">
           <h3 className="text-sm font-bold">Valores de XP por Ação</h3>
@@ -4923,76 +4888,134 @@ function AchievementsTab({
         </AppleCard>
       )}
 
-      {/* MEDALHAS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {medals.map((m) => (
-          <AppleCard
-            key={m.id}
-            className={`transition-opacity ${m.unlocked ? 'opacity-100' : 'opacity-55'}`}
-          >
-            <div className="flex items-start gap-3.5">
-              <div
-                className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${
-                  m.unlocked
-                    ? 'bg-[#007AFF] text-white'
-                    : 'bg-slate-200 dark:bg-white/10 text-slate-400'
-                }`}
-              >
-                <Award className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">{m.title}</h4>
-                  {m.unlocked && (
-                    <span className="text-[10px] font-bold uppercase text-emerald-600 dark:text-emerald-400">
-                      Desbloqueada
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{m.desc}</p>
-              </div>
-            </div>
-          </AppleCard>
-        ))}
-      </div>
-
-      {/* HISTÓRICO DE XP */}
-      <AppleCard>
-        <h3 className="text-base font-semibold mb-3">Histórico de Atividades Reconhecidas</h3>
-        {xpActions.length === 0 ? (
-          <p className="text-xs text-slate-400">
-            Suas ações de organização e registro na plataforma aparecerão aqui.
+      {/* TRILHA DE EVOLUÇÃO DE XP */}
+      <AppleCard className="p-6">
+        <div className="mb-6">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white">
+            Trilha de Evolução
+          </h3>
+          <p className="text-xs text-slate-500">
+            Seu caminho do Bronze ao Surreal
           </p>
-        ) : (
-          <div className="space-y-2 max-h-60 overflow-y-auto">
-            {[...xpActions]
-              .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''))
-              .map((act) => (
+        </div>
+
+        <div className="relative pl-4 sm:pl-6 space-y-6 before:content-[''] before:absolute before:left-[27px] sm:before:left-[35px] before:top-4 before:bottom-4 before:w-0.5 before:bg-slate-200 dark:before:bg-white/10">
+          {XP_LEVELS_TRAIL.map((step, index) => {
+            const nextStep = XP_LEVELS_TRAIL[index + 1];
+            const isUnlocked = currentXp >= step.minXp;
+            const isCurrent =
+              isUnlocked && (!nextStep || currentXp < nextStep.minXp);
+            const xpMissing = step.minXp - currentXp;
+
+            // Calcula progresso parcial entre o nível atual e o próximo
+            let segmentProgress = 0;
+            if (isCurrent && nextStep) {
+              const range = nextStep.minXp - step.minXp;
+              const earnedInLevel = currentXp - step.minXp;
+              segmentProgress = Math.min(100, Math.max(0, Math.round((earnedInLevel / range) * 100)));
+            } else if (isUnlocked && !nextStep) {
+              segmentProgress = 100;
+            }
+
+            return (
+              <div key={step.level} className="relative flex items-start gap-4">
+                {/* NÓ / MARCADOR DA TRILHA */}
                 <div
-                  key={act.id}
-                  className="flex items-center justify-between text-xs py-2 px-3 rounded-xl bg-slate-50 dark:bg-white/5"
+                  className={`relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 transition-all ${
+                    isCurrent
+                      ? 'bg-[#007AFF] text-white ring-4 ring-[#007AFF]/25 scale-110 shadow-md'
+                      : isUnlocked
+                      ? 'bg-emerald-500 text-white shadow-sm'
+                      : 'bg-slate-200 dark:bg-white/10 text-slate-400'
+                  }`}
                 >
-                  <span className="font-medium text-slate-700 dark:text-slate-200">
-                    {act.label}
-                  </span>
-                  <span className="font-bold text-[#007AFF]">+{act.xp} XP</span>
+                  {isUnlocked ? step.badge : step.level}
                 </div>
-              ))}
-          </div>
-        )}
+
+                {/* CARD DO DEGRAU DA TRILHA */}
+                <div
+                  className={`flex-1 p-4 rounded-2xl border transition-all ${
+                    isCurrent
+                      ? 'bg-[#007AFF]/10 border-[#007AFF] shadow-sm'
+                      : isUnlocked
+                      ? 'bg-slate-50/80 dark:bg-white/[0.04] border-slate-200/80 dark:border-white/10'
+                      : 'bg-slate-50/40 dark:bg-white/[0.01] border-slate-200/40 dark:border-white/5 opacity-60'
+                  }`}
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">
+                        Nível {step.level} • {step.name}
+                      </span>
+                      {isCurrent && (
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-[#007AFF] text-white">
+                          Você está aqui
+                        </span>
+                      )}
+                      {isUnlocked && !isCurrent && (
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                          Concluído
+                        </span>
+                      )}
+                    </div>
+
+                    <span className="text-xs font-extrabold tabular-nums text-slate-600 dark:text-slate-300">
+                      {step.minXp} XP
+                    </span>
+                  </div>
+
+                  {/* DETALHE DE PROGRESSO OU QUANTO FALTA */}
+                  <div className="mt-2">
+                    {isCurrent ? (
+                      nextStep ? (
+                        <div className="space-y-1.5">
+                          <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                            <span>Progresso para {nextStep.name}</span>
+                            <span className="font-semibold text-[#007AFF]">
+                              Faltam {nextStep.minXp - currentXp} XP
+                            </span>
+                          </div>
+                          <div className="w-full h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-[#007AFF] rounded-full transition-all duration-500"
+                              style={{ width: `${segmentProgress}%` }}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-xs text-[#007AFF] font-medium">
+                          Patente máxima alcançada! Continue mantendo o ritmo.
+                        </p>
+                      )
+                    ) : isUnlocked ? (
+                      <p className="text-[11px] text-slate-400">
+                        Etapa superada no seu histórico de estudos.
+                      </p>
+                    ) : (
+                      <p className="text-[11px] text-slate-400 font-medium">
+                        Bloqueado • Faltam <strong className="text-slate-600 dark:text-slate-300">{xpMissing} XP</strong> para desbloquear
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </AppleCard>
-   {/* Renderização visual do Toast no canto inferior direito */}
-{toast && (
-  <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#1C1C1E]/95 dark:bg-white/95 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/10 dark:border-slate-200 animate-bounce transition-all">
-    <div className="w-8 h-8 rounded-xl bg-[#007AFF] flex items-center justify-center text-white font-bold text-sm shadow-sm">
-      XP
-    </div>
-    <div>
-      <p className="text-xs font-semibold opacity-80">Reconhecimento</p>
-      <p className="text-sm font-bold">{toast.message}</p>
-    </div>
-  </div>
-)}
+
+      {/* RENDERIZAÇÃO DO TOAST */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#1C1C1E]/95 dark:bg-white/95 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/10 dark:border-slate-200 animate-bounce transition-all">
+          <div className="w-8 h-8 rounded-xl bg-[#007AFF] flex items-center justify-center text-white font-bold text-sm shadow-sm">
+            XP
+          </div>
+          <div>
+            <p className="text-xs font-semibold opacity-80">Reconhecimento</p>
+            <p className="text-sm font-bold">{toast.message}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
