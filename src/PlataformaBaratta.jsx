@@ -735,23 +735,40 @@ export default function App() {
 
  const awardXp = async (actionKey, label, refId) => {
     console.log("1. Clique detectado:", { actionKey, label, refId });
-    console.log("2. Estado atual:", { userUid: user?.uid, temDb: !!db, appId, selectedYear });
 
     const uniqueId = `${actionKey}_${refId}`;
-    
     const jaExiste = xpActions.some((x) => x.id === uniqueId);
     if (jaExiste) return;
 
-    const points = xpConfig[actionKey] || 25;
+    // Busca o exame correspondente para pegar a nota (score)
+    const currentExam = exams.find((e) => String(e.id) === String(refId));
     
-    // AQUI ESTÁ O SEGREDO: Salvamos o ano atual junto com a ação de XP!
+    let points = 50; // Valor padrão de segurança
+    
+    if (currentExam && currentExam.score !== undefined && currentExam.score !== null) {
+      const score = Number(currentExam.score);
+      
+      // Descobre a faixa (1 a 6) usando a sua própria lógica de pontuação:
+      let bandNumber = 1;
+      if (score < 40) bandNumber = 1;
+      else if (score < 50) bandNumber = 2;
+      else if (score < 60) bandNumber = 3;
+      else if (score < 80) bandNumber = 4;
+      else if (score < 90) bandNumber = 5;
+      else bandNumber = 6;
+
+      // Aqui você define o XP com base na faixa ou no cálculo que preferir!
+      // Por exemplo, se quiser que a faixa multiplique por uma base (ex: faixa * 50 ou faixa * 100):
+      points = bandNumber * 10; // Ajuste o multiplicador (50, 100, etc.) conforme desejar
+    }
+
     const entry = {
       id: uniqueId,
       actionKey,
       label,
-      xp: points,
+      xp: points, // Salva o XP dinâmico da faixa!
       refId,
-      year: Number(selectedYear), // <-- Garante que o XP pertence ao ano selecionado (2026 ou 2027)
+      year: Number(selectedYear),
       createdAt: new Date().toISOString()
     };
 
@@ -763,7 +780,7 @@ export default function App() {
           doc(db, 'artifacts', appId, 'users', user.uid, 'xpActions', uniqueId),
           entry
         );
-        console.log("SUCESSO! Gravado no Firestore com o ano:", selectedYear);
+        console.log("SUCESSO! XP por faixa gravado:", points);
       } catch (e) {
         console.error("ERRO NO FIRESTORE:", e);
       }
