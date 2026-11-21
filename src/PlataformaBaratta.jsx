@@ -179,7 +179,36 @@ function getPerformanceBand(score, bandLabels = DEFAULT_BAND_LABELS) {
     5: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
     6: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
   };
+// Retorna as classes Tailwind para o estilo de pílula translúcida de acordo com a faixa (1 a 6)
+function getBandPillStyle(score, bandLabels, isAverage = false) {
+  if (score === null || score === undefined || score === '—') {
+    return 'text-slate-500';
+  }
 
+  const band = getPerformanceBand(score, bandLabels);
+  const level = band?.level || 1; // Garante que sempre tenha uma faixa válida
+
+  const baseStyle = `inline-flex items-center justify-center px-2.5 py-0.5 rounded-full border text-xs tabular-nums transition-all ${
+    isAverage ? 'font-bold' : 'font-medium'
+  }`;
+
+  const colors = {
+    // Faixa 1: Vinho
+    1: 'bg-[#881337]/25 text-rose-300 border-[#881337]/50',
+    // Faixa 2: Vermelho Coral
+    2: 'bg-rose-500/20 text-rose-400 border-rose-500/35',
+    // Faixa 3: Laranja Âmbar
+    3: 'bg-orange-500/20 text-orange-400 border-orange-500/35',
+    // Faixa 4: Amarelo Dourado
+    4: 'bg-amber-400/20 text-amber-300 border-amber-400/35',
+    // Faixa 5: Azul Ciano
+    5: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/35',
+    // Faixa 6: Verde Esmeralda
+    6: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/35',
+  };
+
+  return `${baseStyle} ${colors[level] || colors[1]}`;
+}
   return {
     number: bandNumber,
     label: bandLabels[bandNumber] || `Faixa ${bandNumber}`,
