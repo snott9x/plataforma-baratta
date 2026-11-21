@@ -733,40 +733,35 @@ export default function App() {
     savePreferences({ darkMode: next });
   };
 
-const awardXp = async (actionKey, label, refId) => {
-    console.log("1. Clique detectado:", { actionKey, label, refId });
+const awardXp = async (actionKey, label, refId, scoreValue) => {
+    console.log("1. Clique detectado:", { actionKey, label, refId, scoreValue });
 
     const uniqueId = `${actionKey}_${refId}`;
     const jaExiste = xpActions.some((x) => x.id === uniqueId);
     if (jaExiste) return;
 
-    // Busca o exame correspondente para pegar a nota (score)
-    const currentExam = exams.find((e) => String(e.id) === String(refId));
+    // Usa a nota passada diretamente ou tenta buscar no array caso venha vazia
+    const score = scoreValue !== undefined && scoreValue !== null 
+      ? Number(scoreValue) 
+      : Number(exams.find((e) => String(e.id) === String(refId))?.score || 0);
     
-    let points = 0; // Começa com 0, garantindo que se não houver nota, não ganha XP fictício
-    
-    if (currentExam && currentExam.score !== undefined && currentExam.score !== null) {
-      const score = Number(currentExam.score);
-      
-      // Sua lógica exata de faixas (1 a 6)
-      let bandNumber = 1;
-      if (score < 40) bandNumber = 1;
-      else if (score < 50) bandNumber = 2;
-      else if (score < 60) bandNumber = 3;
-      else if (score < 80) bandNumber = 4;
-      else if (score < 90) bandNumber = 5;
-      else bandNumber = 6;
+    // Sua lógica exata de faixas (1 a 6)
+    let bandNumber = 1;
+    if (score < 40) bandNumber = 1;
+    else if (score < 50) bandNumber = 2;
+    else if (score < 60) bandNumber = 3;
+    else if (score < 80) bandNumber = 4;
+    else if (score < 90) bandNumber = 5;
+    else bandNumber = 6;
 
-      // O XP será a sua faixa multiplicada pelo valor que você quiser (ex: faixa * 50 ou faixa * 10)
-      // Ajuste o multiplicador abaixo para o que você usa no seu sistema:
-      points = bandNumber * 10; 
-    }
+    // Calcula o XP baseado na faixa (ajuste o multiplicador se precisar, ex: * 50 ou * 10)
+    let points = bandNumber * 10; 
 
     const entry = {
       id: uniqueId,
       actionKey,
       label,
-      xp: points, // Salva o XP variável da faixa
+      xp: points,
       refId,
       year: Number(selectedYear),
       createdAt: new Date().toISOString()
@@ -780,14 +775,14 @@ const awardXp = async (actionKey, label, refId) => {
           doc(db, 'artifacts', appId, 'users', user.uid, 'xpActions', uniqueId),
           entry
         );
-        console.log("SUCESSO! XP variável por faixa gravado:", points);
+        console.log("SUCESSO! XP por faixa gravado:", points);
       } catch (e) {
         console.error("ERRO NO FIRESTORE:", e);
       }
     }
   };
 
-  const persistExam = async (examObj) => {
+ const persistExam = async (examObj) => {
     const isNew = !exams.some((e) => e.id === examObj.id);
     setExams((prev) => {
       const filtered = prev.filter((e) => e.id !== examObj.id);
@@ -802,12 +797,14 @@ const awardXp = async (actionKey, label, refId) => {
     }
 
     if (!examObj.isDemo) {
-      await awardXp('registerExam', `Avaliação registrada (${examObj.examCode})`, examObj.id);
+      // Passamos o examObj.score aqui para garantir que o XP calcule na hora certa!
+      await awardXp('registerExam', `Avaliação registrada (${examObj.examCode})`, examObj.id, examObj.score);
       if (examObj.topics && examObj.topics.length > 0) {
         await awardXp(
           'completeDiagnosis',
           `Diagnóstico por conteúdo (${examObj.examCode})`,
-          examObj.id
+          examObj.id,
+          examObj.score
         );
       }
     }
