@@ -1450,7 +1450,18 @@ const gamificationStats = useMemo(() => {
           )}
 
           {activeTab === 'Ranking' && (
-            <RankingTab exams={exams} subjects={subjects} bandLabels={bandLabels} />
+          <RankingTab 
+  exams={exams} 
+  subjects={subjects} 
+  bandLabels={bandLabels} 
+  selectedYear={selectedYear} 
+  xpActions={xpActions.filter(action => {
+    if (action.year) return Number(action.year) === Number(selectedYear);
+    const matchExam = exams.find(e => String(e.id) === String(action.refId));
+    if (matchExam) return Number(matchExam.year) === Number(selectedYear);
+    return Number(selectedYear) === 2026;
+  })} 
+/>
           )}
 
           {activeTab === 'Conquistas' && (
