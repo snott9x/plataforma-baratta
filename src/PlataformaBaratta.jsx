@@ -1450,19 +1450,13 @@ const gamificationStats = useMemo(() => {
           )}
 
           {activeTab === 'Ranking' && (
-          <RankingTab 
-  exams={exams} 
-  subjects={subjects} 
-  bandLabels={bandLabels} 
-  selectedYear={selectedYear} 
-  xpActions={xpActions.filter(action => {
-    if (action.year) return Number(action.year) === Number(selectedYear);
-    const matchExam = exams.find(e => String(e.id) === String(action.refId));
-    if (matchExam) return Number(matchExam.year) === Number(selectedYear);
-    return Number(selectedYear) === 2026;
-  })} 
-/>
-          )}
+  <RankingTab 
+    exams={exams} 
+    subjects={subjects} 
+    bandLabels={bandLabels} 
+    selectedYear={selectedYear} 
+  />
+)}
 
           {activeTab === 'Conquistas' && (
             <AchievementsTab
@@ -4316,10 +4310,21 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ============================================================================
 // ABA 7: RANKING (HISTÓRICO ACUMULADO DE PROVAS CADASTRADAS)
 // ============================================================================
-function RankingTab({ exams, subjects, bandLabels }) {
+function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
+  
+  // FILTRA OS EXAMES APENAS DO ANO SELECIONADO:
+  const filteredExams = useMemo(() => {
+    return exams.filter((e) => {
+      const examYear = e.year ? Number(e.year) : 2026; // Se não tiver ano, assume 2026 por segurança
+      return examYear === Number(selectedYear);
+    });
+  }, [exams, selectedYear]);
+
+  // E a partir daqui, substitua 'exams' por 'filteredExams' nos useMemos abaixo:
   const subjectRanking = useMemo(() => {
     const list = subjects.map((subj) => {
-      const subjExams = exams.filter((e) => e.subjectId === subj.id);
+      // Usando filteredExams em vez de exams:
+      const subjExams = filteredExams.filter((e) => e.subjectId === subj.id);
       const count = subjExams.length;
       const avg =
         count > 0
@@ -4347,7 +4352,9 @@ function RankingTab({ exams, subjects, bandLabels }) {
       .map((item) => ({ ...item, isProvisional: false }));
 
     return [...withData, ...withoutData];
-  }, [exams, subjects]);
+  }, [filteredExams, subjects]); // <-- Dependência atualizada para filteredExams
+
+  // O resto da função continua exatamente igual...
 
   const areaRanking = useMemo(() => {
     const areas = AREAS_ORDER.map((areaName) => {
