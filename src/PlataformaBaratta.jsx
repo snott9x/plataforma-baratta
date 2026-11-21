@@ -2602,8 +2602,11 @@ function getBandPillStyle(score, bandLabels, isAverage = false) {
   }
 
   const band = getPerformanceBand(score, bandLabels);
-  const level = typeof band === 'number' ? band : (band?.level || band?.num || band?.band || 1);
-
+let level = typeof band === 'number' ? band : (band?.level || band?.num || band?.band || band?.id || 1);
+  if (level === 1 && Number(score) >= 40) {
+    const n = Number(score);
+    level = n >= 90 ? 6 : n >= 80 ? 5 : n >= 60 ? 4 : n >= 50 ? 3 : 2;
+  }
   const baseStyle = `inline-flex items-center justify-center px-2.5 py-0.5 rounded-full border text-xs tabular-nums transition-all ${
     isAverage ? 'font-bold' : 'font-medium'
   }`;
