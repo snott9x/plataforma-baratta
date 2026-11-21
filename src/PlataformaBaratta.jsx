@@ -4406,7 +4406,6 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ABA 7: RANKING (HISTÓRICO ACUMULADO DE PROVAS CADASTRADAS)
 // ============================================================================
 function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
-  // Estado para alternar entre 'subjects' (Matérias) e 'areas' (Áreas)
   const [rankingType, setRankingType] = useState('subjects');
 
   // FILTRA OS EXAMES APENAS DO ANO SELECIONADO:
@@ -4482,13 +4481,13 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
           </p>
         </div>
 
-        {/* BOTÃO DE ESCOLHA (SELETOR ESTILO APPLE) */}
+        {/* BOTÃO DE ESCOLHA (SELETOR ESTILO APPLE COM AZUL NO ATIVO) */}
         <div className="inline-flex p-1 rounded-xl bg-slate-200/60 dark:bg-white/10 border border-slate-300/40 dark:border-white/10 self-start sm:self-auto">
           <button
             onClick={() => setRankingType('subjects')}
             className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
               rankingType === 'subjects'
-                ? 'bg-white dark:bg-[#1C1C1E] text-slate-900 dark:text-white shadow-sm'
+                ? 'bg-[#007AFF] text-white shadow-sm'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
@@ -4498,7 +4497,7 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
             onClick={() => setRankingType('areas')}
             className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
               rankingType === 'areas'
-                ? 'bg-white dark:bg-[#1C1C1E] text-slate-900 dark:text-white shadow-sm'
+                ? 'bg-[#007AFF] text-white shadow-sm'
                 : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
