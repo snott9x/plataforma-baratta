@@ -733,7 +733,7 @@ export default function App() {
     savePreferences({ darkMode: next });
   };
 
- const awardXp = async (actionKey, label, refId) => {
+const awardXp = async (actionKey, label, refId) => {
     console.log("1. Clique detectado:", { actionKey, label, refId });
 
     const uniqueId = `${actionKey}_${refId}`;
@@ -743,12 +743,12 @@ export default function App() {
     // Busca o exame correspondente para pegar a nota (score)
     const currentExam = exams.find((e) => String(e.id) === String(refId));
     
-    let points = 50; // Valor padrão de segurança
+    let points = 0; // Começa com 0, garantindo que se não houver nota, não ganha XP fictício
     
     if (currentExam && currentExam.score !== undefined && currentExam.score !== null) {
       const score = Number(currentExam.score);
       
-      // Descobre a faixa (1 a 6) usando a sua própria lógica de pontuação:
+      // Sua lógica exata de faixas (1 a 6)
       let bandNumber = 1;
       if (score < 40) bandNumber = 1;
       else if (score < 50) bandNumber = 2;
@@ -757,16 +757,16 @@ export default function App() {
       else if (score < 90) bandNumber = 5;
       else bandNumber = 6;
 
-      // Aqui você define o XP com base na faixa ou no cálculo que preferir!
-      // Por exemplo, se quiser que a faixa multiplique por uma base (ex: faixa * 50 ou faixa * 100):
-      points = bandNumber * 10; // Ajuste o multiplicador (50, 100, etc.) conforme desejar
+      // O XP será a sua faixa multiplicada pelo valor que você quiser (ex: faixa * 50 ou faixa * 10)
+      // Ajuste o multiplicador abaixo para o que você usa no seu sistema:
+      points = bandNumber * 10; 
     }
 
     const entry = {
       id: uniqueId,
       actionKey,
       label,
-      xp: points, // Salva o XP dinâmico da faixa!
+      xp: points, // Salva o XP variável da faixa
       refId,
       year: Number(selectedYear),
       createdAt: new Date().toISOString()
@@ -780,7 +780,7 @@ export default function App() {
           doc(db, 'artifacts', appId, 'users', user.uid, 'xpActions', uniqueId),
           entry
         );
-        console.log("SUCESSO! XP por faixa gravado:", points);
+        console.log("SUCESSO! XP variável por faixa gravado:", points);
       } catch (e) {
         console.error("ERRO NO FIRESTORE:", e);
       }
