@@ -4469,16 +4469,16 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
     return [...withData, ...withoutData];
   }, [subjectRanking]);
 
-  // Filtra apenas os que possuem dados válidos para o pódio
+  // Filtra apenas os que possuem dados válidos
   const validSubjectsWithData = subjectRanking.filter(i => i.avg !== null);
   const validAreasWithData = areaRanking.filter(a => a.avg !== null);
 
-  // Top 3 (do 1º ao 3º) e o restante para a lista comum
+  // Top 3 e o restante para a lista completa (removendo os 3 primeiros da lista abaixo)
   const top3Subjects = validSubjectsWithData.slice(0, 3);
-  const remainingSubjects = subjectRanking; // Mantém todos na lista abaixo para consistência
+  const remainingSubjects = subjectRanking.filter(i => i.avg === null || validSubjectsWithData.indexOf(i) >= 3);
 
   const top3Areas = validAreasWithData.slice(0, 3);
-  const remainingAreas = areaRanking;
+  const remainingAreas = areaRanking.filter(a => a.avg === null || validAreasWithData.indexOf(a) >= 3);
 
   return (
     <div className="space-y-6">
@@ -4519,88 +4519,92 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
 
       {/* CONTEÚDO CONDICIONAL CONFORME A ESCOLHA */}
       {rankingType === 'subjects' ? (
-        <div className="space-y-6">
-          {/* PÓDIO DE MATÉRIAS (TOP 3) */}
+        <div className="space-y-8">
+          {/* PÓDIO DE MATÉRIAS (TOP 3) - COM ALTURAS E DESTAQUES DIFERENCIADOS */}
           {top3Subjects.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-              {/* 2º Lugar */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-4">
+              {/* 2º Lugar (Prata) */}
               {top3Subjects[1] && (
-                <AppleCard className="relative overflow-hidden border-slate-300 dark:border-white/15 bg-gradient-to-b from-slate-50 to-slate-100/50 dark:from-white/[0.04] dark:to-white/[0.01] order-2 md:order-1">
-                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-slate-200 dark:bg-white/20 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center">
-                    2º
+                <div className="relative p-6 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/60 dark:from-white/[0.07] dark:to-white/[0.02] border-2 border-slate-300 dark:border-white/20 shadow-md flex flex-col justify-between order-2 md:order-1 h-44">
+                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-slate-300 dark:bg-white/20 text-slate-800 dark:text-white font-black text-sm flex items-center justify-center shadow">
+                    🥈 2º
                   </div>
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Prata</span>
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white">{top3Subjects[1].subject.name}</h3>
-                    <p className="text-xs text-slate-400">{top3Subjects[1].subject.area}</p>
-                    <div className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums pt-2">
+                  <div className="mt-3">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Prata</span>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{top3Subjects[1].subject.name}</h3>
+                    <p className="text-xs text-slate-500">{top3Subjects[1].subject.area}</p>
+                  </div>
+                  <div className="flex items-baseline justify-between pt-2 border-t border-slate-300/50 dark:border-white/10">
+                    <span className="text-xs text-slate-400">{top3Subjects[1].count} provas</span>
+                    <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
                       {formatScore(top3Subjects[1].avg)}
-                    </div>
+                    </span>
                   </div>
-                </AppleCard>
+                </div>
               )}
 
-              {/* 1º Lugar (Destaque Central Mais Alto) */}
+              {/* 1º Lugar (Ouro / Campeão - Mais Alto e Destacado) */}
               {top3Subjects[0] && (
-                <AppleCard className="relative overflow-hidden border-[#007AFF]/50 bg-gradient-to-b from-blue-50/50 to-slate-100/50 dark:from-[#007AFF]/10 dark:to-white/[0.01] shadow-lg md:-translate-y-2 order-1 md:order-2">
-                  <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#007AFF] text-white font-bold text-sm flex items-center justify-center shadow-md">
-                    1º
+                <div className="relative p-6 rounded-2xl bg-gradient-to-b from-blue-500/15 via-blue-500/5 to-slate-100/80 dark:from-[#007AFF]/25 dark:to-white/[0.03] border-2 border-[#007AFF] shadow-xl flex flex-col justify-between order-1 md:order-2 h-52 md:-translate-y-4">
+                  <div className="absolute -top-5 left-6 w-11 h-11 rounded-xl bg-[#007AFF] text-white font-black text-base flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-[#121212]">
+                    👑 1º
                   </div>
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#007AFF]">Campeão 🏆</span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{top3Subjects[0].subject.name}</h3>
-                    <p className="text-xs text-slate-400">{top3Subjects[0].subject.area}</p>
-                    <div className="text-2xl font-extrabold text-[#007AFF] tabular-nums pt-2">
+                  <div className="mt-3">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-[#007AFF]">Campeão Absoluto</span>
+                    <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mt-0.5">{top3Subjects[0].subject.name}</h3>
+                    <p className="text-xs text-slate-500">{top3Subjects[0].subject.area}</p>
+                  </div>
+                  <div className="flex items-baseline justify-between pt-2 border-t border-[#007AFF]/30">
+                    <span className="text-xs text-slate-500">{top3Subjects[0].count} provas</span>
+                    <span className="text-3xl font-black text-[#007AFF] tabular-nums">
                       {formatScore(top3Subjects[0].avg)}
-                    </div>
+                    </span>
                   </div>
-                </AppleCard>
+                </div>
               )}
 
-              {/* 3º Lugar */}
+              {/* 3º Lugar (Bronze) */}
               {top3Subjects[2] && (
-                <AppleCard className="relative overflow-hidden border-amber-500/30 bg-gradient-to-b from-amber-50/30 to-slate-100/50 dark:from-amber-500/10 dark:to-white/[0.01] order-3">
-                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs flex items-center justify-center">
-                    3º
+                <div className="relative p-6 rounded-2xl bg-gradient-to-b from-amber-500/10 to-amber-500/5 dark:from-amber-500/20 dark:to-white/[0.02] border-2 border-amber-500/40 shadow-md flex flex-col justify-between order-3 h-40">
+                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-amber-500/30 text-amber-700 dark:text-amber-300 font-black text-sm flex items-center justify-center shadow">
+                    🥉 3º
                   </div>
-                  <div className="space-y-2">
+                  <div className="mt-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Bronze</span>
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white">{top3Subjects[2].subject.name}</h3>
-                    <p className="text-xs text-slate-400">{top3Subjects[2].subject.area}</p>
-                    <div className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums pt-2">
-                      {formatScore(top3Subjects[2].avg)}
-                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{top3Subjects[2].subject.name}</h3>
+                    <p className="text-xs text-slate-500">{top3Subjects[2].subject.area}</p>
                   </div>
-                </AppleCard>
+                  <div className="flex items-baseline justify-between pt-2 border-t border-amber-500/20">
+                    <span className="text-xs text-slate-400">{top3Subjects[2].count} provas</span>
+                    <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
+                      {formatScore(top3Subjects[2].avg)}
+                    </span>
+                  </div>
+                </div>
               )}
             </div>
           )}
 
-          {/* RANKING DE MATÉRIAS (LISTA COMPLETA) */}
+          {/* RANKING DE MATÉRIAS (LISTA COMPLETA - DO 4º EM DIANTE) */}
           <AppleCard noPadding className="overflow-hidden">
             <div className="p-5 border-b border-slate-200/70 dark:border-white/10">
-              <h2 className="text-base font-semibold">Ranking Geral de Matérias</h2>
+              <h2 className="text-base font-semibold">Demais Matérias</h2>
               <p className="text-xs text-slate-500">
-                Atualizado automaticamente a cada prova cadastrada, editada ou removida
+                Classificação geral a partir da 4ª posição
               </p>
             </div>
             <div className="divide-y divide-slate-200/60 dark:divide-white/5">
-              {remainingSubjects.map((item, idx) => {
+              {remainingSubjects.map((item) => {
                 const band = getPerformanceBand(item.avg, bandLabels);
+                const actualIndex = subjectRanking.indexOf(item) + 1;
                 return (
                   <div
                     key={item.subject.id}
                     className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50/70 dark:hover:bg-white/[0.02]"
                   >
                     <div className="flex items-center gap-3.5">
-                      <span
-                        className={`w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center ${
-                          item.avg !== null && idx === 0
-                            ? 'bg-[#007AFF] text-white'
-                            : 'bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300'
-                        }`}
-                      >
-                        {item.avg !== null ? idx + 1 : '—'}
+                      <span className="w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+                        {item.avg !== null ? actualIndex : '—'}
                       </span>
                       <div>
                         <div className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
@@ -4643,95 +4647,107 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
           </AppleCard>
         </div>
       ) : (
-        <div className="space-y-6">
-          {/* PÓDIO DE ÁREAS (TOP 3) */}
+        <div className="space-y-8">
+          {/* PÓDIO DE ÁREAS (TOP 3) - COM ALTURAS E DESTAQUES DIFERENCIADOS */}
           {top3Areas.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-              {/* 2º Lugar */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end pt-4">
+              {/* 2º Lugar (Prata) */}
               {top3Areas[1] && (
-                <AppleCard className="relative overflow-hidden border-slate-300 dark:border-white/15 bg-gradient-to-b from-slate-50 to-slate-100/50 dark:from-white/[0.04] dark:to-white/[0.01] order-2 md:order-1">
-                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-slate-200 dark:bg-white/20 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center">
-                    2º
+                <div className="relative p-6 rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/60 dark:from-white/[0.07] dark:to-white/[0.02] border-2 border-slate-300 dark:border-white/20 shadow-md flex flex-col justify-between order-2 md:order-1 h-44">
+                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-slate-300 dark:bg-white/20 text-slate-800 dark:text-white font-black text-sm flex items-center justify-center shadow">
+                    🥈 2º
                   </div>
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Prata</span>
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white">{top3Areas[1].area}</h3>
-                    <p className="text-xs text-slate-400">{top3Areas[1].subjectsCount} matérias avaliadas</p>
-                    <div className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums pt-2">
+                  <div className="mt-3">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Prata</span>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{top3Areas[1].area}</h3>
+                    <p className="text-xs text-slate-500">{top3Areas[1].subjectsCount} matérias avaliadas</p>
+                  </div>
+                  <div className="flex items-baseline justify-between pt-2 border-t border-slate-300/50 dark:border-white/10">
+                    <span className="text-xs text-slate-400">Média geral</span>
+                    <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
                       {formatScore(top3Areas[1].avg)}
-                    </div>
+                    </span>
                   </div>
-                </AppleCard>
+                </div>
               )}
 
-              {/* 1º Lugar (Destaque Central Mais Alto) */}
+              {/* 1º Lugar (Ouro / Campeão - Mais Alto e Destacado) */}
               {top3Areas[0] && (
-                <AppleCard className="relative overflow-hidden border-[#007AFF]/50 bg-gradient-to-b from-blue-50/50 to-slate-100/50 dark:from-[#007AFF]/10 dark:to-white/[0.01] shadow-lg md:-translate-y-2 order-1 md:order-2">
-                  <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#007AFF] text-white font-bold text-sm flex items-center justify-center shadow-md">
-                    1º
+                <div className="relative p-6 rounded-2xl bg-gradient-to-b from-blue-500/15 via-blue-500/5 to-slate-100/80 dark:from-[#007AFF]/25 dark:to-white/[0.03] border-2 border-[#007AFF] shadow-xl flex flex-col justify-between order-1 md:order-2 h-52 md:-translate-y-4">
+                  <div className="absolute -top-5 left-6 w-11 h-11 rounded-xl bg-[#007AFF] text-white font-black text-base flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-[#121212]">
+                    👑 1º
                   </div>
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#007AFF]">Campeã 🏆</span>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{top3Areas[0].area}</h3>
-                    <p className="text-xs text-slate-400">{top3Areas[0].subjectsCount} matérias avaliadas</p>
-                    <div className="text-2xl font-extrabold text-[#007AFF] tabular-nums pt-2">
+                  <div className="mt-3">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-[#007AFF]">Área Campeã</span>
+                    <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mt-0.5">{top3Areas[0].area}</h3>
+                    <p className="text-xs text-slate-500">{top3Areas[0].subjectsCount} matérias avaliadas</p>
+                  </div>
+                  <div className="flex items-baseline justify-between pt-2 border-t border-[#007AFF]/30">
+                    <span className="text-xs text-slate-500">Média geral</span>
+                    <span className="text-3xl font-black text-[#007AFF] tabular-nums">
                       {formatScore(top3Areas[0].avg)}
-                    </div>
+                    </span>
                   </div>
-                </AppleCard>
+                </div>
               )}
 
-              {/* 3º Lugar */}
+              {/* 3º Lugar (Bronze) */}
               {top3Areas[2] && (
-                <AppleCard className="relative overflow-hidden border-amber-500/30 bg-gradient-to-b from-amber-50/30 to-slate-100/50 dark:from-amber-500/10 dark:to-white/[0.01] order-3">
-                  <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-xs flex items-center justify-center">
-                    3º
+                <div className="relative p-6 rounded-2xl bg-gradient-to-b from-amber-500/10 to-amber-500/5 dark:from-amber-500/20 dark:to-white/[0.02] border-2 border-amber-500/40 shadow-md flex flex-col justify-between order-3 h-40">
+                  <div className="absolute -top-4 left-6 w-9 h-9 rounded-xl bg-amber-500/30 text-amber-700 dark:text-amber-300 font-black text-sm flex items-center justify-center shadow">
+                    🥉 3º
                   </div>
-                  <div className="space-y-2">
+                  <div className="mt-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Bronze</span>
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white">{top3Areas[2].area}</h3>
-                    <p className="text-xs text-slate-400">{top3Areas[2].subjectsCount} matérias avaliadas</p>
-                    <div className="text-xl font-extrabold text-slate-900 dark:text-white tabular-nums pt-2">
-                      {formatScore(top3Areas[2].avg)}
-                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{top3Areas[2].area}</h3>
+                    <p className="text-xs text-slate-500">{top3Areas[2].subjectsCount} matérias avaliadas</p>
                   </div>
-                </AppleCard>
+                  <div className="flex items-baseline justify-between pt-2 border-t border-amber-500/20">
+                    <span className="text-xs text-slate-400">Média geral</span>
+                    <span className="text-2xl font-black text-slate-900 dark:text-white tabular-nums">
+                      {formatScore(top3Areas[2].avg)}
+                    </span>
+                  </div>
+                </div>
               )}
             </div>
           )}
 
-          {/* RANKING DE ÁREAS (LISTA COMPLETA) */}
+          {/* RANKING DE ÁREAS (LISTA COMPLETA - DO 4º EM DIANTE) */}
           <AppleCard noPadding className="overflow-hidden">
             <div className="p-5 border-b border-slate-200/70 dark:border-white/10">
-              <h2 className="text-base font-semibold">Ranking Geral de Áreas</h2>
+              <h2 className="text-base font-semibold">Demais Áreas</h2>
               <p className="text-xs text-slate-500">
-                Média das matérias com dados disponíveis em cada área
+                Classificação geral a partir da 4ª posição
               </p>
             </div>
             <div className="divide-y divide-slate-200/60 dark:divide-white/5 p-5 space-y-3">
-              {remainingAreas.map((a, idx) => (
-                <div
-                  key={a.area}
-                  className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5 flex items-center justify-between"
-                >
-                  <div>
-                    <div className="text-sm font-bold text-[#007AFF] flex items-center gap-2">
-                      <span>{a.avg !== null ? `#${idx + 1}` : '—'}</span>
-                      <span className="text-slate-900 dark:text-white">• {a.area}</span>
+              {remainingAreas.map((a) => {
+                const actualIndex = areaRanking.indexOf(a) + 1;
+                return (
+                  <div
+                    key={a.area}
+                    className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5 flex items-center justify-between"
+                  >
+                    <div>
+                      <div className="text-sm font-bold text-[#007AFF] flex items-center gap-2">
+                        <span>{a.avg !== null ? `#${actualIndex}` : '—'}</span>
+                        <span className="text-slate-900 dark:text-white">• {a.area}</span>
+                      </div>
+                      <div className="text-xs text-slate-400 mt-1">
+                        {a.subjectsCount > 0
+                          ? `${a.subjectsCount} ${
+                              a.subjectsCount === 1 ? 'matéria avaliada' : 'matérias avaliadas'
+                            }`
+                          : 'Sem matérias avaliadas'}
+                      </div>
                     </div>
-                    <div className="text-xs text-slate-400 mt-1">
-                      {a.subjectsCount > 0
-                        ? `${a.subjectsCount} ${
-                            a.subjectsCount === 1 ? 'matéria avaliada' : 'matérias avaliadas'
-                          }`
-                        : 'Sem matérias avaliadas'}
+                    <div className="text-xl font-bold text-slate-900 dark:text-white tabular-nums">
+                      {formatScore(a.avg)}
                     </div>
                   </div>
-                  <div className="text-xl font-bold text-slate-900 dark:text-white tabular-nums">
-                    {formatScore(a.avg)}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </AppleCard>
         </div>
