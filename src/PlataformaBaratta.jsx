@@ -4406,19 +4406,19 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ABA 7: RANKING (HISTÓRICO ACUMULADO DE PROVAS CADASTRADAS)
 // ============================================================================
 function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
-  
+  // Estado para alternar entre 'subjects' (Matérias) e 'areas' (Áreas)
+  const [rankingType, setRankingType] = useState('subjects');
+
   // FILTRA OS EXAMES APENAS DO ANO SELECIONADO:
   const filteredExams = useMemo(() => {
     return exams.filter((e) => {
-      const examYear = e.year ? Number(e.year) : 2026; // Se não tiver ano, assume 2026 por segurança
+      const examYear = e.year ? Number(e.year) : 2026;
       return examYear === Number(selectedYear);
     });
   }, [exams, selectedYear]);
 
-  // E a partir daqui, substitua 'exams' por 'filteredExams' nos useMemos abaixo:
   const subjectRanking = useMemo(() => {
     const list = subjects.map((subj) => {
-      // Usando filteredExams em vez de exams:
       const subjExams = filteredExams.filter((e) => e.subjectId === subj.id);
       const count = subjExams.length;
       const avg =
@@ -4447,9 +4447,7 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
       .map((item) => ({ ...item, isProvisional: false }));
 
     return [...withData, ...withoutData];
-  }, [filteredExams, subjects]); // <-- Dependência atualizada para filteredExams
-
-  // O resto da função continua exatamente igual...
+  }, [filteredExams, subjects]);
 
   const areaRanking = useMemo(() => {
     const areas = AREAS_ORDER.map((areaName) => {
@@ -4474,18 +4472,45 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          Ranking Acumulado
-        </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Calculado sobre todas as avaliações já registradas em cada matéria (soma das notas / quantidade de provas).
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Ranking Acumulado
+          </h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Calculado sobre todas as avaliações já registradas em cada matéria (soma das notas / quantidade de provas).
+          </p>
+        </div>
+
+        {/* BOTÃO DE ESCOLHA (SELETOR ESTILO APPLE) */}
+        <div className="inline-flex p-1 rounded-xl bg-slate-200/60 dark:bg-white/10 border border-slate-300/40 dark:border-white/10 self-start sm:self-auto">
+          <button
+            onClick={() => setRankingType('subjects')}
+            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+              rankingType === 'subjects'
+                ? 'bg-white dark:bg-[#1C1C1E] text-slate-900 dark:text-white shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Ranking de Matérias
+          </button>
+          <button
+            onClick={() => setRankingType('areas')}
+            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+              rankingType === 'areas'
+                ? 'bg-white dark:bg-[#1C1C1E] text-slate-900 dark:text-white shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Ranking de Áreas
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* RANKING DE MATÉRIAS */}
-        <AppleCard noPadding className="lg:col-span-2 overflow-hidden">
+      {/* CONTEÚDO CONDICIONAL CONFORME A ESCOLHA */}
+      {rankingType === 'subjects' ? (
+        /* RANKING DE MATÉRIAS */
+        <AppleCard noPadding className="overflow-hidden">
           <div className="p-5 border-b border-slate-200/70 dark:border-white/10">
             <h2 className="text-base font-semibold">Ranking de Matérias</h2>
             <p className="text-xs text-slate-500">
@@ -4549,27 +4574,27 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
             })}
           </div>
         </AppleCard>
-
-        {/* RANKING DE ÁREAS */}
-        <AppleCard className="space-y-4">
-          <div>
+      ) : (
+        /* RANKING DE ÁREAS */
+        <AppleCard noPadding className="overflow-hidden">
+          <div className="p-5 border-b border-slate-200/70 dark:border-white/10">
             <h2 className="text-base font-semibold">Ranking de Áreas</h2>
             <p className="text-xs text-slate-500">
               Média das matérias com dados disponíveis em cada área
             </p>
           </div>
-
-          <div className="space-y-3">
+          <div className="divide-y divide-slate-200/60 dark:divide-white/5 p-5 space-y-3">
             {areaRanking.map((a, idx) => (
               <div
                 key={a.area}
-                className="p-3.5 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5 flex items-center justify-between"
+                className="p-4 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5 flex items-center justify-between"
               >
                 <div>
-                  <div className="text-xs font-bold text-[#007AFF]">
-                    {a.avg !== null ? `#${idx + 1}` : '—'} • {a.area}
+                  <div className="text-sm font-bold text-[#007AFF] flex items-center gap-2">
+                    <span>{a.avg !== null ? `#${idx + 1}` : '—'}</span>
+                    <span className="text-slate-900 dark:text-white">• {a.area}</span>
                   </div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">
+                  <div className="text-xs text-slate-400 mt-1">
                     {a.subjectsCount > 0
                       ? `${a.subjectsCount} ${
                           a.subjectsCount === 1 ? 'matéria avaliada' : 'matérias avaliadas'
@@ -4577,18 +4602,17 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
                       : 'Sem matérias avaliadas'}
                   </div>
                 </div>
-                <div className="text-lg font-bold text-slate-900 dark:text-white tabular-nums">
+                <div className="text-xl font-bold text-slate-900 dark:text-white tabular-nums">
                   {formatScore(a.avg)}
                 </div>
               </div>
             ))}
           </div>
         </AppleCard>
-      </div>
+      )}
     </div>
   );
 }
-
 // ============================================================================
 // ABA 8: CONQUISTAS — GAMIFICAÇÃO POR CONSISTÊNCIA
 // ============================================================================
