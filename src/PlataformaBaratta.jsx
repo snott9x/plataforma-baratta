@@ -1,3 +1,4 @@
+console.log("🔥 ESSE ARQUIVO ESTÁ SENDO EXECUTADO DE VERDADE!");
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
