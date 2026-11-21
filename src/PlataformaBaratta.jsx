@@ -155,7 +155,7 @@ const TABS = [
   'Relatórios',
   'Biblioteca',
   'Ranking',
-  'Conquistas'
+  'Progresso'
 ];
 
 // ============================================================================
@@ -1487,7 +1487,7 @@ const gamificationStats = useMemo(() => {
   />
 )}
 
-          {activeTab === 'Conquistas' && (
+          {activeTab === 'Progresso' && (
             <AchievementsTab
               gamificationStats={gamificationStats}
               xpActions={xpActions}
@@ -4756,7 +4756,7 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
   );
 }
 // ============================================================================
-// ABA 8: CONQUISTAS — GAMIFICAÇÃO POR CONSISTÊNCIA
+// ABA 8: PROGRESSO — GAMIFICAÇÃO POR CONSISTÊNCIA
 // ============================================================================
 function AchievementsTab({
   gamificationStats,
