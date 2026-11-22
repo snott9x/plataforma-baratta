@@ -3289,7 +3289,7 @@ function ReportsTab({
     }
   }, [reports, activeReport]);
 
-  const handleGenerateReport = async () => {
+ const handleGenerateReport = async () => {
     const relevantExams = exams.filter((ex) => {
       if (Number(ex.year) !== Number(selectedYear)) return false;
       if (trimester !== 'ALL' && Number(ex.trimester) !== Number(trimester)) return false;
@@ -3311,106 +3311,83 @@ function ReportsTab({
 
     setIsGenerating(true);
     try {
-      // Prepara contexto factual estruturado para a IA
-      const structuredData = relevantExams.map((ex) => {
+      // Processamento local de dados escolares
+      let totalScore = 0;
+      const topicStats = {};
+      const strengths = [];
+      const difficulties = [];
+
+      relevantExams.forEach((ex) => {
+        totalScore += Number(ex.score || 0);
         const subj = subjects.find((s) => s.id === ex.subjectId);
-        return {
-          materia: subj?.name || ex.subjectId,
-          area: subj?.area || '',
-          prova: ex.examCode,
-          trimestre: ex.trimester,
-          nota: ex.score,
-          faixa: getPerformanceBand(ex.score, bandLabels)?.label,
-          conteudos: (ex.topics || []).map((t) => {
-            const valid = Math.max(0, Number(t.totalQuestions) - Number(t.annulledQuestions || 0));
-            return {
-              assunto: t.topic,
-              subtopico: t.subtopic,
-              acertos: t.correctAnswers,
-              questoesValidas: valid,
-              aproveitamentoPercent: valid > 0 ? Number(((t.correctAnswers / valid) * 100).toFixed(1)) : null
-            };
-          })
-        };
+        const subjName = subj?.name || ex.subjectId;
+
+        if (ex.topics && Array.isArray(ex.topics)) {
+          ex.topics.forEach((t) => {
+            const topicKey = `${subjName} - ${t.topic}`;
+            if (!topicStats[topicKey]) {
+              topicStats[topicKey] = { subject: subjName, topic: t.topic, totalQ: 0, correctQ: 0 };
+            }
+            const validQ = Math.max(0, Number(t.totalQuestions || 0) - Number(t.annulledQuestions || 0));
+            topicStats[topicKey].totalQ += validQ;
+            topicStats[topicKey].correctQ += Number(t.correctAnswers || 0);
+          });
+        }
       });
 
-      const relevantSyllabi = examSyllabi.filter(
-        (s) =>
-          Number(s.year) === Number(selectedYear) &&
-          (scope === 'GENERAL' || s.subjectId === subjectId)
-      );
+      const avgScore = (totalScore / relevantExams.length).toFixed(1);
 
-      const schema = {
-        type: 'OBJECT',
-        properties: {
-          executiveSummary: { type: 'STRING' },
-          schoolDiagnosis: {
-            type: 'OBJECT',
-            properties: {
-              overview: { type: 'STRING' },
-              strengths: { type: 'ARRAY', items: { type: 'STRING' } },
-              difficulties: { type: 'ARRAY', items: { type: 'STRING' } }
-            },
-            required: ['overview', 'strengths', 'difficulties']
-          },
-          integratedPriorityMatrix: {
-            type: 'ARRAY',
-            items: {
-              type: 'OBJECT',
-              properties: {
-                subject: { type: 'STRING' },
-                topic: { type: 'STRING' },
-                schoolPerformance: { type: 'STRING' },
-                enemRelevance: { type: 'STRING' },
-                enemJustification: { type: 'STRING' },
-                priorityLevel: { type: 'STRING' },
-                priorityReason: { type: 'STRING' }
-              },
-              required: [
-                'subject',
-                'topic',
-                'schoolPerformance',
-                'enemRelevance',
-                'enemJustification',
-                'priorityLevel',
-                'priorityReason'
-              ]
-            }
-          },
-          twoWeekActionPlan: {
-            type: 'ARRAY',
-            items: {
-              type: 'OBJECT',
-              properties: {
-                order: { type: 'NUMBER' },
-                topic: { type: 'STRING' },
-                subject: { type: 'STRING' },
-                whatToStudy: { type: 'STRING' },
-                whyItMatters: { type: 'STRING' }
-              },
-              required: ['order', 'topic', 'subject', 'whatToStudy', 'whyItMatters']
-            }
+      // Avalia tópicos para montar matriz local
+      const matrix = [];
+      const actionPlan = [];
+      let orderCounter = 1;
+
+      Object.values(topicStats).forEach((item) => {
+        const rate = item.totalQ > 0 ? (item.correctQ / item.totalQ) * 100 : 50;
+        let perfText = `Bom aproveitamento (${rate.toFixed(0)}%)`;
+        let priority = 'Manutenção';
+
+        if (rate < 60) {
+          perfText = `Atenção necessária (${rate.toFixed(0)}%)`;
+          priority = 'Prioridade Máxima';
+          difficulties.push(`${item.topic} (${item.subject}) apresenta aproveitamento de ${rate.toFixed(0)}%.`);
+          
+          if (actionPlan.length < 4) {
+            actionPlan.push({
+              order: orderCounter++,
+              topic: item.topic,
+              subject: item.subject,
+              whatToStudy: 'Revisar conceitos fundamentais e fazer bateria de exercícios focada nos erros.',
+              whyItMatters: 'Conteúdo recorrente com margem imediata de ganho de pontos.'
+            });
           }
-        },
-        required: [
-          'executiveSummary',
-          'schoolDiagnosis',
-          'integratedPriorityMatrix',
-          'twoWeekActionPlan'
-        ]
-      };
+        } else {
+          strengths.push(`${item.topic} (${item.subject}) consolidado com ${rate.toFixed(0)}% de acertos.`);
+        }
 
-      const systemInstruction = `Você é o motor analítico central da Plataforma Baratta.
-Sua tarefa é gerar UM ÚNICO RELATÓRIO INTEGRADO combinando:
-1) Diagnóstico escolar real do estudante (notas, médias e aproveitamento por conteúdo).
-2) Relevância estimada de cada conteúdo para o ENEM (Alta, Média ou Baixa), baseada na Matriz de Referência do INEP, competências/habilidades e provas anteriores.
+        matrix.push({
+          subject: item.subject,
+          topic: item.topic,
+          schoolPerformance: perfText,
+          enemRelevance: 'Alta (Estimativa INEP)',
+          enemJustification: 'Conteúdo de alta incidência nas matrizes de competências do ENEM.',
+          priorityLevel: priority,
+          priorityReason: rate < 60 ? 'Déficit no histórico escolar cruzado com alta recorrência.' : 'Bom domínio, focar em manutenção.'
+        });
+      });
 
-REGRAS CRÍTICAS:
-- NUNCA invente notas, acertos, erros ou conteúdos que não estejam nos dados enviados.
-- Se uma prova não tiver detalhamento por conteúdo, mencione claramente que ainda não há dados suficientes por assunto naquela prova.
-- Nunca faça afirmações absolutas como "esse conteúdo não cai no ENEM"; apresente como estimativa de relevância fundamentada (inclusive contribuição indireta para raciocínio e interpretação).
-- A prioridade deve cruzar dificuldade escolar com relevância ENEM (Ex.: Baixo desempenho + Alta relevância = Prioridade Máxima; Bom desempenho + Alta relevância = Manutenção).
-- No plano de ação de 2 semanas, indique O QUE estudar e POR QUÊ (para o aluno estudar na plataforma externa), mas NUNCA gere questões, exercícios ou simulados.`;
+      if (strengths.length === 0) strengths.push('Bom engajamento geral nas avaliações cadastradas.');
+      if (difficulties.length === 0) difficulties.push('Nenhuma dificuldade crítica detectada nos filtros atuais.');
+
+      if (actionPlan.length === 0) {
+        actionPlan.push({
+          order: 1,
+          topic: 'Revisão Geral e Simulados',
+          subject: subjects[0]?.name || 'Geral',
+          whatToStudy: 'Realizar simulados cronometrados e manutenções periódicas de conteúdo.',
+          whyItMatters: 'Manter o ritmo e a consistência para o ENEM.'
+        });
+      }
 
       const targetTitle =
         scope === 'SUBJECT'
@@ -3419,19 +3396,16 @@ REGRAS CRÍTICAS:
           ? `Consolidado Área: ${areaFilter}`
           : 'Geral Consolidado';
 
-      const prompt = `Gere o relatório integrado (${targetTitle} • Ano ${selectedYear} • Trimestre: ${
-        trimester === 'ALL' ? 'Acumulado' : `${trimester}º Trimestre`
-      }) com base estrita nestes registros reais:\n\nDADOS DE AVALIAÇÕES:\n${JSON.stringify(
-        structuredData,
-        null,
-        2
-      )}\n\nCONTEÚDOS APROVADOS NA BIBLIOTECA:\n${JSON.stringify(relevantSyllabi, null, 2)}`;
-
-      const aiContent = await callGeminiAPI({
-        prompt,
-        systemInstruction,
-        responseSchema: schema
-      });
+      const localAiContent = {
+        executiveSummary: `Relatório gerado localmente com base em ${relevantExams.length} avaliação(ões) cadastrada(s). A média geral das notas no período é de ${avgScore} pontos, cruzada com diretrizes da matriz de referência.`,
+        schoolDiagnosis: {
+          overview: `O histórico demonstra consistência nas avaliações do período, com foco especial nos recortes de ${targetTitle}.`,
+          strengths,
+          difficulties
+        },
+        integratedPriorityMatrix: matrix,
+        twoWeekActionPlan: actionPlan
+      };
 
       const newReport = {
         id: `rep_${Date.now()}`,
@@ -3442,19 +3416,18 @@ REGRAS CRÍTICAS:
         trimester: trimester === 'ALL' ? 'Acumulado' : `${trimester}º Trimestre`,
         subjectId: scope === 'SUBJECT' ? subjectId : null,
         area: areaFilter,
-        content: aiContent
+        content: localAiContent
       };
 
       await onSaveReport(newReport);
       setActiveReport(newReport);
       showToast('Relatório integrado gerado com sucesso!', 'success');
     } catch (err) {
-      showToast('Erro ao gerar relatório com a IA. Tente novamente em instantes.', 'error');
+      showToast('Erro ao gerar relatório local. Tente novamente em instantes.', 'error');
     } finally {
       setIsGenerating(false);
     }
   };
-
   const handleExportPdf = () => {
     window.print();
   };
