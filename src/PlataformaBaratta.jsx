@@ -2045,111 +2045,99 @@ function InsertGradesTab({
   };
 
   // IA organiza estritamente o mapeamento informado pelo aluno (sem inventar)
-const handleAiOrganizeMapping = () => {
+  const handleAiOrganizeMapping = async () => {
     if (!rawMappingText.trim()) {
       showToast('Descreva quais conteúdos e acertos deseja organizar.', 'error');
       return;
     }
 
     setIsAiOrganizing(true);
-
     try {
-      // Divide o texto por ponto e vírgula (;) ou quebras de linha (\n)
-      const lines = rawMappingText
-        .split(/[;\n]+/)
-        .map((line) => line.trim())
-        .filter((line) => line.length > 0);
-
-      const parsedItems = [];
-
-      lines.forEach((line) => {
-        // Separa o nome do conteúdo do restante da frase (usando :, - ou =)
-        const separatorMatch = line.match(/^([^:=\-]+)[:=\-]\s*(.+)$/);
-        
-        let topicRaw = '';
-        let statsPart = '';
-
-        if (separatorMatch) {
-          topicRaw = separatorMatch[1].trim();
-          statsPart = separatorMatch[2].trim();
-        } else {
-          // Caso não tenha separador explícito, tenta extrair o texto antes do primeiro número
-          const fallbackMatch = line.match(/^([^\d]+)\s+(\d+.*)$/);
-          if (fallbackMatch) {
-            topicRaw = fallbackMatch[1].trim();
-            statsPart = fallbackMatch[2].trim();
-          } else {
-            return; // Ignora linhas sem padrão identificável
+      const subjName = subjects.find((s) => s.id === subjectId)?.name || subjectId;
+      const schema = {
+        type: 'OBJECT',
+        properties: {
+          items: {
+            type: 'ARRAY',
+            items: {
+              type: 'OBJECT',
+              properties: {
+                topic: { type: 'STRING' },
+                subtopic: { type: 'STRING' },
+                totalQuestions: { type: 'NUMBER' },
+                correctAnswers: { type: 'NUMBER' },
+                annulledQuestions: { type: 'NUMBER' }
+              },
+              required: [
+                'topic',
+                'subtopic',
+                'totalQuestions',
+                'correctAnswers',
+                'annulledQuestions'
+              ]
+            }
           }
-        }
+        },
+        required: ['items']
+      };
 
-        // Verifica se há subtópico separado por parênteses ou barra (ex: "Funções (Afim)" ou "Funções > Afim")
-        let topic = topicRaw;
-        let subtopic = '';
-        const subtopicMatch = topicRaw.match(/^(.+?)\s*(?:\(([^)]+)\)|>\s*(.+))$/);
-        if (subtopicMatch) {
-          topic = subtopicMatch[1].trim();
-          subtopic = (subtopicMatch[2] || subtopicMatch[3] || '').trim();
-        }
+      const systemInstruction = `Você é o assistente organizador da Plataforma Baratta.
+REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas estruture e agrupe por conteúdo e subtópico exatamente os números informados pelo estudante para a matéria ${subjName}. Se algum item não tiver resultado informado, não o contabilize.`;
 
-        let totalQuestions = 0;
-        let correctAnswers = 0;
-        let annulledQuestions = 0;
-
-        // 1. Detecta questões anuladas (ex: "1 anulada", "2 anuladas")
-        const annulledMatch = statsPart.match(/(\d+)\s*anulad[ao]s?/i);
-        if (annulledMatch) {
-          annulledQuestions = parseInt(annulledMatch[1], 10);
-        }
-
-        // 2. Detecta formato fração ou "de/em" (ex: "3/4", "3 de 4", "3 acertos de 4", "3 em 4")
-        const fractionMatch = statsPart.match(/(\d+)\s*(?:acertos?\s*)?(?:\/|de|em)\s*(\d+)/i);
-        
-        if (fractionMatch) {
-          correctAnswers = parseInt(fractionMatch[1], 10);
-          totalQuestions = parseInt(fractionMatch[2], 10);
-        } else {
-          // 3. Detecta formato descritivo (ex: "4 questões, 3 acertos" ou "3 acertos, 4 questões")
-          const totalMatch = statsPart.match(/(\d+)\s*(?:quest[õo]es|quest[ãa]o|q\b)/i);
-          const correctMatch = statsPart.match(/(\d+)\s*(?:acertos?|certas?|acertou)/i);
-
-          if (totalMatch) totalQuestions = parseInt(totalMatch[1], 10);
-          if (correctMatch) correctAnswers = parseInt(correctMatch[1], 10);
-        }
-
-        // Garante consistência básica caso o usuário informe só acertos + anuladas sem o total explícito
-        if (totalQuestions === 0 && (correctAnswers > 0 || annulledQuestions > 0)) {
-          totalQuestions = correctAnswers + annulledQuestions;
-        }
-
-        // Só adiciona se houver algum dado numérico válido
-        if (topic && (totalQuestions > 0 || correctAnswers > 0)) {
-          parsedItems.push({
-            topic,
-            subtopic,
-            totalQuestions,
-            correctAnswers: Math.min(correctAnswers, totalQuestions), // Evita acertos maiores que o total
-            annulledQuestions
-          });
-        }
+      const result = await callGeminiAPI({
+        prompt: `Organize o seguinte relato de desempenho na prova ${examCode} de ${subjName}:\n\n${rawMappingText}`,
+        systemInstruction,
+        responseSchema: schema,
+        inlineData: examFileInline
       });
 
-      if (parsedItems.length === 0) {
-        showToast(
-          'Não consegui identificar os números. Tente algo como: "Logaritmos: 4/5" ou "PA: 4 questões, 3 acertos".',
-          'error'
-        );
-     } else {
-        setTopicsList(parsedItems);
+      if (result && Array.isArray(result.items)) {
+        setTopicsList(result.items);
         setAiReviewPending(true);
-        showToast(`${parsedItems.length} conteúdo(s) organizados! Confira abaixo antes de salvar.`, 'success');
+        showToast('Dados organizados pela IA. Confira antes de confirmar.', 'success');
       }
     } catch (err) {
-      showToast('Erro ao processar o texto. Verifique a formatação e tente novamente.', 'error');
+      showToast('Não foi possível processar com a IA agora. Você pode preencher manualmente.', 'error');
     } finally {
       setIsAiOrganizing(false);
     }
   };
+
+  const handleSubmitExam = async (e) => {
+    e.preventDefault();
+    const numericScore = Number(String(score).replace(',', '.'));
+    if (score === '' || Number.isNaN(numericScore) || numericScore < 0 || numericScore > 100) {
+      showToast('Informe uma nota válida na escala de 0 a 100.', 'error');
+      return;
+    }
+
+    const sanitizedTopics = includeTopics
+      ? topicsList
+          .filter((t) => t.topic && t.topic.trim().length > 0)
+          .map((t) => ({
+            topic: t.topic.trim(),
+            subtopic: (t.subtopic || '').trim(),
+            totalQuestions: Math.max(0, Number(t.totalQuestions || 0)),
+            correctAnswers: Math.max(0, Number(t.correctAnswers || 0)),
+            annulledQuestions: Math.max(0, Number(t.annulledQuestions || 0))
+          }))
+      : [];
+
+    const examId = `${year}_${subjectId}_${examCode}_${currentTrimester}`;
+
+    await onSaveExam({
+      id: examId,
+      year: Number(year),
+      subjectId,
+      examCode,
+      trimester: currentTrimester,
+      date: date || null,
+      score: numericScore,
+      fileName: examFileName || null,
+      topics: sanitizedTopics,
+      isDemo: false,
+      updatedAt: new Date().toISOString()
+    });
 // Descobre o nível da nota (de 1 a 6) com base no numericScore
     let nivelNota = 1;
     if (numericScore > 85) nivelNota = 6;      // Notas altas (ex: 100) = Nível 6 -> 60 XP
@@ -2603,7 +2591,7 @@ const handleAiOrganizeMapping = () => {
       )}
     </div>
   );
-
+}
 
 // ============================================================================
 // ABA 3: BOLETIM ESCOLAR
