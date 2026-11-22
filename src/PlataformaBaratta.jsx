@@ -2185,7 +2185,7 @@ const handleAiOrganizeMapping = () => {
       isDemo: false,
       updatedAt: new Date().toISOString()
     });
-  };
+  
 // Descobre o nível da nota (de 1 a 6) com base no numericScore
     let nivelNota = 1;
     if (numericScore > 85) nivelNota = 6;      // Notas altas (ex: 100) = Nível 6 -> 60 XP
