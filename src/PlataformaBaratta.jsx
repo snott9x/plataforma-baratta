@@ -2045,7 +2045,7 @@ function InsertGradesTab({
   };
 
   // IA organiza estritamente o mapeamento informado pelo aluno (sem inventar)
-  const handleAiOrganizeMapping = async () => {
+const handleAiOrganizeMapping = () => {
     if (!rawMappingText.trim()) {
       showToast('Descreva quais conteúdos e acertos deseja organizar.', 'error');
       return;
@@ -2053,51 +2053,98 @@ function InsertGradesTab({
 
     setIsAiOrganizing(true);
     try {
-      const subjName = subjects.find((s) => s.id === subjectId)?.name || subjectId;
-      const schema = {
-        type: 'OBJECT',
-        properties: {
-          items: {
-            type: 'ARRAY',
-            items: {
-              type: 'OBJECT',
-              properties: {
-                topic: { type: 'STRING' },
-                subtopic: { type: 'STRING' },
-                totalQuestions: { type: 'NUMBER' },
-                correctAnswers: { type: 'NUMBER' },
-                annulledQuestions: { type: 'NUMBER' }
-              },
-              required: [
-                'topic',
-                'subtopic',
-                'totalQuestions',
-                'correctAnswers',
-                'annulledQuestions'
-              ]
-            }
+      // Divide o texto por ponto e vírgula (;) ou quebras de linha (\n)
+      const lines = rawMappingText
+        .split(/[;\n]+/)
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+
+      const parsedItems = [];
+
+      lines.forEach((line) => {
+        // Separa o nome do conteúdo do restante da frase (usando :, - ou =)
+        const separatorMatch = line.match(/^([^:=\-]+)[:=\-]\s*(.+)$/);
+        
+        let topicRaw = '';
+        let statsPart = '';
+
+        if (separatorMatch) {
+          topicRaw = separatorMatch[1].trim();
+          statsPart = separatorMatch[2].trim();
+        } else {
+          // Caso não tenha separador explícito, tenta extrair o texto antes do primeiro número
+          const fallbackMatch = line.match(/^([^\d]+)\s+(\d+.*)$/);
+          if (fallbackMatch) {
+            topicRaw = fallbackMatch[1].trim();
+            statsPart = fallbackMatch[2].trim();
+          } else {
+            return; // Ignora linhas sem padrão identificável
           }
-        },
-        required: ['items']
-      };
+        }
 
-      const systemInstruction = `Você é o assistente organizador da Plataforma Baratta.
-REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas estruture e agrupe por conteúdo e subtópico exatamente os números informados pelo estudante para a matéria ${subjName}. Se algum item não tiver resultado informado, não o contabilize.`;
+        // Verifica se há subtópico separado por parênteses ou barra (ex: "Funções (Afim)" ou "Funções > Afim")
+        let topic = topicRaw;
+        let subtopic = '';
+        const subtopicMatch = topicRaw.match(/^(.+?)\s*(?:\(([^)]+)\)|>\s*(.+))$/);
+        if (subtopicMatch) {
+          topic = subtopicMatch[1].trim();
+          subtopic = (subtopicMatch[2] || subtopicMatch[3] || '').trim();
+        }
 
-      const result = await callGeminiAPI({
-        prompt: `Organize o seguinte relato de desempenho na prova ${examCode} de ${subjName}:\n\n${rawMappingText}`,
-        systemInstruction,
-        responseSchema: schema,
-        inlineData: examFileInline
+        let totalQuestions = 0;
+        let correctAnswers = 0;
+        let annulledQuestions = 0;
+
+        // 1. Detecta questões anuladas (ex: "1 anulada", "2 anuladas")
+        const annulledMatch = statsPart.match(/(\d+)\s*anulad[ao]s?/i);
+        if (annulledMatch) {
+          annulledQuestions = parseInt(annulledMatch[1], 10);
+        }
+
+        // 2. Detecta formato fração ou "de/em" (ex: "3/4", "3 de 4", "3 acertos de 4", "3 em 4")
+        const fractionMatch = statsPart.match(/(\d+)\s*(?:acertos?\s*)?(?:\/|de|em)\s*(\d+)/i);
+        
+        if (fractionMatch) {
+          correctAnswers = parseInt(fractionMatch[1], 10);
+          totalQuestions = parseInt(fractionMatch[2], 10);
+        } else {
+          // 3. Detecta formato descritivo (ex: "4 questões, 3 acertos")
+          const totalMatch = statsPart.match(/(\d+)\s*(?:quest[õo]es|quest[ãa]o|q\b)/i);
+          const correctMatch = statsPart.match(/(\d+)\s*(?:acertos?|certas?|acertou)/i);
+
+          if (totalMatch) totalQuestions = parseInt(totalMatch[1], 10);
+          if (correctMatch) correctAnswers = parseInt(correctMatch[1], 10);
+        }
+
+        // Garante consistência caso o usuário informe só acertos + anuladas
+        if (totalQuestions === 0 && (correctAnswers > 0 || annulledQuestions > 0)) {
+          totalQuestions = correctAnswers + annulledQuestions;
+        }
+
+        // Só adiciona se houver algum dado válido
+        if (topic && (totalQuestions > 0 || correctAnswers > 0)) {
+          parsedItems.push({
+            topic,
+            subtopic,
+            totalQuestions,
+            correctAnswers: Math.min(correctAnswers, totalQuestions),
+            annulledQuestions
+          });
+        }
       });
 
-      if (result && Array.isArray(result.items)) {
-        setTopicsList(result.items);
+      if (parsedItems.length === 0) {
+        showToast(
+          'Não consegui identificar os números. Tente algo como: "Logaritmos: 4/5" ou "PA: 4 questões, 3 acertos".',
+          'error'
+        );
+      } else {
+        setTopicsList(parsedItems);
         setAiReviewPending(true);
-        showToast('Dados organizados pela IA. Confira antes de confirmar.', 'success');
+        showToast(`${parsedItems.length} conteúdo(s) organizados! Confira abaixo antes de salvar.`, 'success');
       }
     } catch (err) {
-      showToast('Não foi possível processar com a IA agora. Você pode preencher manualmente.', 'error');
+      showToast('Erro ao processar o texto. Verifique a formatação e tente novamente.', 'error');
     } finally {
       setIsAiOrganizing(false);
     }
@@ -2138,6 +2185,7 @@ REGRA ABSOLUTA: Nunca invente questões, conteúdos, acertos ou erros. Apenas es
       isDemo: false,
       updatedAt: new Date().toISOString()
     });
+  };
 // Descobre o nível da nota (de 1 a 6) com base no numericScore
     let nivelNota = 1;
     if (numericScore > 85) nivelNota = 6;      // Notas altas (ex: 100) = Nível 6 -> 60 XP
