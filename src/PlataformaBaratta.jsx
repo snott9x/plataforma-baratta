@@ -2139,10 +2139,17 @@ const handleAiOrganizeMapping = () => {
           'Não consegui identificar os números. Tente algo como: "Logaritmos: 4/5" ou "PA: 4 questões, 3 acertos".',
           'error'
         );
-      } else {
+     } else {
         setTopicsList(parsedItems);
         setAiReviewPending(true);
-        show
+        showToast(`${parsedItems.length} conteúdo(s) organizados! Confira abaixo antes de salvar.`, 'success');
+      }
+    } catch (err) {
+      showToast('Erro ao processar o texto. Verifique a formatação e tente novamente.', 'error');
+    } finally {
+      setIsAiOrganizing(false);
+    }
+  };
 // Descobre o nível da nota (de 1 a 6) com base no numericScore
     let nivelNota = 1;
     if (numericScore > 85) nivelNota = 6;      // Notas altas (ex: 100) = Nível 6 -> 60 XP
