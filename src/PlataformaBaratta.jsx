@@ -216,9 +216,10 @@ function getBandPillStyle(score, bandLabels, isAverage = false) {
   };
 }
 
-function formatScore(val) {
-  if (val === null || val === undefined || Number.isNaN(val)) return '—';
-  return Number(val).toFixed(1).replace('.0', '');
+function formatScore(score) {
+  if (score === null || score === undefined) return '—';
+  // Arredonda para o número inteiro mais próximo (ex: 70.4 vira 70, 70.5 vira 71)
+  return Math.round(score).toString(); 
 }
 
 function calculateSubjectYearStats(examsForSubject) {
