@@ -98,6 +98,149 @@ const AREAS_ORDER = [
   'Redação'
 ];
 
+const BOOKS_DATA = {
+  algebrista: {
+    title: "O Algebrista — Volume 1",
+    topics: [
+      { id: 'alg_1', name: 'Capítulo 1: Números inteiros (Conjuntos, Operações, Módulo, Expressões)', relevance: 'Alta' },
+      { id: 'alg_2', name: 'Capítulo 2: Números racionais (Frações, Porcentagem, Dízimas, Reais)', relevance: 'Alta' },
+      { id: 'alg_3', name: 'Capítulo 3: Expressões algébricas (Termos semelhantes, Polinômios, Valor numérico)', relevance: 'Média' },
+      { id: 'alg_4', name: 'Capítulo 4: Produtos notáveis (Quadrado da soma/diferença, Stevin, Cubos)', relevance: 'Média' },
+      { id: 'alg_5', name: 'Capítulo 5: Fatoração (Evidência, Agrupamento, Trinômios)', relevance: 'Alta' },
+      { id: 'alg_6', name: 'Capítulo 6: MMC e MDC (Fatores numéricos e algébricos)', relevance: 'Alta' },
+      { id: 'alg_7', name: 'Capítulo 7: Frações algébricas (Simplificação, Operações)', relevance: 'Média' },
+      { id: 'alg_8', name: 'Capítulo 8: Equações do primeiro grau (Resolução, Discussão, Inequação)', relevance: 'Alta' },
+      { id: 'alg_9', name: 'Capítulo 9: Sistemas de equações do primeiro grau (Substituição, Adição, Retas)', relevance: 'Alta' },
+      { id: 'alg_10', name: 'Capítulo 10: Problemas do primeiro grau (Velocidade, Idades, Juros, Misturas)', relevance: 'Muito Alta' },
+      { id: 'alg_11', name: 'Capítulo 11: Conjuntos e tópicos sobre análise (Venn, Intervalos, Médias, Funções)', relevance: 'Alta' },
+      { id: 'alg_12', name: 'Capítulo 12: Inequações do primeiro grau (Sistemas, Módulo, União e Interseção)', relevance: 'Média' },
+      { id: 'alg_13', name: 'Capítulo 13: Equações do segundo grau (Bhaskara, Soma e Produto, Gráfico)', relevance: 'Alta' },
+      { id: 'alg_14', name: 'Capítulo 14: Cálculo de radicais (Operações, Racionalização)', relevance: 'Média' },
+      { id: 'alg_15', name: 'Capítulo 15: Equações redutíveis ao segundo grau (Biquadradas e Irracionais)', relevance: 'Média' },
+      { id: 'alg_16', name: 'Capítulo 16: Sistemas do segundo grau (Sistemas não lineares)', relevance: 'Média' },
+      { id: 'alg_17', name: 'Capítulo 17: Inequações do segundo grau (Trinômios, Módulo)', relevance: 'Média' },
+      { id: 'alg_18', name: 'Capítulo 18: Problemas do segundo grau', relevance: 'Média' },
+      { id: 'alg_19', name: 'Capítulo 19: Funções (Domínio, Composta, Afim, Inversa)', relevance: 'Muito Alta' },
+      { id: 'alg_20', name: 'Capítulo 20: Trinômio do segundo grau (Vértice, Concavidade, Gráficos)', relevance: 'Alta' },
+      { id: 'alg_21', name: 'Capítulo 21: Polinômios (Divisibilidade, Teorema do Resto, Girard)', relevance: 'Média' }
+    ]
+  },
+  tqm_fundamental: {
+    title: "TQM Ensino Fundamental",
+    topics: [
+      { id: 'tqmf_01', name: '01. Sistemas de numeração', relevance: 'Baixa' },
+      { id: 'tqmf_02', name: '02. Sistema decimal de numeração', relevance: 'Média' },
+      { id: 'tqmf_03', name: '03. Operações fundamentais', relevance: 'Muito Alta' },
+      { id: 'tqmf_04', name: '04. Números primos', relevance: 'Baixa' },
+      { id: 'tqmf_05', name: '05. Divisibilidade', relevance: 'Média' },
+      { id: 'tqmf_06', name: '06. Máximo divisor comum (MDC)', relevance: 'Média' },
+      { id: 'tqmf_07', name: '07. Mínimo múltiplo comum (MMC)', relevance: 'Média' },
+      { id: 'tqmf_08', name: '08. Frações', relevance: 'Muito Alta' },
+      { id: 'tqmf_09', name: '09. Números decimais', relevance: 'Alta' },
+      { id: 'tqmf_10', name: '10. Razões e proporções', relevance: 'Muito Alta' },
+      { id: 'tqmf_11', name: '11. Números proporcionais', relevance: 'Muito Alta' },
+      { id: 'tqmf_12', name: '12. Sistemas de unidades de medidas', relevance: 'Alta' },
+      { id: 'tqmf_13', name: '13. Regra de três', relevance: 'Muito Alta' },
+      { id: 'tqmf_14', name: '14. Médias', relevance: 'Muito Alta' },
+      { id: 'tqmf_15', name: '15. Porcentagem', relevance: 'Muito Alta' },
+      { id: 'tqmf_16', name: '16. Juros', relevance: 'Alta' },
+      { id: 'tqmf_17', name: '17. Conjuntos', relevance: 'Baixa' },
+      { id: 'tqmf_18', name: '18. Números inteiros', relevance: 'Alta' },
+      { id: 'tqmf_19', name: '19. Expressões algébricas', relevance: 'Alta' },
+      { id: 'tqmf_20', name: '20. Produtos notáveis', relevance: 'Baixa' },
+      { id: 'tqmf_21', name: '21. Fatoração', relevance: 'Média' },
+      { id: 'tqmf_22', name: '22. Equação do 1º grau', relevance: 'Alta' },
+      { id: 'tqmf_23', name: '23. Problemas do 1º grau', relevance: 'Alta' },
+      { id: 'tqmf_24', name: '24. Sistemas de equações do 1º grau', relevance: 'Média' },
+      { id: 'tqmf_25', name: '25. Inequação do 1º grau', relevance: 'Baixa' },
+      { id: 'tqmf_26', name: '26. Equação do 2º grau', relevance: 'Média' },
+      { id: 'tqmf_27', name: '27. Problemas do 2º grau', relevance: 'Média' },
+      { id: 'tqmf_28', name: '28. Potências', relevance: 'Alta' },
+      { id: 'tqmf_29', name: '29. Radicais', relevance: 'Média' },
+      { id: 'tqmf_30', name: '30. Equações biquadradas e irracionais', relevance: 'Baixa' },
+      { id: 'tqmf_31', name: '31. Sistemas de equações do 2º grau', relevance: 'Baixa' },
+      { id: 'tqmf_32', name: '32. Funções', relevance: 'Muito Alta' },
+      { id: 'tqmf_33', name: '33. Inequações produto, fracionária e a duas variáveis', relevance: 'Baixa' },
+      { id: 'tqmf_34', name: '34. Ângulos', relevance: 'Média' },
+      { id: 'tqmf_35', name: '35. Polígonos', relevance: 'Alta' },
+      { id: 'tqmf_36', name: '36. Triângulos', relevance: 'Alta' },
+      { id: 'tqmf_37', name: '37. Quadriláteros', relevance: 'Alta' },
+      { id: 'tqmf_38', name: '38. Círculo', relevance: 'Alta' },
+      { id: 'tqmf_39', name: '39. Linhas proporcionais', relevance: 'Alta' },
+      { id: 'tqmf_40', name: '40. Relações métricas no triângulo retângulo', relevance: 'Alta' },
+      { id: 'tqmf_41', name: '41. Razões trigonométricas no triângulo retângulo', relevance: 'Média' },
+      { id: 'tqmf_42', name: '42. Relações métricas no triângulo qualquer', relevance: 'Baixa' },
+      { id: 'tqmf_43', name: '43. Relações métricas no círculo', relevance: 'Baixa' },
+      { id: 'tqmf_44', name: '44. Polígonos regulares', relevance: 'Média' },
+      { id: 'tqmf_45', name: '45. Comprimento da circunferência', relevance: 'Alta' },
+      { id: 'tqmf_46', name: '46. Áreas das principais figuras planas', relevance: 'Muito Alta' }
+    ]
+  },
+  tqm_medio: {
+    title: "TQM Ensino Médio (Completo)",
+    topics: [
+      // Mat I
+      { id: 'tqmm_m1_01', name: 'Mat. I — 01. Matemática Básica', relevance: 'Muito Alta' },
+      { id: 'tqmm_m1_02', name: 'Mat. I — 02. Sequências', relevance: 'Média' },
+      { id: 'tqmm_m1_03', name: 'Mat. I — 03. Progressões Aritméticas (PA)', relevance: 'Média' },
+      { id: 'tqmm_m1_04', name: 'Mat. I — 04. Equações Exponenciais', relevance: 'Média' },
+      { id: 'tqmm_m1_05', name: 'Mat. I — 05. Progressões Geométricas (PG)', relevance: 'Média' },
+      { id: 'tqmm_m1_06', name: 'Mat. I — 06. Logaritmos', relevance: 'Média' },
+      { id: 'tqmm_m1_07', name: 'Mat. I — 07. Funções Exponencial e Logarítmica', relevance: 'Média' },
+      { id: 'tqmm_m1_08', name: 'Mat. I — 08. Binômio de Newton', relevance: 'Muito Baixa' },
+      { id: 'tqmm_m1_09', name: 'Mat. I — 09. Análise Combinatória', relevance: 'Alta' },
+      { id: 'tqmm_m1_10', name: 'Mat. I — 10. Probabilidade', relevance: 'Alta' },
+      { id: 'tqmm_m1_11', name: 'Mat. I — 11. Números Complexos', relevance: 'Muito Baixa' },
+      { id: 'tqmm_m1_12', name: 'Mat. I — 12. Polinômios e Equações', relevance: 'Baixa' },
+      // Mat II
+      { id: 'tqmm_m2_01', name: 'Mat. II — 01. Ângulos', relevance: 'Média' },
+      { id: 'tqmm_m2_02', name: 'Mat. II — 02. Polígonos', relevance: 'Alta' },
+      { id: 'tqmm_m2_03', name: 'Mat. II — 03. Triângulos', relevance: 'Alta' },
+      { id: 'tqmm_m2_04', name: 'Mat. II — 04. Quadriláteros', relevance: 'Alta' },
+      { id: 'tqmm_m2_05', name: 'Mat. II — 05. Círculo e Circunferência', relevance: 'Alta' },
+      { id: 'tqmm_m2_06', name: 'Mat. II — 06. Linhas Proporcionais e Semelhança', relevance: 'Alta' },
+      { id: 'tqmm_m2_07', name: 'Mat. II — 07. Relações Métricas no Círculo', relevance: 'Baixa' },
+      { id: 'tqmm_m2_08', name: 'Mat. II — 08. Relações Métricas no Triângulo Retângulo', relevance: 'Alta' },
+      { id: 'tqmm_m2_09', name: 'Mat. II — 09. Relações Métricas num Triângulo Qualquer', relevance: 'Média' },
+      { id: 'tqmm_m2_10', name: 'Mat. II — 10. Polígonos Regulares', relevance: 'Média' },
+      { id: 'tqmm_m2_11', name: 'Mat. II — 11. Áreas das Principais Figuras Planas', relevance: 'Muito Alta' },
+      { id: 'tqmm_m2_12', name: 'Mat. II — 12. Poliedros', relevance: 'Alta' },
+      { id: 'tqmm_m2_13', name: 'Mat. II — 13. Prismas', relevance: 'Muito Alta' },
+      { id: 'tqmm_m2_14', name: 'Mat. II — 14. Cilindros', relevance: 'Muito Alta' },
+      { id: 'tqmm_m2_15', name: 'Mat. II — 15. Pirâmides', relevance: 'Alta' },
+      { id: 'tqmm_m2_16', name: 'Mat. II — 16. Cones', relevance: 'Alta' },
+      { id: 'tqmm_m2_17', name: 'Mat. II — 17. Esferas', relevance: 'Alta' },
+      // Mat III
+      { id: 'tqmm_m3_01', name: 'Mat. III — 01. Conjuntos', relevance: 'Baixa' },
+      { id: 'tqmm_m3_02', name: 'Mat. III — 02. Produto Cartesiano', relevance: 'Muito Baixa' },
+      { id: 'tqmm_m3_03', name: 'Mat. III — 03. Relações e Funções', relevance: 'Alta' },
+      { id: 'tqmm_m3_04', name: 'Mat. III — 04. Razões Trigonométricas no Triângulo Retângulo', relevance: 'Média' },
+      { id: 'tqmm_m3_05', name: 'Mat. III — 05. Arcos e Ângulos', relevance: 'Média' },
+      { id: 'tqmm_m3_06', name: 'Mat. III — 06. As Linhas Trigonométricas', relevance: 'Média' },
+      { id: 'tqmm_m3_07', name: 'Mat. III — 07. Redução ao 1º Quadrante', relevance: 'Baixa' },
+      { id: 'tqmm_m3_08', name: 'Mat. III — 08. Fórmulas de Adição e Subtração de Arcos', relevance: 'Muito Baixa' },
+      { id: 'tqmm_m3_09', name: 'Mat. III — 09. Funções Trigonométricas', relevance: 'Média' },
+      { id: 'tqmm_m3_10', name: 'Mat. III — 10. Equações Trigonométricas', relevance: 'Baixa' },
+      { id: 'tqmm_m3_11', name: 'Mat. III — 11. Matrizes e Determinantes', relevance: 'Baixa' },
+      { id: 'tqmm_m3_12', name: 'Mat. III — 12. Vetores no Plano e no Espaço', relevance: 'Baixa' },
+      { id: 'tqmm_m3_13', name: 'Mat. III — 13. Produto Escalar', relevance: 'Baixa' },
+      { id: 'tqmm_m3_14', name: 'Mat. III — 14. Produto Vetorial', relevance: 'Muito Baixa' },
+      { id: 'tqmm_m3_15', name: 'Mat. III — 15. Produto Misto', relevance: 'Muito Baixa' },
+      { id: 'tqmm_m3_16', name: 'Mat. III — 16. Estudo da Reta no R²', relevance: 'Média' },
+      { id: 'tqmm_m3_17', name: 'Mat. III — 17. Planos em R³', relevance: 'Baixa' },
+      { id: 'tqmm_m3_18', name: 'Mat. III — 18. Retas no R³', relevance: 'Baixa' },
+      { id: 'tqmm_m3_19', name: 'Mat. III — 19. Estudo da Circunferência no R²', relevance: 'Média' },
+      { id: 'tqmm_m3_20', name: 'Mat. III — 20. Transformações Lineares', relevance: 'Muito Baixa' },
+      { id: 'tqmm_m3_21', name: 'Mat. III — 21. Sistemas de Equações Lineares', relevance: 'Média' },
+      // Apêndices
+      { id: 'tqmm_ap_01', name: 'Apêndice — 01. Os Espaços Vetoriais', relevance: 'Muito Baixa' },
+      { id: 'tqmm_ap_02', name: 'Apêndice — 02. Superfícies Cônicas', relevance: 'Baixa' },
+      { id: 'tqmm_ap_03', name: 'Apêndice — 03. Noções de Lógica Matemática', relevance: 'Baixa' },
+      { id: 'tqmm_ap_04', name: 'Apêndice — 04. Noções de Estatística', relevance: 'Muito Alta' }
+    ]
+  }
+};
+
 const EXAMS_MAP = [
   { id: 'P1', label: 'P1', trimester: 1 },
   { id: 'P2', label: 'P2', trimester: 1 },
@@ -1479,6 +1622,13 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
+          {activeTab === 'Livros' && (
+  <BooksTab
+    selectedYear={selectedYear}
+    showToast={showToast}
+  />
+)}
+          
           {activeTab === 'Ranking' && (
   <RankingTab 
     exams={exams} 
@@ -1512,6 +1662,7 @@ const gamificationStats = useMemo(() => {
 // ============================================================================
 // ABA 1: DASHBOARD
 // ============================================================================
+
 function DashboardTab({
   selectedYear,
   metrics,
@@ -4425,7 +4576,146 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 }
 
 // ============================================================================
-// ABA 7: RANKING (HISTÓRICO ACUMULADO DE PROVAS CADASTRADAS)
+// ABA 7: LIVROS 
+// ============================================================================
+
+function BooksTab({ selectedYear, showToast }) {
+  const [activeBook, setActiveBook] = React.useState('algebrista');
+  const [booksState, setBooksState] = React.useState(BOOKS_DATA);
+  const [completedTopics, setCompletedTopics] = React.useState({});
+  const [bookXp, setBookXp] = React.useState({ '2026': 0, '2027': 0, '2028': 0 });
+
+  const handleTopicInput = (topicId, field, value) => {
+    const updatedTopics = booksState[activeBook].topics.map((t) =>
+      t.id === topicId ? { ...t, [field]: value } : t
+    );
+    setBooksState({
+      ...booksState,
+      [activeBook]: {
+        ...booksState[activeBook],
+        topics: updatedTopics
+      }
+    });
+  };
+
+  const handleToggleTopic = (topicId) => {
+    const key = `${selectedYear}_${activeBook}_${topicId}`;
+    const isCompleted = !!completedTopics[key];
+    
+    const updatedCompleted = { ...completedTopics };
+    let currentXp = bookXp[selectedYear] || 0;
+
+    if (isCompleted) {
+      delete updatedCompleted[key];
+      currentXp = Math.max(0, currentXp - 5);
+      if (showToast) showToast('Tópico desmarcado.', 'info');
+    } else {
+      updatedCompleted[key] = true;
+      currentXp += 5;
+      if (showToast) showToast('Tópico concluído! +5 XP de Matemática 🚀', 'success');
+    }
+
+    setCompletedTopics(updatedCompleted);
+    setBookXp({ ...bookXp, [selectedYear]: currentXp });
+  };
+
+  return (
+    <section className="space-y-6">
+      {/* Cabeçalho e Abas dos Livros */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4 shadow-lg">
+        <div className="flex flex-wrap justify-between items-center gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-white">Central de Estudos de Livros (Matemática)</h2>
+            <p className="text-xs text-slate-400 mt-1">
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | XP Acumulado no Ano: <span className="text-emerald-400 font-bold">{bookXp[selectedYear] || 0} XP</span>
+            </p>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {[
+              { key: 'algebrista', label: 'O Algebrista' },
+              { key: 'tqm_fundamental', label: 'TQM Fundamental' },
+              { key: 'tqm_medio', label: 'TQM Médio' }
+            ].map((b) => (
+              <button
+                key={b.key}
+                onClick={() => setActiveBook(b.key)}
+                className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors ${
+                  activeBook === b.key ? 'bg-indigo-600 text-white shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                }`}
+              >
+                {b.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Lista Completa de Tópicos */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4 shadow-lg">
+        <div className="border-b border-slate-800 pb-3 mb-4">
+          <h3 className="text-sm font-bold text-slate-200">{booksState[activeBook].title}</h3>
+          <p className="text-xs text-slate-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
+        </div>
+
+        <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2">
+          {booksState[activeBook].topics.map((t) => {
+            const isCompleted = !!completedTopics[`${selectedYear}_${activeBook}_${t.id}`];
+            return (
+              <div
+                key={t.id}
+                className={`p-4 rounded-xl border transition-all ${
+                  isCompleted ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-slate-800 bg-slate-950'
+                } space-y-3`}
+              >
+                <div className="flex flex-wrap justify-between items-start gap-2">
+                  <div>
+                    <h4 className="text-sm font-bold text-white">{t.name}</h4>
+                    <span className="px-2 py-0.5 text-[10px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded mt-1.5 inline-block">
+                      Relevância: {t.relevance}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => handleToggleTopic(t.id)}
+                    className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+                      isCompleted ? 'bg-emerald-600 text-white shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    }`}
+                  >
+                    {isCompleted ? 'Concluído (+5 XP)' : 'Marcar Concluído'}
+                  </button>
+                </div>
+                
+                <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-900">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-400">Questões Feitas:</span>
+                    <input
+                      type="number"
+                      value={t.total || ''}
+                      onChange={(e) => handleTopicInput(t.id, 'total', e.target.value)}
+                      placeholder="0"
+                      className="w-20 bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-400">Acertos:</span>
+                    <input
+                      type="number"
+                      value={t.hits || ''}
+                      onChange={(e) => handleTopicInput(t.id, 'hits', e.target.value)}
+                      placeholder="0"
+                      className="w-20 bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+// ============================================================================
+// ABA 8: RANKING (HISTÓRICO ACUMULADO DE PROVAS CADASTRADAS)
 // ============================================================================
 function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
   const [rankingType, setRankingType] = useState('subjects');
@@ -4778,7 +5068,7 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
   );
 }
 // ============================================================================
-// ABA 8: PROGRESSO — GAMIFICAÇÃO POR CONSISTÊNCIA
+// ABA 9: PROGRESSO — GAMIFICAÇÃO POR CONSISTÊNCIA
 // ============================================================================
 const XP_LEVELS_TRAIL = [
   { level: 1, name: 'Bronze', minXp: 0, badge: '🥉' },
