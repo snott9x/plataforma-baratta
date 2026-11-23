@@ -4680,25 +4680,17 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     const key = `${selectedYear}_${activeBook}_${topicId}`;
     const isCompleted = !!completedTopics[key];
     
-    const updatedCompleted = { ...completedTopics };
-
-    if (isCompleted) {
-      delete updatedCompleted[key];
-      if (showToast) showToast('Tópico desmarcado.', 'info');
-    } else {
-      updatedCompleted[key] = true;
-      
-      // CHAMA O XP FORÇADO A 5
-      if (typeof awardXp === 'function') {
-        awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
-      }
-
-      if (showToast) showToast('Tópico concluído! +10 XP na conta 🚀', 'success');
-    }
-
-    // Atualiza o estado visual na hora
-    setCompletedTopics(updatedCompleted);
-
+  const updatedCompleted = { ...completedTopics };
+if (isCompleted) {
+  delete updatedCompleted[key];
+} else {
+  updatedCompleted[key] = true;
+  if (typeof awardXp === 'function') {
+    awardXp('book_topic_complete', 'Estudo de Livro', t.id, 10); // Garante os 5 XP certinhos
+  }
+}
+setCompletedTopics(updatedCompleted);
+    
     // SALVA NO FIRESTORE IMEDIATAMENTE
     if (typeof savePreferences === 'function') {
       await savePreferences({
