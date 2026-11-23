@@ -4808,7 +4808,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
                 </div>
               </div>
             );
-          })}
+          )}
 // ============================================================================
 // ABA 8: RANKING (HISTÓRICO ACUMULADO DE PROVAS CADASTRADAS)
 // ============================================================================
