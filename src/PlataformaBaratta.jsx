@@ -1629,13 +1629,10 @@ const gamificationStats = useMemo(() => {
           )}
 {activeTab === 'Livros' && (
   <BooksTab
+    awardXp={awardXp}
+    savePreferences={savePreferences}
     selectedYear={selectedYear}
     showToast={showToast}
-    savePreferences={savePreferences}
-    awardXp={awardXp}
-    user={user}
-    db={db}
-    appId={appId}
   />
 )}
           
@@ -4589,51 +4586,28 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ABA 7: LIVROS 
 // ============================================================================
 
-function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db, appId }) {
+function BooksTab({ selectedYear, showToast, savePreferences, awardXp, savedPreferencesData }) {
   const [activeBook, setActiveBook] = React.useState('algebrista');
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(true);
 
- // Carrega e força a atualização visual assim que abre a aba ou muda o ano
+  // Sincroniza os dados salvos assim que as propriedades mudam ou o ano é alterado
   React.useEffect(() => {
-    const loadBooksFromFirestore = async () => {
-      if (!user || !db || !appId) {
-        setIsLoading(false);
-        return;
+    if (savedPreferencesData) {
+      if (savedPreferencesData[`books_completed_${selectedYear}`]) {
+        setCompletedTopics(savedPreferencesData[`books_completed_${selectedYear}`]);
+      } else {
+        setCompletedTopics({});
       }
-      try {
-        const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
-        const snap = await getDoc(prefRef);
-        if (snap.exists()) {
-          const data = snap.data();
-          
-          // Recupera os tópicos concluídos salvos no Firestore
-          const savedCompleted = data[`books_completed_${selectedYear}`];
-          if (savedCompleted && typeof savedCompleted === 'object') {
-            setCompletedTopics(savedCompleted);
-          } else {
-            setCompletedTopics({});
-          }
-
-          // Recupera as questões e acertos salvos no Firestore
-          const savedBooks = data[`books_data_${selectedYear}`];
-          if (savedBooks && typeof savedBooks === 'object') {
-            setBooksState({
-              ...BOOKS_DATA,
-              ...savedBooks
-            });
-          }
-        }
-      } catch (err) {
-        console.error('Erro ao carregar dados do Firestore:', err);
-      } finally {
-        setIsLoading(false);
+      if (savedPreferencesData[`books_data_${selectedYear}`]) {
+        setBooksState({
+          ...BOOKS_DATA,
+          ...savedPreferencesData[`books_data_${selectedYear}`]
+        });
       }
-    };
+    }
+  }, [selectedYear, savedPreferencesData]);
 
-    loadBooksFromFirestore();
-  }, [selectedYear, user, db, appId]);
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
       case 'Muito Alta':
@@ -4673,25 +4647,28 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     }
   };
 
- 
-
-  // Função otimizada para salvar instantaneamente sem sumir ao sair da tela
   const handleToggleTopic = async (topicId) => {
     const key = `${selectedYear}_${activeBook}_${topicId}`;
     const isCompleted = !!completedTopics[key];
     
-  const updatedCompleted = { ...completedTopics };
-if (isCompleted) {
-  delete updatedCompleted[key];
-} else {
-  updatedCompleted[key] = true;
-  if (typeof awardXp === 'function') {
-    awardXp('book_topic_complete', 'Estudo de Livro', t.id, 10); // Garante os 5 XP certinhos
-  }
-}
-setCompletedTopics(updatedCompleted);
-    
-    // SALVA NO FIRESTORE IMEDIATAMENTE
+    const updatedCompleted = { ...completedTopics };
+
+    if (isCompleted) {
+      delete updatedCompleted[key];
+      if (showToast) showToast('Tópico desmarcado.', 'info');
+    } else {
+      updatedCompleted[key] = true;
+      
+      // Concede exatamente 5 de XP
+      if (typeof awardXp === 'function') {
+        awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
+      }
+
+      if (showToast) showToast('Tópico concluído! +5 XP na conta 🚀', 'success');
+    }
+
+    setCompletedTopics(updatedCompleted);
+
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_completed_${selectedYear}`]: updatedCompleted
@@ -4706,7 +4683,7 @@ setCompletedTopics(updatedCompleted);
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
             <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span>
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | Sincronizado com o Firestore ☁️
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -4746,7 +4723,9 @@ setCompletedTopics(updatedCompleted);
 
         <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2">
           {booksState[activeBook].topics.map((t) => {
-            const isCompleted = !!completedTopics[`${selectedYear}_${activeBook}_${t.id}`];
+            const key = `${selectedYear}_${activeBook}_${t.id}`;
+            const isCompleted = !!completedTopics[key];
+
             return (
               <div
                 key={t.id}
@@ -4768,7 +4747,7 @@ setCompletedTopics(updatedCompleted);
                       isCompleted ? 'bg-emerald-600 text-white shadow' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
                     }`}
                   >
-                    {isCompleted ? 'Concluído (+10 XP)' : 'Marcar Concluído'}
+                    {isCompleted ? 'Concluído (+5 XP)' : 'Marcar Concluído'}
                   </button>
                 </div>
                 
