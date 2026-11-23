@@ -154,6 +154,7 @@ const TABS = [
   'Estatísticas',
   'Relatórios',
   'Biblioteca',
+  'Livros',
   'Ranking',
   'Progresso'
 ];
@@ -567,7 +568,519 @@ function HorizontalBarChart({ items }) {
     </div>
   );
 }
+const BOOKS_DATA = {
+    algebrista: {
+        title: 'O Algebrista',
+        subtitle: 'Resolução focada em domínio algébrico e alta performance.',
+        topics: [
+            // Capítulo 1
+            { id: 'alg_1_1', name: 'Cap. 1: O início da álgebra', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_2', name: 'Cap. 1: Conjuntos numéricos', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_3', name: 'Cap. 1: Números naturais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_4', name: 'Cap. 1: O número 0', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_5', name: 'Cap. 1: Números inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_6', name: 'Cap. 1: Números racionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_7', name: 'Cap. 1: Números irracionais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_8', name: 'Cap. 1: Números reais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_9', name: 'Cap. 1: Números complexos ou imaginários', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'alg_1_10', name: 'Cap. 1: Operações com números inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_11', name: 'Cap. 1: Adição de inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_12', name: 'Cap. 1: Módulo ou valor absoluto', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_13', name: 'Cap. 1: Adição de inteiros de sinais diferentes', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_14', name: 'Cap. 1: Soma algébrica', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_15', name: 'Cap. 1: Comparação de inteiros', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_16', name: 'Cap. 1: Subtração de inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_17', name: 'Cap. 1: Expressões com adição e subtração de inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_18', name: 'Cap. 1: Corta-corta', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_1_19', name: 'Cap. 1: Eliminação de parênteses', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_20', name: 'Cap. 1: Parênteses, chaves e colchetes', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_21', name: 'Cap. 1: Multiplicação e divisão de inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_22', name: 'Cap. 1: Produto com mais de dois fatores', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_23', name: 'Cap. 1: Expressões combinando multiplicações e divisões', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_24', name: 'Cap. 1: Potenciação de números inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_25', name: 'Cap. 1: Propriedades das potências', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_26', name: 'Cap. 1: Expressões com números inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_27', name: 'Cap. 1: Sequência de adições e subtrações', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_28', name: 'Cap. 1: Sequência de multiplicações e divisões', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_29', name: 'Cap. 1: Expressões com adição, subtração, multiplicação e divisão', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_30', name: 'Cap. 1: Parênteses, colchetes e chaves', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_31', name: 'Cap. 1: Expressões com potências', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_32', name: 'Cap. 1: Propriedades da adição', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_33', name: 'Cap. 1: Propriedade de fechamento da adição', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_1_34', name: 'Cap. 1: Elemento neutro', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_35', name: 'Cap. 1: Comutatividade', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_36', name: 'Cap. 1: Associatividade', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_37', name: 'Cap. 1: Propriedades da multiplicação', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_38', name: 'Cap. 1: Fechamento (multiplicação)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_1_39', name: 'Cap. 1: Elemento neutro (multiplicação)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_40', name: 'Cap. 1: Comutatividade (multiplicação)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_41', name: 'Cap. 1: Associatividade (multiplicação)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_42', name: 'Cap. 1: Distributividade', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_43', name: 'Cap. 1: Raiz quadrada e raiz cúbica de números naturais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_44', name: 'Cap. 1: Raiz quadrada e raiz cúbica de números inteiros', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_1_45', name: 'Cap. 1: Raízes de ordem superior', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_1_46', name: 'Cap. 1: Valor numérico', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_1_47', name: 'Cap. 1: Racional ou irracional?', relevance: 'MEDIA', hits: '', total: '' },
 
+            // Capítulo 2
+            { id: 'alg_2_1', name: 'Cap. 2: Também reais e irracionais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_2', name: 'Cap. 2: Segurança, precisão, rapidez', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_3', name: 'Cap. 2: Inteiros e racionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_4', name: 'Cap. 2: Módulo e simétrico de um número racional', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_5', name: 'Cap. 2: Revisão de frações', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_2_6', name: 'Cap. 2: Fração é uma divisão', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_2_7', name: 'Cap. 2: Simplificação e fração irredutível', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_2_8', name: 'Cap. 2: Fração decimal, fração ordinária', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_9', name: 'Cap. 2: Fração própria, imprópria, aparente, número misto', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_10', name: 'Cap. 2: Porcentagem', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_2_11', name: 'Cap. 2: Dízimas periódicas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_12', name: 'Cap. 2: Encontrando a fração geratriz', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_13', name: 'Cap. 2: Fatoração de números naturais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_14', name: 'Cap. 2: MMC', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_15', name: 'Cap. 2: Comparação de frações', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_16', name: 'Cap. 2: Lidando com sinais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_17', name: 'Cap. 2: Simplificação', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_2_18', name: 'Cap. 2: Adição e subtração de números racionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_19', name: 'Cap. 2: Comparação de números racionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_20', name: 'Cap. 2: Multiplicação e divisão de números racionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_21', name: 'Cap. 2: Inverso ou recíproco', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_22', name: 'Cap. 2: Fração de fração', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_23', name: 'Cap. 2: Expressões com racionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_24', name: 'Cap. 2: Organize o rascunho', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_25', name: 'Cap. 2: Propriedades das operações com racionais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_26', name: 'Cap. 2: Fechamento da adição (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_27', name: 'Cap. 2: Elemento neutro da adição (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_28', name: 'Cap. 2: Comutativa da adição (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_29', name: 'Cap. 2: Associativa da adição (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_30', name: 'Cap. 2: Fechamento da multiplicação (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_31', name: 'Cap. 2: Elemento neutro da multiplicação (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_32', name: 'Cap. 2: Comutativa da multiplicação (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_33', name: 'Cap. 2: Associativa da multiplicação (racionais)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_2_34', name: 'Cap. 2: Distributiva da multiplicação', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_35', name: 'Cap. 2: Potências de racionais - expoentes positivos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_36', name: 'Cap. 2: A ordem correta', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_37', name: 'Cap. 2: Propriedades das potências (racionais)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_38', name: 'Cap. 2: Potências de racionais - expoentes negativos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_39', name: 'Cap. 2: Raízes de números racionais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_40', name: 'Cap. 2: Cuidado com o sinal negativo', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_41', name: 'Cap. 2: Expoentes 1/2 e 1/3', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_42', name: 'Cap. 2: A raiz quadrada negativa?', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_43', name: 'Cap. 2: Expressões com números racionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_44', name: 'Cap. 2: Extração de raiz quadrada', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_45', name: 'Cap. 2: Números irracionais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_2_46', name: 'Cap. 2: Números reais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_2_47', name: 'Cap. 2: Operando com números reais', relevance: 'ALTA', hits: '', total: '' },
+
+            // Capítulo 3
+            { id: 'alg_3_1', name: 'Cap. 3: Questões clássicas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_2', name: 'Cap. 3: Termos e expressões', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_3', name: 'Cap. 3: Termo algébrico', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_4', name: 'Cap. 3: Termos semelhantes', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_3_5', name: 'Cap. 3: Redução de termos semelhantes', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_3_6', name: 'Cap. 3: Expressões algébricas', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_3_7', name: 'Cap. 3: Valor numérico', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_3_8', name: 'Cap. 3: Classificação de expressões algébricas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_9', name: 'Cap. 3: Monômio e polinômio', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_10', name: 'Cap. 3: Binômios e trinômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_11', name: 'Cap. 3: Grau de um monômio ou polinômio', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_12', name: 'Cap. 3: Polinômio homogêneo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_13', name: 'Cap. 3: Polinômio em x', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_14', name: 'Cap. 3: Polinômio completo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_15', name: 'Cap. 3: Completar e ordenar P(x)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_16', name: 'Cap. 3: Operações com monômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_17', name: 'Cap. 3: Adição e subtração de monômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_18', name: 'Cap. 3: Multiplicação de monômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_19', name: 'Cap. 3: Potências de monômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_20', name: 'Cap. 3: Divisão de monômios', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_21', name: 'Cap. 3: Monômios não divisíveis', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_22', name: 'Cap. 3: Distributividade', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_3_23', name: 'Cap. 3: Adição e subtração de polinômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_24', name: 'Cap. 3: Multiplicação de polinômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_3_25', name: 'Cap. 3: Outro método para armar a multiplicação', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_26', name: 'Cap. 3: Divisão de polinômios', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_27', name: 'Cap. 3: Divisão de polinômio por monômio', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_28', name: 'Cap. 3: Divisão de dois polinômios', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_29', name: 'Cap. 3: Teorema do resto', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_30', name: 'Cap. 3: Potências de um polinômio', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_3_31', name: 'Cap. 3: Expressões envolvendo polinômios', relevance: 'MEDIA', hits: '', total: '' },
+
+            // Capítulo 4
+            { id: 'alg_4_1', name: 'Cap. 4: Para ganhar tempo', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_4_2', name: 'Cap. 4: Quadrado da soma: (a+b)²', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_4_3', name: 'Cap. 4: Interpretação geométrica (quadrado da soma)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_4', name: 'Cap. 4: Não confunda', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_4_5', name: 'Cap. 4: Quadrado da diferença: (a-b)²', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_4_6', name: 'Cap. 4: Interpretação geométrica (quadrado da diferença)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_7', name: 'Cap. 4: Produto da soma pela diferença: (a+b)(a-b)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_4_8', name: 'Cap. 4: Produto de Stevin: (x+a)(x+b)=x²+Sx+P', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_4_9', name: 'Cap. 4: Interpretação geométrica (Stevin)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_10', name: 'Cap. 4: Derivados do Produto de Stevin', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_11', name: 'Cap. 4: (x+a)(x+b)(x+c)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_12', name: 'Cap. 4: (a+1)(b+1)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_13', name: 'Cap. 4: (a+1)(b+1)(c+1)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_14', name: 'Cap. 4: Cubos da soma e da diferença', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_15', name: 'Cap. 4: Cubo da soma: (a+b)³', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_16', name: 'Cap. 4: Cubo da diferença: (a-b)³', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_17', name: 'Cap. 4: Soma e diferença de cubos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_4_18', name: 'Cap. 4: (x+1/x)^n', relevance: 'MUITO BAIXA', hits: '', total: '' },
+
+            // Capítulo 5
+            { id: 'alg_5_1', name: 'Cap. 5: Usar expressões racionais', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_2', name: 'Cap. 5: Fatoração por evidência', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_5_3', name: 'Cap. 5: Interpretação geométrica (evidência)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_4', name: 'Cap. 5: Fatoração por agrupamento', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_5', name: 'Cap. 5: Interpretação geométrica (agrupamento)', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_6', name: 'Cap. 5: Fatoração por quadrados e cubos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_7', name: 'Cap. 5: Fatoração por diferença de quadrados', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_8', name: 'Cap. 5: Soma e diferença de cubos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_9', name: 'Cap. 5: Trinômio do segundo grau na forma x²+bx+c', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_10', name: 'Cap. 5: Trinômios que não podem ser fatorados', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_11', name: 'Cap. 5: Trinômio do segundo grau na forma ax²+bx+c', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_12', name: 'Cap. 5: Justificativa do método de ax²+bx+c', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_13', name: 'Cap. 5: Fatorações combinadas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_14', name: 'Cap. 5: Fatoração por "mágica"', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_15', name: 'Cap. 5: Polinômios', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_16', name: 'Cap. 5: Fatoração em provas e concursos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_17', name: 'Cap. 5: Expressões algébricas complexas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_18', name: 'Cap. 5: Expressões algébricas e equações', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_5_19', name: 'Cap. 5: x^n - y^n', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_5_20', name: 'Cap. 5: x^n + y^n', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 6
+            { id: 'alg_6_1', name: 'Cap. 6: Problemas sobre MMC e MDC', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_6_2', name: 'Cap. 6: Fatores numéricos e algébricos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_6_3', name: 'Cap. 6: Recordando MDC e MMC de naturais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_6_4', name: 'Cap. 6: MDC e MMC de expressões algébricas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_6_5', name: 'Cap. 6: MDC e simplificação de frações algébricas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_6_6', name: 'Cap. 6: MMC e redução ao mesmo denominador', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_6_7', name: 'Cap. 6: Casos especiais', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 7
+            { id: 'alg_7_1', name: 'Cap. 7: Obrigatório para concursos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_7_2', name: 'Cap. 7: Simplificação de frações algébricas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_7_3', name: 'Cap. 7: Um erro clássico', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_7_4', name: 'Cap. 7: Para simplificar frações com monômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_7_5', name: 'Cap. 7: Multiplicação de frações algébricas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_7_6', name: 'Cap. 7: Frações algébricas com sinais negativos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_7_7', name: 'Cap. 7: Divisão de frações algébricas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_7_8', name: 'Cap. 7: Adição e subtração de frações algébricas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_7_9', name: 'Cap. 7: Denominadores que simplificam', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 8
+            { id: 'alg_8_1', name: 'Cap. 8: Facilidade ou dificuldade?', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_8_2', name: 'Cap. 8: Igualdades', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_8_3', name: 'Cap. 8: Equações de primeiro grau', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_8_4', name: 'Cap. 8: Método de resolução', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_8_5', name: 'Cap. 8: Discussão de uma equação do primeiro grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_8_6', name: 'Cap. 8: x = 0 é solução determinada', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_8_7', name: 'Cap. 8: Equações equivalentes', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_8_8', name: 'Cap. 8: Inequação', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_8_9', name: 'Cap. 8: Equação fracionária', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_8_10', name: 'Cap. 8: Equação modular', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 9
+            { id: 'alg_9_1', name: 'Cap. 9: Uma, duas ou três incógnitas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_9_2', name: 'Cap. 9: Método da substituição', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_9_3', name: 'Cap. 9: Método da adição', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_9_4', name: 'Cap. 9: Método da comparação', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_9_5', name: 'Cap. 9: Método dos determinantes', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_9_6', name: 'Cap. 9: Demonstração', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'alg_9_7', name: 'Cap. 9: Cuidado com a pegadinha das posições trocadas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_9_8', name: 'Cap. 9: Colocando em evidência', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_9_9', name: 'Cap. 9: Sistemas literais', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_9_10', name: 'Cap. 9: Sistemas com 3 equações e 3 incógnitas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_9_11', name: 'Cap. 9: Sistemas fracionários', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_9_12', name: 'Cap. 9: Sistemas possíveis e determinados', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_9_13', name: 'Cap. 9: Retas concorrentes', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_9_14', name: 'Cap. 9: Sistemas impossíveis', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_9_15', name: 'Cap. 9: Retas paralelas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_9_16', name: 'Cap. 9: Sistemas indeterminados', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_9_17', name: 'Cap. 9: Retas coincidentes', relevance: 'MEDIA', hits: '', total: '' },
+
+            // Capítulo 10
+            { id: 'alg_10_1', name: 'Cap. 10: Problema, equação, solução', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_10_2', name: 'Cap. 10: Problemas envolvendo idades', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_10_3', name: 'Cap. 10: Problemas de torneiras', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_10_4', name: 'Cap. 10: Diagramas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_10_5', name: 'Cap. 10: Problemas de espaço, tempo e velocidade', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_10_6', name: 'Cap. 10: Problemas de misturas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_10_7', name: 'Cap. 10: Problemas de juros', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_10_8', name: 'Cap. 10: Problemas do segundo grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_10_9', name: 'Cap. 10: Diminuir, subtrair', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 11
+            { id: 'alg_11_1', name: 'Cap. 11: Análise e álgebra', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_2', name: 'Cap. 11: O número zero', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_3', name: 'Cap. 11: 0, 1, 2', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_4', name: 'Cap. 11: Conjuntos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_5', name: 'Cap. 11: O conjunto dos números naturais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_6', name: 'Cap. 11: O conjunto dos números racionais positivos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_7', name: 'Cap. 11: Exemplos de conjuntos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_8', name: 'Cap. 11: Pertinência', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_9', name: 'Cap. 11: Conjunto vazio', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_10', name: 'Cap. 11: Representação por enumeração', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_11', name: 'Cap. 11: Representação por diagrama', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_12', name: 'Cap. 11: Representação por propriedade', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_13', name: 'Cap. 11: Conjunto unitário', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_14', name: 'Cap. 11: Conjuntos equivalentes', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_15', name: 'Cap. 11: Subconjunto', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_16', name: 'Cap. 11: Pertence ou está contido?', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_17', name: 'Cap. 11: Conjunto universo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_18', name: 'Cap. 11: Operações com conjuntos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_19', name: 'Cap. 11: União de conjuntos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_20', name: 'Cap. 11: Interseção de conjuntos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_21', name: 'Cap. 11: Diferença de conjuntos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_22', name: 'Cap. 11: Complementar', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_23', name: 'Cap. 11: Diagrama de Venn para 3 conjuntos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_24', name: 'Cap. 11: Diferença simétrica', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_25', name: 'Cap. 11: Número de elementos', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_11_26', name: 'Cap. 11: Número de subconjuntos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_27', name: 'Cap. 11: Conjunto das partes', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_28', name: 'Cap. 11: Intervalos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_29', name: 'Cap. 11: Operações com intervalos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_30', name: 'Cap. 11: Máximos e mínimos de intervalos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_31', name: 'Cap. 11: Médias', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_11_32', name: 'Cap. 11: Média aritmética', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_11_33', name: 'Cap. 11: Média geométrica', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_34', name: 'Cap. 11: Média harmônica', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_35', name: 'Cap. 11: Desigualdade das médias', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'alg_11_36', name: 'Cap. 11: Média ponderada', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_11_37', name: 'Cap. 11: Plano cartesiano', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_11_38', name: 'Cap. 11: Relações e funções', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_11_39', name: 'Cap. 11: Diagrama de setas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_11_40', name: 'Cap. 11: Produto cartesiano', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_11_41', name: 'Cap. 11: Função', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_11_42', name: 'Cap. 11: Domínio, contradomínio, imagem', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_11_43', name: 'Cap. 11: Função linear e função afim', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_11_44', name: 'Cap. 11: Sistemas de equações e interseção de gráficos', relevance: 'ALTA', hits: '', total: '' },
+
+            // Capítulo 12
+            { id: 'alg_12_1', name: 'Cap. 12: A forma final da inequação do 1º grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_12_2', name: 'Cap. 12: Conjunto solução', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_12_3', name: 'Cap. 12: Inequações fracionárias', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_12_4', name: 'Cap. 12: Sistemas de inequações', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_12_5', name: 'Cap. 12: Inequações com duas variáveis', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_12_6', name: 'Cap. 12: Equações com módulo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_12_7', name: 'Cap. 12: Inequações com módulo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_12_8', name: 'Cap. 12: Inequações indeterminadas e impossíveis', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_12_9', name: 'Cap. 12: Módulo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_12_10', name: 'Cap. 12: |2x-8|<6', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_12_11', name: 'Cap. 12: |x-a|<|x-b|', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_12_12', name: 'Cap. 12: União e interseção', relevance: 'MEDIA', hits: '', total: '' },
+
+            // Capítulo 13
+            { id: 'alg_13_1', name: 'Cap. 13: Equações do segundo grau', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_13_2', name: 'Cap. 13: Formas incompletas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_3', name: 'Cap. 13: Equações do 2º grau impossíveis', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_13_4', name: 'Cap. 13: Forma fatorada', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_5', name: 'Cap. 13: Resolução por soma e produto', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_6', name: 'Cap. 13: Completando quadrados', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_13_7', name: 'Cap. 13: Fórmula geral da resolução', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_13_8', name: 'Cap. 13: Discussão pelo discriminante', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_9', name: 'Cap. 13: Gráfico do trinômio do segundo grau', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_13_10', name: 'Cap. 13: Relações entre coeficientes e raízes', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_11', name: 'Cap. 13: Soma das raízes', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_12', name: 'Cap. 13: Produto das raízes', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_13', name: 'Cap. 13: Diferença das raízes', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_13_14', name: 'Cap. 13: Outras operações com as raízes', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_13_15', name: 'Cap. 13: Resolvendo mentalmente - I (soma e produto)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_13_16', name: 'Cap. 13: Resolvendo mentalmente - II', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 14
+            { id: 'alg_14_1', name: 'Cap. 14: Operações com potências de expoentes racionais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_2', name: 'Cap. 14: Radical, radicando, índice', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_3', name: 'Cap. 14: Operações básicas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_4', name: 'Cap. 14: Simplificação do índice', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_14_5', name: 'Cap. 14: Adição e subtração de radicais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_6', name: 'Cap. 14: Colocar fora do radical', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_7', name: 'Cap. 14: Colocar dentro do radical', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_8', name: 'Cap. 14: Multiplicação e divisão de radicais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_9', name: 'Cap. 14: Operações algébricas com radicais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_10', name: 'Cap. 14: Potenciação de radicais', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_14_11', name: 'Cap. 14: Redução ao mesmo índice', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_14_12', name: 'Cap. 14: Comparação', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_14_13', name: 'Cap. 14: Cuidado com o sinal', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_14_14', name: 'Cap. 14: Racionalização de denominadores', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_14_15', name: 'Cap. 14: Radicais duplos', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'alg_14_16', name: 'Cap. 14: A fórmula de transformação', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'alg_14_17', name: 'Cap. 14: Raízes para lembrar', relevance: 'MEDIA', hits: '', total: '' },
+
+            // Capítulo 15
+            { id: 'alg_15_1', name: 'Cap. 15: Equações biquadradas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_15_2', name: 'Cap. 15: Equações irracionais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_15_3', name: 'Cap. 15: Outras equações redutíveis', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 16
+            { id: 'alg_16_1', name: 'Cap. 16: Sistemas não lineares', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_16_2', name: 'Cap. 16: Alguns exemplos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_16_3', name: 'Cap. 16: Álgebra ou aritmética', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 17
+            { id: 'alg_17_1', name: 'Cap. 17: Cuidado com o sinal', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_17_2', name: 'Cap. 17: Inequação com trinômio do segundo grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_17_3', name: 'Cap. 17: Inequação fracionária', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_17_4', name: 'Cap. 17: Outras inequações', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_17_5', name: 'Cap. 17: Inequação com módulo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_17_6', name: 'Cap. 17: Inequação com exponencial', relevance: 'BAIXA', hits: '', total: '' },
+
+            // Capítulo 18
+            { id: 'alg_18_1', name: 'Cap. 18: Exemplos (Problemas do 2º grau)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_18_2', name: 'Cap. 18: Exemplo 1', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_18_3', name: 'Cap. 18: Exemplo 2', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_18_4', name: 'Cap. 18: Exemplo 3', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_18_5', name: 'Cap. 18: Exemplo 4', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_18_6', name: 'Cap. 18: Exemplo 5', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_18_7', name: 'Cap. 18: Aritmética avançada', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_18_8', name: 'Cap. 18: Exemplo 6', relevance: 'MEDIA', hits: '', total: '' },
+
+            // Capítulo 19
+            { id: 'alg_19_1', name: 'Cap. 19: Domínio', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_19_2', name: 'Cap. 19: Função composta', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_19_3', name: 'Cap. 19: Função afim', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'alg_19_4', name: 'Cap. 19: Função injetiva ou injetora', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_19_5', name: 'Cap. 19: Translação de eixos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_19_6', name: 'Cap. 19: Função par e função ímpar', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_19_7', name: 'Cap. 19: Função identidade', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_19_8', name: 'Cap. 19: Função inversa', relevance: 'MEDIA', hits: '', total: '' },
+
+            // Capítulo 20
+            { id: 'alg_20_1', name: 'Cap. 20: O último tópico', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_20_2', name: 'Cap. 20: Trinômio do 2º grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_20_3', name: 'Cap. 20: Função quadrática ou polinomial do 2º grau', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_20_4', name: 'Cap. 20: Equação do 2º grau', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_20_5', name: 'Cap. 20: Gráfico da função quadrática', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_20_6', name: 'Cap. 20: O gráfico', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_20_7', name: 'Cap. 20: O vértice da parábola', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_20_8', name: 'Cap. 20: A concavidade', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_20_9', name: 'Cap. 20: Cortando os eixos', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'alg_20_10', name: 'Cap. 20: Soma e produto das raízes', relevance: 'MEDIA', hits: '', total: '' },
+
+            // Capítulo 21
+            { id: 'alg_21_1', name: 'Cap. 21: Polinômios identicamente iguais', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_21_2', name: 'Cap. 21: Polinômios idênticos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_21_3', name: 'Cap. 21: Polinômios iguais para alguns valores', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_21_4', name: 'Cap. 21: Separação em frações', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_21_5', name: 'Cap. 21: Equações envolvendo polinômios', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'alg_21_6', name: 'Cap. 21: Divisibilidade entre polinômios', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_21_7', name: 'Cap. 21: Teorema do resto', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'alg_21_8', name: 'Cap. 21: Teorema das raízes racionais', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'alg_21_9', name: 'Cap. 21: Teorema de Bolzano', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'alg_21_10', name: 'Cap. 21: Relações de Girard', relevance: 'MUITO BAIXA', hits: '', total: '' }
+        ]
+    },
+    tqm_fundamental: {
+        title: 'TQM - Ensino Fundamental',
+        subtitle: 'Base sólida de matemática fundamental.',
+        topics: [
+            { id: 'tqmf_1', name: '1. Sistemas de numeração', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_2', name: '2. Sistema decimal de numeração', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_3', name: '3. Operações fundamentais', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_4', name: '4. Números primos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_5', name: '5. Divisibilidade', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_6', name: '6. Máximo divisor comum (MDC)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_7', name: '7. Mínimo múltiplo comum (MMC)', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_8', name: '8. Frações', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_9', name: '9. Números decimais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_10', name: '10. Razões e proporções', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_11', name: '11. Números proporcionais', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_12', name: '12. Sistemas de unidades de medidas', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_13', name: '13. Regra de três', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_14', name: '14. Médias', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_15', name: '15. Porcentagem', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_16', name: '16. Juros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_17', name: '17. Conjuntos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_18', name: '18. Números inteiros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_19', name: '19. Expressões algébricas', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_20', name: '20. Produtos notáveis', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_21', name: '21. Fatoração', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_22', name: '22. Equação do 1º grau', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_23', name: '23. Problemas do 1º grau', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_24', name: '24. Sistemas de equações do 1º grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_25', name: '25. Inequação do 1º grau', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_26', name: '26. Equação do 2º grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_27', name: '27. Problemas do 2º grau', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_28', name: '28. Potências', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_29', name: '29. Radicais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_30', name: '30. Equações biquadradas e irracionais', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_31', name: '31. Sistemas de equações do 2º grau', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_32', name: '32. Funções', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmf_33', name: '33. Inequações produto e fracionária; a duas variáveis', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_34', name: '34. Ângulos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_35', name: '35. Polígonos', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_36', name: '36. Triângulos', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_37', name: '37. Quadriláteros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_38', name: '38. Círculo', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_39', name: '39. Linhas proporcionais', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_40', name: '40. Relações métricas no triângulo retângulo', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_41', name: '41. Razões trigonométricas no triângulo retângulo', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_42', name: '42. Relações métricas no triângulo qualquer', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_43', name: '43. Relações métricas no círculo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmf_44', name: '44. Polígonos regulares', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmf_45', name: '45. Comprimento da circunferência', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmf_46', name: '46. Áreas das principais figuras planas', relevance: 'MUITO ALTA', hits: '', total: '' }
+        ]
+    },
+    tqm_medio: {
+        title: 'TQM - Ensino Médio',
+        subtitle: 'Aprofundamento completo para o ENEM.',
+        topics: [
+            { id: 'tqmm_1_1', name: 'Mat. I - 1. Matemática Básica', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmm_1_2', name: 'Mat. I - 2. Sequências', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_1_3', name: 'Mat. I - 3. Progressões Aritméticas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_1_4', name: 'Mat. I - 4. Equações Exponenciais', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_1_5', name: 'Mat. I - 5. Progressões Geométricas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_1_6', name: 'Mat. I - 6. Logaritmos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_1_7', name: 'Mat. I - 7. Funções Exponencial e Logarítmica', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_1_8', name: 'Mat. I - 8. Binômio de Newton', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_1_9', name: 'Mat. I - 9. Análise Combinatória', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_1_10', name: 'Mat. I - 10. Probabilidade', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_1_11', name: 'Mat. I - 11. Números Complexos', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_1_12', name: 'Mat. I - 12. Polinômios e Equações', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_2_1', name: 'Mat. II - 1. Ângulos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_2_2', name: 'Mat. II - 2. Polígonos', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_3', name: 'Mat. II - 3. Triângulos', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_4', name: 'Mat. II - 4. Quadriláteros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_5', name: 'Mat. II - 5. Círculo e Circunferência', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_6', name: 'Mat. II - 6. Linhas Proporcionais e Semelhança', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_7', name: 'Mat. II - 7. Relações Métricas no Círculo', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_2_8', name: 'Mat. II - 8. Relações Métricas no Triângulo Retângulo', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_9', name: 'Mat. II - 9. Relações Métricas num Triângulo Qualquer', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_2_10', name: 'Mat. II - 10. Polígonos Regulares', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_2_11', name: 'Mat. II - 11. Áreas das Principais Figuras Planas', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_12', name: 'Mat. II - 12. Poliedros', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_13', name: 'Mat. II - 13. Prismas', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_14', name: 'Mat. II - 14. Cilindros', relevance: 'MUITO ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_15', name: 'Mat. II - 15. Pirâmides', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_16', name: 'Mat. II - 16. Cones', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_2_17', name: 'Mat. II - 17. Esferas', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_3_1', name: 'Mat. III - 1. Conjuntos', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_2', name: 'Mat. III - 2. Produto Cartesiano', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_3', name: 'Mat. III - 3. Relações e Funções', relevance: 'ALTA', hits: '', total: '' },
+            { id: 'tqmm_3_4', name: 'Mat. III - 4. Razões Trigonométricas no Triângulo Retângulo', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_3_5', name: 'Mat. III - 5. Arcos e Ângulos', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_3_6', name: 'Mat. III - 6. As Linhas Trigonométricas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_3_7', name: 'Mat. III - 7. Redução ao 1º Quadrante', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_8', name: 'Mat. III - 8. Fórmulas de Adição e Subtração de Arcos', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_9', name: 'Mat. III - 9. Funções Trigonométricas', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_3_10', name: 'Mat. III - 10. Equações Trigonométricas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_11', name: 'Mat. III - 11. Matrizes e Determinantes', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_12', name: 'Mat. III - 12. Vetores no Plano e no Espaço', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_13', name: 'Mat. III - 13. Produto Escalar', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_14', name: 'Mat. III - 14. Produto Vetorial', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_15', name: 'Mat. III - 15. Produto Misto', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_16', name: 'Mat. III - 16. Estudo da Reta no R²', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_3_17', name: 'Mat. III - 17. Planos em R³', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_18', name: 'Mat. III - 18. Retas no R³', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_19', name: 'Mat. III - 19. Estudo da Circunferência no R²', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_3_20', name: 'Mat. III - 20. Transformações Lineares', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_3_21', name: 'Mat. III - 21. Sistemas de Equações Lineares', relevance: 'MEDIA', hits: '', total: '' },
+            { id: 'tqmm_4_1', name: 'Apêndices - 1. Os Espaços Vetoriais', relevance: 'MUITO BAIXA', hits: '', total: '' },
+            { id: 'tqmm_4_2', name: 'Apêndices - 2. Superfícies Cônicas', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_4_3', name: 'Apêndices - 3. Noções de Lógica Matemática', relevance: 'BAIXA', hits: '', total: '' },
+            { id: 'tqmm_4_4', name: 'Apêndices - 4. Noções de Estatística', relevance: 'MUITO ALTA', hits: '', total: '' }
+        ]
+    }
+};
 // ============================================================================
 // COMPONENTE PRINCIPAL: PLATAFORMA BARATTA
 // ============================================================================
@@ -575,6 +1088,10 @@ export default function App() {
   // Splash screen
   const [showSplash, setShowSplash] = useState(true);
   const [splashFading, setSplashFading] = useState(false);
+
+  const [activeYear, setActiveYear] = useState(() => localStorage.getItem('pb_activeYear') || '2026');
+  const [activeBook, setActiveBook] = useState('algebrista');
+  const [reportBookKey, setReportBookKey] = useState('algebrista');
 
   // Autenticação e sincronização
   const [user, setUser] = useState(null);
@@ -721,6 +1238,51 @@ export default function App() {
       () => {}
     );
 
+    const handleTopicInput = (topicId, field, value) => {
+    setDb((prev) => {
+        const updatedTopics = prev.booksData[activeBook].topics.map((t) =>
+            t.id === topicId ? { ...t, [field]: value } : t
+        );
+        return {
+            ...prev,
+            booksData: {
+                ...prev.booksData,
+                [activeBook]: {
+                    ...prev.booksData[activeBook],
+                    topics: updatedTopics
+                }
+            }
+        };
+    });
+};
+
+const handleToggleTopic = (topicId) => {
+    const key = `${activeYear}_${activeBook}_${topicId}`;
+    const isAlreadyCompleted = !!db.completedTopics[key];
+
+    setDb((prev) => {
+        const updatedCompleted = { ...prev.completedTopics };
+        let updatedXp = prev.xp[activeYear] || 0;
+
+        if (isAlreadyCompleted) {
+            delete updatedCompleted[key];
+            updatedXp = Math.max(0, updatedXp - 5);
+        } else {
+            updatedCompleted[key] = true;
+            updatedXp += 5;
+        }
+
+        return {
+            ...prev,
+            completedTopics: updatedCompleted,
+            xp: {
+                ...prev.xp,
+                [activeYear]: updatedXp
+            }
+        };
+    });
+};
+    
     const unsubXp = onSnapshot(
       collection(db, 'artifacts', appId, 'users', uid, 'xpActions'),
       (snap) => {
@@ -1479,6 +2041,91 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
+       {activeTab === 'livros' && (
+  <section className="space-y-6">
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+      <div className="flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-white">Meta de Livros de Matemática (Até 2028)</h2>
+          <p className="text-xs text-slate-400">Selecione o livro para visualizar o índice estratégico e registrar seu progresso.</p>
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          {[
+            { key: 'algebrista', label: 'O Algebrista' },
+            { key: 'tqm_fundamental', label: 'TQM Fundamental' },
+            { key: 'tqm_medio', label: 'TQM Médio' }
+          ].map((b) => (
+            <button
+              key={b.key}
+              onClick={() => setActiveBook(b.key)}
+              className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors ${
+                activeBook === b.key ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+              }`}
+            >
+              {b.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
+      <div className="space-y-4">
+        {db.booksData[activeBook].topics.map((t) => {
+          const isCompleted = !!db.completedTopics[`${activeYear}_${activeBook}_${t.id}`];
+          return (
+            <div
+              key={t.id}
+              className={`p-4 bg-slate-950 rounded-xl border ${
+                isCompleted ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-slate-800'
+              } space-y-3`}
+            >
+              <div className="flex flex-wrap justify-between items-start gap-2">
+                <div>
+                  <h4 className="text-sm font-bold text-white">{t.name}</h4>
+                  <span className="px-2 py-0.5 text-[10px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded mt-1 inline-block">
+                    Relevância ENEM: {t.relevance}
+                  </span>
+                </div>
+                <button
+                  onClick={() => handleToggleTopic(t.id)}
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
+                    isCompleted ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  }`}
+                >
+                  {isCompleted ? 'Concluído (+5 XP)' : 'Marcar Concluído'}
+                </button>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-900">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-400">Questões Feitas:</span>
+                  <input
+                    type="number"
+                    value={t.total || ''}
+                    onChange={(e) => handleTopicInput(t.id, 'total', e.target.value)}
+                    placeholder="0"
+                    className="w-20 bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-400">Acertos:</span>
+                  <input
+                    type="number"
+                    value={t.hits || ''}
+                    onChange={(e) => handleTopicInput(t.id, 'hits', e.target.value)}
+                    placeholder="0"
+                    className="w-20 bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-white"
+                  />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}
+          
           {activeTab === 'Ranking' && (
   <RankingTab 
     exams={exams} 
