@@ -4722,7 +4722,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
         awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
 
-      if (showToast) showToast('Tópico concluído! +5 XP na conta 🚀', 'success');
+      if (showToast) showToast('Tópico concluído! +10 XP na conta 🚀', 'success');
     }
 
     // Atualiza o estado visual na hora
