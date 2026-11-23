@@ -4586,7 +4586,7 @@ function BooksTab({ selectedYear, showToast }) {
   const [completedTopics, setCompletedTopics] = React.useState({});
   const [bookXp, setBookXp] = React.useState({ '2026': 0, '2027': 0, '2028': 0 });
 
-  // Mapeamento de cores de relevância mantendo o destaque visual
+  // Mapeamento de cores de relevância
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
       case 'Muito Alta':
@@ -4596,7 +4596,7 @@ function BooksTab({ selectedYear, showToast }) {
       case 'Média':
         return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
       case 'Baixa':
-        return 'bg-zinc-200/10 text-white border-zinc-200/30 font-semibold'; // Branco destacado
+        return 'bg-zinc-200/10 text-white border-zinc-200/30 font-semibold';
       case 'Muito Baixa':
         return 'bg-zinc-800/40 text-zinc-500 border-zinc-700/30';
       default:
@@ -4640,8 +4640,8 @@ function BooksTab({ selectedYear, showToast }) {
 
   return (
     <section className="space-y-6">
-      {/* Cabeçalho e Abas dos Livros (Fundo Preto e Bordas/Blocos Cinza) */}
-      <div className="bg-black border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
+      {/* Cabeçalho e Abas dos Livros (Cinza Padrão do Painel) */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div>
             <h2 className="text-xl font-bold text-white">Central de Estudos de Livros (Matemática)</h2>
@@ -4659,7 +4659,7 @@ function BooksTab({ selectedYear, showToast }) {
                 key={b.key}
                 onClick={() => setActiveBook(b.key)}
                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors ${
-                  activeBook === b.key ? 'bg-indigo-600 text-white shadow' : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
+                  activeBook === b.key ? 'bg-indigo-600 text-white shadow' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700/60'
                 }`}
               >
                 {b.label}
@@ -4670,7 +4670,7 @@ function BooksTab({ selectedYear, showToast }) {
       </div>
 
       {/* Lista Completa de Tópicos */}
-      <div className="bg-black border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
         <div className="border-b border-zinc-800 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
           <div>
             <h3 className="text-sm font-bold text-zinc-200">{booksState[activeBook].title}</h3>
@@ -4693,7 +4693,7 @@ function BooksTab({ selectedYear, showToast }) {
               <div
                 key={t.id}
                 className={`p-4 rounded-xl border transition-all ${
-                  isCompleted ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-zinc-800 bg-zinc-900/50'
+                  isCompleted ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-zinc-800 bg-zinc-950'
                 } space-y-3`}
               >
                 <div className="flex flex-wrap justify-between items-start gap-2">
@@ -4721,7 +4721,7 @@ function BooksTab({ selectedYear, showToast }) {
                       value={t.total || ''}
                       onChange={(e) => handleTopicInput(t.id, 'total', e.target.value)}
                       placeholder="0"
-                      className="w-20 bg-black border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                      className="w-20 bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -4731,7 +4731,7 @@ function BooksTab({ selectedYear, showToast }) {
                       value={t.hits || ''}
                       onChange={(e) => handleTopicInput(t.id, 'hits', e.target.value)}
                       placeholder="0"
-                      className="w-20 bg-black border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                      className="w-20 bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
                     />
                   </div>
                 </div>
