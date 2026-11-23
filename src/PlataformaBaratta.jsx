@@ -4586,19 +4586,19 @@ function BooksTab({ selectedYear, showToast }) {
   const [completedTopics, setCompletedTopics] = React.useState({});
   const [bookXp, setBookXp] = React.useState({ '2026': 0, '2027': 0, '2028': 0 });
 
-  // Mapeamento de cores atualizado: Muito Alta em Verde Chamativo, Baixa em Branco
+  // Mapeamento de cores de relevância mantendo o destaque visual
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
       case 'Muito Alta':
         return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-bold';
-      case 'Média':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
       case 'Alta':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      case 'Média':
         return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
       case 'Baixa':
-        return 'bg-slate-200/10 text-white border-slate-200/30 font-semibold'; // Branco destacado
+        return 'bg-zinc-200/10 text-white border-zinc-200/30 font-semibold'; // Branco destacado
       case 'Muito Baixa':
-        return 'bg-slate-800/40 text-slate-500 border-slate-700/30';
+        return 'bg-zinc-800/40 text-zinc-500 border-zinc-700/30';
       default:
         return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
     }
@@ -4640,12 +4640,12 @@ function BooksTab({ selectedYear, showToast }) {
 
   return (
     <section className="space-y-6">
-      {/* Cabeçalho e Abas dos Livros */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4 shadow-lg">
+      {/* Cabeçalho e Abas dos Livros (Fundo Preto e Bordas/Blocos Cinza) */}
+      <div className="bg-black border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div>
             <h2 className="text-xl font-bold text-white">Central de Estudos de Livros (Matemática)</h2>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-zinc-400 mt-1">
               Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | XP Acumulado no Ano: <span className="text-emerald-400 font-bold">{bookXp[selectedYear] || 0} XP</span>
             </p>
           </div>
@@ -4659,7 +4659,7 @@ function BooksTab({ selectedYear, showToast }) {
                 key={b.key}
                 onClick={() => setActiveBook(b.key)}
                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors ${
-                  activeBook === b.key ? 'bg-indigo-600 text-white shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  activeBook === b.key ? 'bg-indigo-600 text-white shadow' : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-800'
                 }`}
               >
                 {b.label}
@@ -4670,18 +4670,18 @@ function BooksTab({ selectedYear, showToast }) {
       </div>
 
       {/* Lista Completa de Tópicos */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4 shadow-lg">
-        <div className="border-b border-slate-800 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
+      <div className="bg-black border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
+        <div className="border-b border-zinc-800 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
           <div>
-            <h3 className="text-sm font-bold text-slate-200">{booksState[activeBook].title}</h3>
-            <p className="text-xs text-slate-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
+            <h3 className="text-sm font-bold text-zinc-200">{booksState[activeBook].title}</h3>
+            <p className="text-xs text-zinc-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
           </div>
           
-          {/* Legenda Visual Atualizada */}
-          <div className="flex items-center gap-3 text-[10px] text-slate-400 flex-wrap">
+          {/* Legenda Visual */}
+          <div className="flex items-center gap-3 text-[10px] text-zinc-400 flex-wrap">
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Muito Alta</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Média</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Alta</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Alta</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Média</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-white"></span> Baixa</span>
           </div>
         </div>
@@ -4693,7 +4693,7 @@ function BooksTab({ selectedYear, showToast }) {
               <div
                 key={t.id}
                 className={`p-4 rounded-xl border transition-all ${
-                  isCompleted ? 'border-emerald-500/50 bg-emerald-950/10' : 'border-slate-800 bg-slate-950'
+                  isCompleted ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-zinc-800 bg-zinc-900/50'
                 } space-y-3`}
               >
                 <div className="flex flex-wrap justify-between items-start gap-2">
@@ -4706,32 +4706,32 @@ function BooksTab({ selectedYear, showToast }) {
                   <button
                     onClick={() => handleToggleTopic(t.id)}
                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                      isCompleted ? 'bg-emerald-600 text-white shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                      isCompleted ? 'bg-emerald-600 text-white shadow' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
                     }`}
                   >
                     {isCompleted ? 'Concluído (+5 XP)' : 'Marcar Concluído'}
                   </button>
                 </div>
                 
-                <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-900">
+                <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-zinc-800/80">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-400">Questões Feitas:</span>
+                    <span className="text-xs text-zinc-400">Questões Feitas:</span>
                     <input
                       type="number"
                       value={t.total || ''}
                       onChange={(e) => handleTopicInput(t.id, 'total', e.target.value)}
                       placeholder="0"
-                      className="w-20 bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                      className="w-20 bg-black border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
                     />
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-400">Acertos:</span>
+                    <span className="text-xs text-zinc-400">Acertos:</span>
                     <input
                       type="number"
                       value={t.hits || ''}
                       onChange={(e) => handleTopicInput(t.id, 'hits', e.target.value)}
                       placeholder="0"
-                      className="w-20 bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                      className="w-20 bg-black border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
                     />
                   </div>
                 </div>
