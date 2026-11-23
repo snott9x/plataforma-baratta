@@ -1628,7 +1628,7 @@ const gamificationStats = useMemo(() => {
     selectedYear={selectedYear}
     showToast={showToast}
     savePreferences={savePreferences} // <- Passando a função do Firestore para a aba
-    xpGanho={xpGanho}
+    xpActions={xpActions}
   />
 )}
           
@@ -4614,8 +4614,8 @@ function BooksTab({ selectedYear, showToast, xpActions }) {
       updatedCompleted[key] = true;
       
       // Se o seu sistema usa uma função de XP global, chama aqui:
-      if (typeof xpGanho === 'function') {
-        xpGanho(5);
+      if (typeof xpActions === 'function') {
+        xpActions(5);
       }
 
       if (showToast) showToast('Tópico concluído! +5 XP 🚀', 'success');
