@@ -4586,6 +4586,24 @@ function BooksTab({ selectedYear, showToast }) {
   const [completedTopics, setCompletedTopics] = React.useState({});
   const [bookXp, setBookXp] = React.useState({ '2026': 0, '2027': 0, '2028': 0 });
 
+  // Mapeamento de cores criativo e visualmente destacado para cada relevância
+  const getRelevanceStyle = (relevance) => {
+    switch (relevance) {
+      case 'Muito Alta':
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.15)]';
+      case 'Alta':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      case 'Média':
+        return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
+      case 'Baixa':
+        return 'bg-slate-200/10 text-white border-slate-200/30 font-semibold'; // Branco/Cinza claro em destaque
+      case 'Muito Baixa':
+        return 'bg-slate-800/40 text-slate-500 border-slate-700/30';
+      default:
+        return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
+    }
+  };
+
   const handleTopicInput = (topicId, field, value) => {
     const updatedTopics = booksState[activeBook].topics.map((t) =>
       t.id === topicId ? { ...t, [field]: value } : t
@@ -4653,9 +4671,19 @@ function BooksTab({ selectedYear, showToast }) {
 
       {/* Lista Completa de Tópicos */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4 shadow-lg">
-        <div className="border-b border-slate-800 pb-3 mb-4">
-          <h3 className="text-sm font-bold text-slate-200">{booksState[activeBook].title}</h3>
-          <p className="text-xs text-slate-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
+        <div className="border-b border-slate-800 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
+          <div>
+            <h3 className="text-sm font-bold text-slate-200">{booksState[activeBook].title}</h3>
+            <p className="text-xs text-slate-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
+          </div>
+          
+          {/* Legenda Visual Rápida */}
+          <div className="flex items-center gap-2 text-[10px] text-slate-400 flex-wrap">
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-400"></span> Muito Alta</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Alta</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Média</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-white"></span> Baixa</span>
+          </div>
         </div>
 
         <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2">
@@ -4671,7 +4699,7 @@ function BooksTab({ selectedYear, showToast }) {
                 <div className="flex flex-wrap justify-between items-start gap-2">
                   <div>
                     <h4 className="text-sm font-bold text-white">{t.name}</h4>
-                    <span className="px-2 py-0.5 text-[10px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded mt-1.5 inline-block">
+                    <span className={`px-2.5 py-0.5 text-[10px] font-bold border rounded-md mt-1.5 inline-block ${getRelevanceStyle(t.relevance)}`}>
                       Relevância: {t.relevance}
                     </span>
                   </div>
