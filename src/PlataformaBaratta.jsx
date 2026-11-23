@@ -1622,14 +1622,15 @@ const gamificationStats = useMemo(() => {
               showToast={showToast}
             />
           )}
-
-    {activeTab === 'Livros' && (
+{activeTab === 'Livros' && (
   <BooksTab
     selectedYear={selectedYear}
     showToast={showToast}
     savePreferences={savePreferences}
     awardXp={awardXp}
-    initialCompleted={preferences?.settings?.preferences?.[`books_completed_${selectedYear}`] || preferences?.[`books_completed_${selectedYear}`]}
+    user={user}
+    db={db}
+    appId={appId}
   />
 )}
           
@@ -4583,26 +4584,47 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ABA 7: LIVROS 
 // ============================================================================
 
-function BooksTab({ selectedYear, showToast, savePreferences, awardXp, initialBooksData, initialCompleted }) {
+function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db, appId }) {
   const [activeBook, setActiveBook] = React.useState('algebrista');
-  
-  // Estado dos livros (questões e acertos) vindo do Firestore ou padrão
-  const [booksState, setBooksState] = React.useState(() => {
-    return initialBooksData && Object.keys(initialBooksData).length > 0 
-      ? initialBooksData 
-      : BOOKS_DATA;
-  });
+  const [booksState, setBooksState] = React.useState(BOOKS_DATA);
+  const [completedTopics, setCompletedTopics] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  // Estado dos tópicos concluídos vindo do Firestore ou vazio
-  const [completedTopics, setCompletedTopics] = React.useState(() => {
-    return initialCompleted || {};
-  });
-
-  // Sincroniza se o ano letivo mudar ou se os dados chegarem da nuvem
+  // Carrega os dados salvos direto do Firestore ao abrir a aba ou mudar de ano
   React.useEffect(() => {
-    if (initialCompleted) setCompletedTopics(initialCompleted);
-    if (initialBooksData) setBooksState(initialBooksData);
-  }, [selectedYear, initialCompleted, initialBooksData]);
+    const loadBooksFromFirestore = async () => {
+      if (!user || !db || !appId) {
+        setIsLoading(false);
+        return;
+      }
+      try {
+        const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
+        const snap = await getDoc(prefRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data[`books_completed_${selectedYear}`]) {
+            setCompletedTopics(data[`books_completed_${selectedYear}`]);
+          } else {
+            setCompletedTopics({});
+          }
+          if (data[`books_data_${selectedYear}`]) {
+            setBooksState({
+              ...BOOKS_DATA,
+              ...data[`books_data_${selectedYear}`]
+            });
+          } else {
+            setBooksState(BOOKS_DATA);
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao carregar livros do Firestore:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadBooksFromFirestore();
+  }, [selectedYear, user, db, appId]);
 
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
@@ -4655,9 +4677,9 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, initialBo
     } else {
       updatedCompleted[key] = true;
       
-      // AJUSTADO PARA EXATAMENTE 5 DE XP
+      // Dispara o XP (Nota: se a sua função awardXp multiplica scoreValue por 2 ou usa tabela fixa, ajustamos logo abaixo)
       if (typeof awardXp === 'function') {
-        awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
+        await awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
 
       if (showToast) showToast('Tópico concluído! +5 XP na conta 🚀', 'success');
@@ -4679,7 +4701,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, initialBo
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
             <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | Sincronizado com o Firestore ☁️
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | {isLoading ? 'Carregando dados...' : 'Sincronizado com o Firestore ☁️'}
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
