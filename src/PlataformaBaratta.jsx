@@ -1623,12 +1623,14 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
-         {activeTab === 'Livros' && (
+        {activeTab === 'Livros' && (
   <BooksTab
     selectedYear={selectedYear}
     showToast={showToast}
-    savePreferences={savePreferences} // <- Passando a função do Firestore para a aba
-    xpActions={xpActions}
+    savePreferences={savePreferences}
+    awardXp={awardXp}
+    initialBooksData={userPreferences?.[`books_data_${selectedYear}`]}
+    initialCompleted={userPreferences?.[`books_completed_${selectedYear}`]}
   />
 )}
           
@@ -4582,11 +4584,20 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ABA 7: LIVROS 
 // ============================================================================
 
-function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
+function BooksTab({ selectedYear, showToast, savePreferences, awardXp, initialBooksData = {}, initialCompleted = {} }) {
   const [activeBook, setActiveBook] = React.useState('algebrista');
-  const [booksState, setBooksState] = React.useState(BOOKS_DATA);
-  const [completedTopics, setCompletedTopics] = React.useState({});
+  const [booksState, setBooksState] = React.useState({
+    ...BOOKS_DATA,
+    ...initialBooksData
+  });
+  const [completedTopics, setCompletedTopics] = React.useState(initialCompleted);
 
+  // Sincroniza caso mude o ano letivo ativo
+  React.useEffect(() => {
+    setCompletedTopics(initialCompleted || {});
+  }, [selectedYear, initialCompleted]);
+
+  // Cores de relevância em tons harmônicos com o painel cinza
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
       case 'Muito Alta':
@@ -4604,11 +4615,12 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
     }
   };
 
+  // Atualiza questões/acertos e salva no Firestore automaticamente
   const handleTopicInput = async (topicId, field, value) => {
     const updatedTopics = booksState[activeBook].topics.map((t) =>
       t.id === topicId ? { ...t, [field]: value } : t
     );
-    
+
     const updatedBookState = {
       ...booksState,
       [activeBook]: {
@@ -4616,10 +4628,10 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
         topics: updatedTopics
       }
     };
-    
+
     setBooksState(updatedBookState);
 
-    // Salva as questões e acertos no Firestore
+    // Persiste no Firestore usando savePreferences (mesmo padrão do seu app)
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_data_${selectedYear}`]: updatedBookState
@@ -4627,6 +4639,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
     }
   };
 
+  // Marca/desmarca o tópico, computa o XP e salva no Firestore
   const handleToggleTopic = async (topicId) => {
     const key = `${selectedYear}_${activeBook}_${topicId}`;
     const isCompleted = !!completedTopics[key];
@@ -4639,17 +4652,17 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
     } else {
       updatedCompleted[key] = true;
       
-      // CHAMA A SUA FUNÇÃO OFICIAL DE XP DO FIREBASE
+      // Dispara o XP oficial do sistema (mesmo padrão do awardXp que você usa)
       if (typeof awardXp === 'function') {
         awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
 
-      if (showToast) showToast('Tópico concluído! +5 XP na conta 🚀', 'success');
+      if (showToast) showToast('Tópico concluído! +5 XP na sua conta 🚀', 'success');
     }
 
     setCompletedTopics(updatedCompleted);
 
-    // SALVA OS TÓPICOS CONCLUÍDOS NO FIRESTORE USANDO savePreferences
+    // Persiste o checklist concluído no Firestore
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_completed_${selectedYear}`]: updatedCompleted
@@ -4658,11 +4671,12 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
   };
 
   return (
-    <section className="space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6">
+      {/* Cabeçalho e Abas dos Livros */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div>
-            <h2 className="text-xl font-bold text-white">Central de Estudos de Livros (Matemática)</h2>
+            <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
             <p className="text-xs text-zinc-400 mt-1">
               Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | Sincronizado com o Firestore ☁️
             </p>
@@ -4687,6 +4701,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
         </div>
       </div>
 
+      {/* Lista Completa de Tópicos */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
         <div className="border-b border-zinc-800 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
           <div>
@@ -4694,6 +4709,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
             <p className="text-xs text-zinc-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
           </div>
           
+          {/* Legenda Visual */}
           <div className="flex items-center gap-3 text-[10px] text-zinc-400 flex-wrap">
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Muito Alta</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Alta</span>
@@ -4720,6 +4736,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
                     </span>
                   </div>
                   <button
+                    type="button"
                     onClick={() => handleToggleTopic(t.id)}
                     className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
                       isCompleted ? 'bg-emerald-600 text-white shadow' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
@@ -4756,7 +4773,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp }) {
           })}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 // ============================================================================
