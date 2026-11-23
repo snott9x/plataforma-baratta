@@ -4580,29 +4580,10 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ABA 7: LIVROS 
 // ============================================================================
 
-function BooksTab({ selectedYear, showToast }) {
+function BooksTab({ selectedYear, showToast, xpActions }) {
   const [activeBook, setActiveBook] = React.useState('algebrista');
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
-  const [bookXp, setBookXp] = React.useState({ '2026': 0, '2027': 0, '2028': 0 });
-
-  // Mapeamento de cores de relevância
-  const getRelevanceStyle = (relevance) => {
-    switch (relevance) {
-      case 'Muito Alta':
-        return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-bold';
-      case 'Alta':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
-      case 'Média':
-        return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
-      case 'Baixa':
-        return 'bg-zinc-200/10 text-white border-zinc-200/30 font-semibold';
-      case 'Muito Baixa':
-        return 'bg-zinc-800/40 text-zinc-500 border-zinc-700/30';
-      default:
-        return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
-    }
-  };
 
   const handleTopicInput = (topicId, field, value) => {
     const updatedTopics = booksState[activeBook].topics.map((t) =>
@@ -4622,31 +4603,36 @@ function BooksTab({ selectedYear, showToast }) {
     const isCompleted = !!completedTopics[key];
     
     const updatedCompleted = { ...completedTopics };
-    let currentXp = bookXp[selectedYear] || 0;
 
     if (isCompleted) {
       delete updatedCompleted[key];
-      currentXp = Math.max(0, currentXp - 5);
+      // Se desmarcar, remove o XP ou ajusta se necessário
       if (showToast) showToast('Tópico desmarcado.', 'info');
     } else {
       updatedCompleted[key] = true;
-      currentXp += 5;
-      if (showToast) showToast('Tópico concluído! +5 XP de Matemática 🚀', 'success');
+      
+      // CHAMA A SUA FUNÇÃO GLOBAL DE XP AQUI!
+      if (xpActions && typeof xpActions.addXp === 'function') {
+        xpActions.addXp(5, 'Estudo de Livro (Matemática)');
+      } else if (typeof xpActions === 'function') {
+        xpActions(5); // Caso xpActions seja diretamente a função de somar XP
+      }
+
+      if (showToast) showToast('Tópico concluído! +5 XP na sua conta 🚀', 'success');
     }
 
     setCompletedTopics(updatedCompleted);
-    setBookXp({ ...bookXp, [selectedYear]: currentXp });
   };
 
   return (
     <section className="space-y-6">
-      {/* Cabeçalho e Abas dos Livros (Cinza Padrão do Painel) */}
+      {/* Cabeçalho e Abas dos Livros */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div>
             <h2 className="text-xl font-bold text-white">Central de Estudos de Livros (Matemática)</h2>
             <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | XP Acumulado no Ano: <span className="text-emerald-400 font-bold">{bookXp[selectedYear] || 0} XP</span>
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | O XP ganho vai direto para o seu perfil geral!
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -4742,6 +4728,24 @@ function BooksTab({ selectedYear, showToast }) {
       </div>
     </section>
   );
+}
+
+// Função auxiliar de cores de relevância caso tenha perdido no escopo
+function getRelevanceStyle(relevance) {
+  switch (relevance) {
+    case 'Muito Alta':
+      return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-bold';
+    case 'Alta':
+      return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+    case 'Média':
+      return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
+    case 'Baixa':
+      return 'bg-zinc-200/10 text-white border-zinc-200/30 font-semibold';
+    case 'Muito Baixa':
+      return 'bg-zinc-800/40 text-zinc-500 border-zinc-700/30';
+    default:
+      return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
+  }
 }
 // ============================================================================
 // ABA 8: RANKING (HISTÓRICO ACUMULADO DE PROVAS CADASTRADAS)
