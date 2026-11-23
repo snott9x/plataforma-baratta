@@ -1629,7 +1629,7 @@ const gamificationStats = useMemo(() => {
     showToast={showToast}
     savePreferences={savePreferences}
     awardXp={awardXp}
-    initialCompleted={userPreferences?.settings?.preferences?.[`books_completed_${selectedYear}`] || userPreferences?.[`books_completed_${selectedYear}`]}
+    initialCompleted={preferences?.settings?.preferences?.[`books_completed_${selectedYear}`] || preferences?.[`books_completed_${selectedYear}`]}
   />
 )}
           
