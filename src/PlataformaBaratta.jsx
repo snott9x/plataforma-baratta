@@ -4593,15 +4593,11 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
   const [activeBook, setActiveBook] = React.useState('algebrista');
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(true);
 
-  // Carrega do Firestore assim que abre a aba ou muda o ano
+  // CARREGA DO FIRESTORE QUANDO ABRE A ABA OU MUDA O ANO
   React.useEffect(() => {
-    const loadData = async () => {
-      if (!user || !db || !appId) {
-        setIsLoading(false);
-        return;
-      }
+    const loadFromFirestore = async () => {
+      if (!user || !db || !appId) return;
       try {
         const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
         const snap = await getDoc(prefRef);
@@ -4617,19 +4613,16 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
               ...BOOKS_DATA,
               ...data[`books_data_${selectedYear}`]
             });
-          } else {
-            setBooksState(BOOKS_DATA);
           }
         }
       } catch (err) {
-        console.error('Erro ao carregar dados:', err);
-      } finally {
-        setIsLoading(false);
+        console.error('Erro ao carregar do Firestore:', err);
       }
     };
-
-    loadData();
+    loadFromFirestore();
   }, [selectedYear, user, db, appId]);
+
+
 
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
