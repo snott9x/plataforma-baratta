@@ -1623,10 +1623,12 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
-          {activeTab === 'Livros' && (
+         {activeTab === 'Livros' && (
   <BooksTab
     selectedYear={selectedYear}
     showToast={showToast}
+    savePreferences={savePreferences} // <- Passando a função do Firestore para a aba
+    xpGanho={xpGanho}
   />
 )}
           
