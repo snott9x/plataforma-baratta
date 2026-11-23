@@ -585,7 +585,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [selectedYear, setSelectedYear] = useState(2026);
-  const [availableYears, setAvailableYears] = useState([2026, 2027]);
+  const [availableYears, setAvailableYears] = useState([2026, 2027, 2028]);
 
   // Dados acadêmicos persistentes
   const [subjects, setSubjects] = useState(INITIAL_SUBJECTS);
