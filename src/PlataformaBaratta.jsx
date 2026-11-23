@@ -297,6 +297,7 @@ const TABS = [
   'Estatísticas',
   'Relatórios',
   'Biblioteca',
+  'Livros',
   'Ranking',
   'Progresso'
 ];
