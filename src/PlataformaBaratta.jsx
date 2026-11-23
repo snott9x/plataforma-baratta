@@ -1623,14 +1623,12 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
-        {activeTab === 'Livros' && (
+       {activeTab === 'Livros' && (
   <BooksTab
     selectedYear={selectedYear}
     showToast={showToast}
     savePreferences={savePreferences}
     awardXp={awardXp}
-    initialBooksData={userPreferences?.[`books_data_${selectedYear}`]}
-    initialCompleted={userPreferences?.[`books_completed_${selectedYear}`]}
   />
 )}
           
