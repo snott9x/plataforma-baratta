@@ -4670,6 +4670,41 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     }
   };
 
+  // Carrega os dados salvos do Firestore com segurança ao abrir a aba
+  React.useEffect(() => {
+    let isMounted = true;
+    const loadBooksFromFirestore = async () => {
+      if (!user || !db || !appId) {
+        setIsLoading(false);
+        return;
+      }
+      try {
+        const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
+        const snap = await getDoc(prefRef);
+        if (snap.exists() && isMounted) {
+          const data = snap.data();
+          if (data[`books_completed_${selectedYear}`]) {
+            setCompletedTopics(data[`books_completed_${selectedYear}`]);
+          }
+          if (data[`books_data_${selectedYear}`]) {
+            setBooksState({
+              ...BOOKS_DATA,
+              ...data[`books_data_${selectedYear}`]
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao carregar livros:', err);
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    loadBooksFromFirestore();
+    return () => { isMounted = false; };
+  }, [selectedYear, user, db, appId]);
+
+  // Função otimizada para salvar instantaneamente sem sumir ao sair da tela
   const handleToggleTopic = async (topicId) => {
     const key = `${selectedYear}_${activeBook}_${topicId}`;
     const isCompleted = !!completedTopics[key];
@@ -4682,16 +4717,18 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     } else {
       updatedCompleted[key] = true;
       
-      // Dispara o XP (Nota: se a sua função awardXp multiplica scoreValue por 2 ou usa tabela fixa, ajustamos logo abaixo)
+      // CHAMA O XP FORÇADO A 5
       if (typeof awardXp === 'function') {
-        await awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
+        awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
 
       if (showToast) showToast('Tópico concluído! +5 XP na conta 🚀', 'success');
     }
 
+    // Atualiza o estado visual na hora
     setCompletedTopics(updatedCompleted);
 
+    // SALVA NO FIRESTORE IMEDIATAMENTE
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_completed_${selectedYear}`]: updatedCompleted
