@@ -4586,6 +4586,17 @@ function BooksTab({ selectedYear, showToast }) {
   const [completedTopics, setCompletedTopics] = React.useState({});
   const [bookXp, setBookXp] = React.useState({ '2026': 0, '2027': 0, '2028': 0 });
 
+  const getRelevanceStyle = (relevance) => {
+    switch (relevance) {
+      case 'Muito Alta':
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.15)]';
+      case 'Alta':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      case 'Média':
+        return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
+      case 'Baixa':
+        return 'bg-slate-200/10 text-white border-slate-200/30 font-semibold'; // Branco/Cinza claro em destaque
+  
   const handleTopicInput = (topicId, field, value) => {
     const updatedTopics = booksState[activeBook].topics.map((t) =>
       t.id === topicId ? { ...t, [field]: value } : t
