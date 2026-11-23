@@ -4606,19 +4606,26 @@ function BooksTab({ selectedYear, showToast, xpActions }) {
 
     if (isCompleted) {
       delete updatedCompleted[key];
-      // Se desmarcar, remove o XP ou ajusta se necessário
       if (showToast) showToast('Tópico desmarcado.', 'info');
     } else {
       updatedCompleted[key] = true;
       
-      // CHAMA A SUA FUNÇÃO GLOBAL DE XP AQUI!
-      if (xpActions && typeof xpActions.addXp === 'function') {
-        xpActions.addXp(5, 'Estudo de Livro (Matemática)');
-      } else if (typeof xpActions === 'function') {
-        xpActions(5); // Caso xpActions seja diretamente a função de somar XP
+      // TESTE DIRETO PARA VÁRIAS FORMAS DE XP NO SEU SISTEMA:
+      try {
+        if (typeof xpGanho === 'function') {
+          xpGanho(5);
+        } else if (xpActions && typeof xpActions.xpGanho === 'function') {
+          xpActions.xpGanho(5);
+        } else if (xpActions && typeof xpActions.addXp === 'function') {
+          xpActions.addXp(5, 'Estudo de Livro');
+        } else if (typeof xpActions === 'function') {
+          xpActions(5);
+        }
+      } catch (e) {
+        console.log('Erro ao computar XP:', e);
       }
 
-      if (showToast) showToast('Tópico concluído! +5 XP na sua conta 🚀', 'success');
+      if (showToast) showToast('Tópico concluído! +5 XP 🚀', 'success');
     }
 
     setCompletedTopics(updatedCompleted);
