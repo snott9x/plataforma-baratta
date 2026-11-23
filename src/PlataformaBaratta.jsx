@@ -4590,6 +4590,7 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ============================================================================
 
 function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db, appId }) {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [activeBook, setActiveBook] = React.useState('algebrista');
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
