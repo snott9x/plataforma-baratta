@@ -908,7 +908,12 @@ export default function App() {
   };
 
 const awardXp = async (actionKey, label, refId, scoreValue) => {
-    console.log("1. Clique detectado:", { actionKey, label, refId, scoreValue });
+  // SE FOR LIVRO, GARANTE QUE O VALOR SEJA EXATAMENTE 5 XP
+  const finalScore = actionKey === 'book_topic_complete' ? 5 : (scoreValue || 10);
+  
+  console.log("1. Clique detectado:", { actionKey, label, refId, finalScore });
+  
+
 
     const uniqueId = `${actionKey}_${refId}`;
     const jaExiste = xpActions.some((x) => x.id === uniqueId);
