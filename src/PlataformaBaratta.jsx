@@ -4591,9 +4591,9 @@ function BooksTab({ selectedYear, showToast }) {
     switch (relevance) {
       case 'Muito Alta':
         return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-bold';
-      case 'Alta':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
       case 'Média':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      case 'Alta':
         return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
       case 'Baixa':
         return 'bg-slate-200/10 text-white border-slate-200/30 font-semibold'; // Branco destacado
@@ -4680,8 +4680,8 @@ function BooksTab({ selectedYear, showToast }) {
           {/* Legenda Visual Atualizada */}
           <div className="flex items-center gap-3 text-[10px] text-slate-400 flex-wrap">
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Muito Alta</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Alta</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Média</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Média</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Alta</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-white"></span> Baixa</span>
           </div>
         </div>
