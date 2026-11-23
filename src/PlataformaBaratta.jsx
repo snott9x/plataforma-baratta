@@ -4663,6 +4663,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
 
     setBooksState(updatedBookState);
 
+    // SALVA AS QUESTÕES NO FORMATO DE PREFERÊNCIAS
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_data_${selectedYear}`]: updatedBookState
@@ -4682,7 +4683,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     } else {
       updatedCompleted[key] = true;
       
-      // Dá exatamente 5 de XP
+      // Concede exatamente 5 de XP via função global
       if (typeof awardXp === 'function') {
         awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
@@ -4692,6 +4693,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
 
     setCompletedTopics(updatedCompleted);
 
+    // SALVA NO FORMATO CORRETO DE PREFERÊNCIAS QUE O APP LÊ
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_completed_${selectedYear}`]: updatedCompleted
