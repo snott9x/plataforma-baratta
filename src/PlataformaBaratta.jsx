@@ -4595,7 +4595,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
   const [completedTopics, setCompletedTopics] = React.useState({});
   const [isLoading, setIsLoading] = React.useState(true);
 
-  // Carrega os dados salvos direto do Firestore ao abrir a aba ou mudar de ano
+ // Carrega e força a atualização visual assim que abre a aba ou muda o ano
   React.useEffect(() => {
     const loadBooksFromFirestore = async () => {
       if (!user || !db || !appId) {
@@ -4607,22 +4607,26 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
         const snap = await getDoc(prefRef);
         if (snap.exists()) {
           const data = snap.data();
-          if (data[`books_completed_${selectedYear}`]) {
-            setCompletedTopics(data[`books_completed_${selectedYear}`]);
+          
+          // Recupera os tópicos concluídos salvos no Firestore
+          const savedCompleted = data[`books_completed_${selectedYear}`];
+          if (savedCompleted && typeof savedCompleted === 'object') {
+            setCompletedTopics(savedCompleted);
           } else {
             setCompletedTopics({});
           }
-          if (data[`books_data_${selectedYear}`]) {
+
+          // Recupera as questões e acertos salvos no Firestore
+          const savedBooks = data[`books_data_${selectedYear}`];
+          if (savedBooks && typeof savedBooks === 'object') {
             setBooksState({
               ...BOOKS_DATA,
-              ...data[`books_data_${selectedYear}`]
+              ...savedBooks
             });
-          } else {
-            setBooksState(BOOKS_DATA);
           }
         }
       } catch (err) {
-        console.error('Erro ao carregar livros do Firestore:', err);
+        console.error('Erro ao carregar dados do Firestore:', err);
       } finally {
         setIsLoading(false);
       }
@@ -4630,7 +4634,6 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
 
     loadBooksFromFirestore();
   }, [selectedYear, user, db, appId]);
-
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
       case 'Muito Alta':
@@ -4670,39 +4673,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     }
   };
 
-  // Carrega os dados salvos do Firestore com segurança ao abrir a aba
-  React.useEffect(() => {
-    let isMounted = true;
-    const loadBooksFromFirestore = async () => {
-      if (!user || !db || !appId) {
-        setIsLoading(false);
-        return;
-      }
-      try {
-        const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
-        const snap = await getDoc(prefRef);
-        if (snap.exists() && isMounted) {
-          const data = snap.data();
-          if (data[`books_completed_${selectedYear}`]) {
-            setCompletedTopics(data[`books_completed_${selectedYear}`]);
-          }
-          if (data[`books_data_${selectedYear}`]) {
-            setBooksState({
-              ...BOOKS_DATA,
-              ...data[`books_data_${selectedYear}`]
-            });
-          }
-        }
-      } catch (err) {
-        console.error('Erro ao carregar livros:', err);
-      } finally {
-        if (isMounted) setIsLoading(false);
-      }
-    };
-
-    loadBooksFromFirestore();
-    return () => { isMounted = false; };
-  }, [selectedYear, user, db, appId]);
+ 
 
   // Função otimizada para salvar instantaneamente sem sumir ao sair da tela
   const handleToggleTopic = async (topicId) => {
