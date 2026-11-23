@@ -1089,10 +1089,43 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [splashFading, setSplashFading] = useState(false);
 
-  const [activeYear, setActiveYear] = useState(() => localStorage.getItem('pb_activeYear') || '2026');
+  const [activeYear, setActiveYear] = useState('2026');
   const [activeBook, setActiveBook] = useState('algebrista');
-  const [reportBookKey, setReportBookKey] = useState('algebrista');
+  const [booksData, setBooksData] = useState(BOOKS_DATA); // O objeto BOOKS_DATA fica lá no topo do arquivo
+  const [completedTopics, setCompletedTopics] = useState({});
+  const [xp, setXp] = useState({ '2026': 0, '2027': 0, '2028': 0 });
+  
+  const handleTopicInput = (topicId, field, value) => {
+    const updatedTopics = booksData[activeBook].topics.map((t) =>
+      t.id === topicId ? { ...t, [field]: value } : t
+    );
+    setBooksData({
+      ...booksData,
+      [activeBook]: {
+        ...booksData[activeBook],
+        topics: updatedTopics
+      }
+    });
+  };
 
+  const handleToggleTopic = (topicId) => {
+    const key = `${activeYear}_${activeBook}_${topicId}`;
+    const isAlreadyCompleted = !!completedTopics[key];
+    
+    const updatedCompleted = { ...completedTopics };
+    let currentXp = xp[activeYear] || 0;
+
+    if (isAlreadyCompleted) {
+      delete updatedCompleted[key];
+      currentXp = Math.max(0, currentXp - 5);
+    } else {
+      updatedCompleted[key] = true;
+      currentXp += 5;
+    }
+
+    setCompletedTopics(updatedCompleted);
+    setXp({ ...xp, [activeYear]: currentXp });
+  };
   // Autenticação e sincronização
   const [user, setUser] = useState(null);
   const [isLoadingData, setIsLoadingData] = useState(false);
@@ -2041,7 +2074,7 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
-       {activeTab === 'Livros' && (
+      {activeTab === 'livros' && (
   <section className="space-y-6">
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
       <div className="flex flex-wrap justify-between items-center gap-4">
@@ -2071,8 +2104,8 @@ const gamificationStats = useMemo(() => {
 
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
       <div className="space-y-4">
-      {db?.booksData?.[activeBook]?.topics?.map((t) => {
-          const isCompleted = !!db.completedTopics[`${activeYear}_${activeBook}_${t.id}`];
+        {booksData?.[activeBook]?.topics?.map((t) => {
+          const isCompleted = !!completedTopics[`${activeYear}_${activeBook}_${t.id}`];
           return (
             <div
               key={t.id}
