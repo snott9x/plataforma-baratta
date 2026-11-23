@@ -2041,7 +2041,7 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
-       {activeTab === 'livros' && (
+       {activeTab === 'Livros' && (
   <section className="space-y-6">
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
       <div className="flex flex-wrap justify-between items-center gap-4">
@@ -2071,7 +2071,7 @@ const gamificationStats = useMemo(() => {
 
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
       <div className="space-y-4">
-        {db.booksData[activeBook].topics.map((t) => {
+      {db?.booksData?.[activeBook]?.topics?.map((t) => {
           const isCompleted = !!db.completedTopics[`${activeYear}_${activeBook}_${t.id}`];
           return (
             <div
