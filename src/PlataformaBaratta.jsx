@@ -1627,12 +1627,15 @@ const gamificationStats = useMemo(() => {
               showToast={showToast}
             />
           )}
-{activeTab === 'Livros' && (
+          {activeTab === 'Livros' && (
   <BooksTab
     awardXp={awardXp}
     savePreferences={savePreferences}
     selectedYear={selectedYear}
     showToast={showToast}
+    user={user}
+    db={db}
+    appId={appId}
   />
 )}
           
@@ -4586,27 +4589,47 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ABA 7: LIVROS 
 // ============================================================================
 
-function BooksTab({ selectedYear, showToast, savePreferences, awardXp, savedPreferencesData }) {
+function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db, appId }) {
   const [activeBook, setActiveBook] = React.useState('algebrista');
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  // Sincroniza os dados salvos assim que as propriedades mudam ou o ano é alterado
+  // Carrega do Firestore assim que abre a aba ou muda o ano
   React.useEffect(() => {
-    if (savedPreferencesData) {
-      if (savedPreferencesData[`books_completed_${selectedYear}`]) {
-        setCompletedTopics(savedPreferencesData[`books_completed_${selectedYear}`]);
-      } else {
-        setCompletedTopics({});
+    const loadData = async () => {
+      if (!user || !db || !appId) {
+        setIsLoading(false);
+        return;
       }
-      if (savedPreferencesData[`books_data_${selectedYear}`]) {
-        setBooksState({
-          ...BOOKS_DATA,
-          ...savedPreferencesData[`books_data_${selectedYear}`]
-        });
+      try {
+        const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
+        const snap = await getDoc(prefRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data[`books_completed_${selectedYear}`]) {
+            setCompletedTopics(data[`books_completed_${selectedYear}`]);
+          } else {
+            setCompletedTopics({});
+          }
+          if (data[`books_data_${selectedYear}`]) {
+            setBooksState({
+              ...BOOKS_DATA,
+              ...data[`books_data_${selectedYear}`]
+            });
+          } else {
+            setBooksState(BOOKS_DATA);
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao carregar dados:', err);
+      } finally {
+        setIsLoading(false);
       }
-    }
-  }, [selectedYear, savedPreferencesData]);
+    };
+
+    loadData();
+  }, [selectedYear, user, db, appId]);
 
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
@@ -4659,7 +4682,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, savedPref
     } else {
       updatedCompleted[key] = true;
       
-      // Concede exatamente 5 de XP
+      // Dá exatamente 5 de XP
       if (typeof awardXp === 'function') {
         awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
@@ -4683,7 +4706,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, savedPref
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
             <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | Sincronizado com o Firestore ☁️
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | {isLoading ? 'Carregando...' : 'Sincronizado ☁️'}
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
