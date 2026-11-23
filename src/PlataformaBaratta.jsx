@@ -4598,11 +4598,12 @@ function BooksTab({ selectedYear, showToast, xpActions }) {
     });
   };
 
-  const handleToggleTopic = (topicId) => {
+  const handleToggleTopic = async (topicId) => {
     const key = `${selectedYear}_${activeBook}_${topicId}`;
     const isCompleted = !!completedTopics[key];
     
     const updatedCompleted = { ...completedTopics };
+    let newXpVal = 0; // Se você tiver o cálculo de XP total do ano
 
     if (isCompleted) {
       delete updatedCompleted[key];
@@ -4610,25 +4611,28 @@ function BooksTab({ selectedYear, showToast, xpActions }) {
     } else {
       updatedCompleted[key] = true;
       
-      // TESTE DIRETO PARA VÁRIAS FORMAS DE XP NO SEU SISTEMA:
-      try {
-        if (typeof xpGanho === 'function') {
-          xpGanho(5);
-        } else if (xpActions && typeof xpActions.xpGanho === 'function') {
-          xpActions.xpGanho(5);
-        } else if (xpActions && typeof xpActions.addXp === 'function') {
-          xpActions.addXp(5, 'Estudo de Livro');
-        } else if (typeof xpActions === 'function') {
-          xpActions(5);
-        }
-      } catch (e) {
-        console.log('Erro ao computar XP:', e);
+      // Se o seu sistema usa uma função de XP global, chama aqui:
+      if (typeof xpGanho === 'function') {
+        xpGanho(5);
       }
 
       if (showToast) showToast('Tópico concluído! +5 XP 🚀', 'success');
     }
 
+    // Atualiza o estado local
     setCompletedTopics(updatedCompleted);
+
+    // SALVANDO NO FIRESTORE (Padrão do seu projeto)
+    try {
+      if (typeof savePreferences === 'function') {
+        await savePreferences({
+          [`books_completed_${selectedYear}`]: updatedCompleted
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao salvar no Firestore:", error);
+      if (showToast) showToast('Erro ao sincronizar com o banco de dados.', 'error');
+    }
   };
 
   return (
