@@ -4743,7 +4743,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
             <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | {isLoading ? 'Carregando dados...' : 'Sincronizado com o Firestore ☁️'}
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | {isLoading ? 'Carregando dados...'}
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -4805,7 +4805,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
                       isCompleted ? 'bg-emerald-600 text-white shadow' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
                     }`}
                   >
-                    {isCompleted ? 'Concluído (+5 XP)' : 'Marcar Concluído'}
+                    {isCompleted ? 'Concluído (+10 XP)' : 'Marcar Concluído'}
                   </button>
                 </div>
                 
