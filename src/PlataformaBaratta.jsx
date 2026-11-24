@@ -4752,21 +4752,21 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
         if (docSnap.exists()) {
           const data = docSnap.data();
           
-          // Restaura os tópicos concluídos
-          if (data[`books_completed_${selectedYear}`]) {
-            setCompletedTopics(data[`books_completed_${selectedYear}`]);
-          } else {
-            setCompletedTopics({});
-          }
+          
+if (data['books_completed_global']) {
+  setCompletedTopics(data['books_completed_global']);
+} else {
+  setCompletedTopics({});
+}
 
-          // Restaura o progresso das questões e acertos
-          if (data[`books_data_${selectedYear}`]) {
-            setBooksState({
-              ...BOOKS_DATA,
-              ...data[`books_data_${selectedYear}`]
-            });
-          } else {
-            setBooksState(BOOKS_DATA);
+if (data['books_data_global']) {
+  setBooksState({
+    ...BOOKS_DATA,
+    ...data['books_data_global']
+  });
+} else {
+  setBooksState(BOOKS_DATA);
+}
           }
         }
       } catch (err) {
@@ -4812,11 +4812,11 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     setBooksState(updatedBookState);
 
     if (typeof savePreferences === 'function') {
-      await savePreferences({
-        [`books_data_${selectedYear}`]: updatedBookState
-      });
-    }
-  };
+    await savePreferences({
+      ['books_data_global']: updatedBookState // Salva de forma global
+    });
+  }
+};
 
   const handleToggleTopic = async (topicId) => {
     const key = `${selectedYear}_${activeBook}_${topicId}`;
@@ -4841,11 +4841,11 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     setCompletedTopics(updatedCompleted);
 
     if (typeof savePreferences === 'function') {
-      await savePreferences({
-        [`books_completed_${selectedYear}`]: updatedCompleted
-      });
-    }
-  };
+    await savePreferences({
+      ['books_data_global']: updatedBookState // Salva de forma global
+    });
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
