@@ -1555,6 +1555,9 @@ const gamificationStats = useMemo(() => {
               selectedYear={selectedYear}
               exams={exams}
               subjects={subjects}
+              db={db}
+             user={user}
+             appId={appId}
               examSyllabi={examSyllabi}
               reports={reports}
               bandLabels={bandLabels}
@@ -3436,7 +3439,10 @@ function ReportsTab({
   reports,
   bandLabels,
   onSaveReport,
-  showToast
+  showToast,
+  db,
+  user,
+  appId
 }) {
   const [scope, setScope] = useState('GENERAL'); // GENERAL | SUBJECT
   const [trimester, setTrimester] = useState('ALL'); // ALL | 1 | 2 | 3
@@ -3451,29 +3457,160 @@ function ReportsTab({
     }
   }, [reports, activeReport]);
 
- const handleGenerateReport = async () => {
-    const relevantExams = exams.filter((ex) => {
-      if (Number(ex.year) !== Number(selectedYear)) return false;
-      if (trimester !== 'ALL' && Number(ex.trimester) !== Number(trimester)) return false;
-      if (scope === 'SUBJECT' && ex.subjectId !== subjectId) return false;
-      if (scope === 'GENERAL' && areaFilter !== 'ALL') {
-        const subj = subjects.find((s) => s.id === ex.subjectId);
-        if (subj?.area !== areaFilter) return false;
-      }
-      return true;
-    });
-
-    if (relevantExams.length === 0) {
-      showToast(
-        'Não existem avaliações cadastradas para os filtros selecionados. Cadastre notas antes de gerar o relatório.',
-        'error'
-      );
-      return;
-    }
-
+const handleGenerateReport = async () => {
     setIsGenerating(true);
     try {
-      // Processamento local de dados escolares
+      // 1. SE O ESCOPO FOR LIVROS, PROCESSA O RELATÓRIO DE LIVROS
+      if (scope === 'BOOKS') {
+        if (!db || !user || !appId) {
+          showToast('Erro de conexão com o banco de dados.', 'error');
+          setIsGenerating(false);
+          return;
+        }
+
+        const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
+        const prefSnap = await getDoc(prefRef);
+        
+        if (!prefSnap.exists()) {
+          showToast('Nenhum dado de livros encontrado para gerar o relatório.', 'error');
+          setIsGenerating(false);
+          return;
+        }
+
+        const prefData = prefSnap.data();
+        const booksData = prefData[`books_data_${selectedYear}`];
+
+        if (!booksData) {
+          showToast('Nenhum progresso de livros cadastrado no ano selecionado.', 'error');
+          setIsGenerating(false);
+          return;
+        }
+
+        const matrix = [];
+        const strengths = [];
+        const difficulties = [];
+        const actionPlan = [];
+        let orderCounter = 1;
+        let totalChaptersAnalyzed = 0;
+        let totalHitsSum = 0;
+        let totalQuestionsSum = 0;
+
+        Object.keys(booksData).forEach((bookKey) => {
+          const bookObj = booksData[bookKey];
+          const bookTitle = bookObj.title || bookKey;
+
+          if (bookObj.topics && Array.isArray(bookObj.topics)) {
+            bookObj.topics.forEach((t) => {
+              const totalQ = Number(t.total || 0);
+              const hits = Number(t.hits || 0);
+              const rate = totalQ > 0 ? (hits / totalQ) * 100 : 50;
+
+              totalChaptersAnalyzed++;
+              totalHitsSum += hits;
+              totalQuestionsSum += totalQ;
+
+              let perfText = `Bom aproveitamento (${rate.toFixed(0)}%)`;
+              let priority = 'Manutenção';
+              let priorityReason = 'Bom domínio do capítulo, focar em manutenção.';
+
+              if (totalQ > 0 && rate < 60) {
+                perfText = `Atenção necessária (${rate.toFixed(0)}% de acertos)`;
+                priority = 'Prioridade Máxima';
+                priorityReason = 'Aproveitamento abaixo de 60% nas questões do livro.';
+                difficulties.push(`Capítulo "${t.name}" (${bookTitle}) com ${rate.toFixed(0)}% de acertos.`);
+
+                if (actionPlan.length < 4) {
+                  actionPlan.push({
+                    order: orderCounter++,
+                    topic: t.name,
+                    subject: bookTitle,
+                    whatToStudy: 'Refazer os exercícios em que errou e revisar a teoria básica do capítulo.',
+                    whyItMatters: 'Baixo índice de acertos nas questões práticas do livro.'
+                  });
+                }
+              } else {
+                strengths.push(`Capítulo "${t.name}" (${bookTitle}) consolidado com ${rate.toFixed(0)}% de acertos.`);
+              }
+
+              matrix.push({
+                subject: bookTitle,
+                topic: t.name,
+                schoolPerformance: perfText,
+                enemRelevance: `Relevância: ${t.relevance || 'Média'}`,
+                enemJustification: 'Classificação de importância definida no cronograma de livros.',
+                priorityLevel: priority,
+                priorityReason: priorityReason
+              });
+            });
+          }
+        });
+
+        const overallRate = totalQuestionsSum > 0 ? ((totalHitsSum / totalQuestionsSum) * 100).toFixed(1) : '0';
+
+        if (strengths.length === 0) strengths.push('Bom engajamento nos estudos por livros.');
+        if (difficulties.length === 0) difficulties.push('Nenhuma dificuldade crítica detectada nos capítulos avaliados.');
+
+        if (actionPlan.length === 0) {
+          actionPlan.push({
+            order: 1,
+            topic: 'Avanço Contínuo nos Livros',
+            subject: 'Estudo Teórico e Prático',
+            whatToStudy: 'Prosseguir com os próximos capítulos e manter revisões ativas.',
+            whyItMatters: 'Consolidar a base de matemática para alta performance.'
+          });
+        }
+
+        const localAiContent = {
+          executiveSummary: `Relatório de Livros gerado para o ano de ${selectedYear}. Foram analisados ${totalChaptersAnalyzed} capítulos, atingindo uma taxa geral de acertos de ${overallRate}% nas questões praticadas.`,
+          schoolDiagnosis: {
+            overview: `Diagnóstico detalhado do progresso nos livros de matemática, cruzando quantidade de questões feitas e acertos por capítulo.`,
+            strengths,
+            difficulties
+          },
+          integratedPriorityMatrix: matrix,
+          twoWeekActionPlan: actionPlan
+        };
+
+        const newReport = {
+          id: `rep_${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          year: Number(selectedYear),
+          scope: 'BOOKS',
+          targetTitle: 'Relatório Específico: Livros de Matemática',
+          trimester: trimester === 'ALL' ? 'Acumulado' : `${trimester}º Trimestre`,
+          subjectId: null,
+          area: 'Livros',
+          content: localAiContent
+        };
+
+        await onSaveReport(newReport);
+        setActiveReport(newReport);
+        showToast('Relatório de livros gerado com sucesso!', 'success');
+        setIsGenerating(false);
+        return;
+      }
+
+      // 2. FLUXO NORMAL (ESCOLA / PROVAS)
+      const relevantExams = exams.filter((ex) => {
+        if (Number(ex.year) !== Number(selectedYear)) return false;
+        if (trimester !== 'ALL' && Number(ex.trimester) !== Number(trimester)) return false;
+        if (scope === 'SUBJECT' && ex.subjectId !== subjectId) return false;
+        if (scope === 'GENERAL' && areaFilter !== 'ALL') {
+          const subj = subjects.find((s) => s.id === ex.subjectId);
+          if (subj?.area !== areaFilter) return false;
+        }
+        return true;
+      });
+
+      if (relevantExams.length === 0) {
+        showToast(
+          'Não existem avaliações cadastradas para os filtros selecionados. Cadastre notas antes de gerar o relatório.',
+          'error'
+        );
+        setIsGenerating(false);
+        return;
+      }
+
       let totalScore = 0;
       const topicStats = {};
       const strengths = [];
@@ -3499,7 +3636,6 @@ function ReportsTab({
 
       const avgScore = (totalScore / relevantExams.length).toFixed(1);
 
-      // Avalia tópicos para montar matriz local
       const matrix = [];
       const actionPlan = [];
       let orderCounter = 1;
@@ -3585,6 +3721,7 @@ function ReportsTab({
       setActiveReport(newReport);
       showToast('Relatório integrado gerado com sucesso!', 'success');
     } catch (err) {
+      console.error(err);
       showToast('Erro ao gerar relatório local. Tente novamente em instantes.', 'error');
     } finally {
       setIsGenerating(false);
@@ -3629,6 +3766,7 @@ function ReportsTab({
             >
               <option value="GENERAL">Geral Consolidado</option>
               <option value="SUBJECT">Individual por Matéria</option>
+              <option value="BOOKS">Livros (O Algebrista / TQM)</option> {/* <-- ADICIONADO */}
             </select>
           </div>
 
