@@ -4793,11 +4793,10 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     }
   };
 
-  const handleTopicInput = async (topicId, field, value) => {
-    // 1. Cria a cópia do estado atual dos livros
+ const handleTopicInput = async (topicId, field, value) => {
     const updatedBookState = { ...booksState };
 
-    // 2. Percorre os livros para atualizar o campo do tópico alterado
+    // Atualiza o valor do campo no tópico correspondente
     Object.keys(updatedBookState).forEach((bookKey) => {
       const book = updatedBookState[bookKey];
       if (book.topics && Array.isArray(book.topics)) {
@@ -4809,6 +4808,20 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
         });
       }
     });
+
+    setBooksState(updatedBookState);
+
+    // Salva na chave GLOBAL do Firestore (independente do ano selecionado)
+    if (typeof savePreferences === 'function' && user && db && appId) {
+      try {
+        await savePreferences({
+          'books_data_global': updatedBookState // <-- CHAVE GLOBAL CORRETA
+        });
+      } catch (err) {
+        console.error('Erro ao salvar dados globais dos livros:', err);
+      }
+    }
+  };
 
     // 3. Atualiza o estado local do React
     setBooksState(updatedBookState);
