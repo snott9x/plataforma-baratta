@@ -4600,13 +4600,6 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
   React.useEffect(() => {
     const loadFromFirestore = async () => {
       if (!user || !db || !appId) return;
-      try {
-        const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
-        const snap = await getDoc(prefRef);
-        // ...
-      } catch (err) { ... }
-    };
-    loadFromFirestore();
   }, [selectedYear, user, db, appId]);
 
 
