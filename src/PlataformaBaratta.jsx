@@ -3503,17 +3503,20 @@ const handleGenerateReport = async () => {
             bookObj.topics.forEach((t) => {
               const totalQ = Number(t.total || 0);
               const hits = Number(t.hits || 0);
-              const rate = totalQ > 0 ? (hits / totalQ) * 100 : 50;
+
+              // IGNORA CAPÍTULOS QUE NÃO FORAM ESTUDADOS (sem questões feitas)
+              if (totalQ === 0) return;
 
               totalChaptersAnalyzed++;
               totalHitsSum += hits;
               totalQuestionsSum += totalQ;
 
+              const rate = (hits / totalQ) * 100;
               let perfText = `Bom aproveitamento (${rate.toFixed(0)}%)`;
               let priority = 'Manutenção';
               let priorityReason = 'Bom domínio do capítulo, focar em manutenção.';
 
-              if (totalQ > 0 && rate < 60) {
+              if (rate < 60) {
                 perfText = `Atenção necessária (${rate.toFixed(0)}% de acertos)`;
                 priority = 'Prioridade Máxima';
                 priorityReason = 'Aproveitamento abaixo de 60% nas questões do livro.';
