@@ -4794,26 +4794,36 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
   };
 
   const handleTopicInput = async (topicId, field, value) => {
-    const updatedTopics = booksState[activeBook].topics.map((t) =>
-      t.id === topicId ? { ...t, [field]: value } : t
-    );
+    // 1. Cria a cópia do estado atual dos livros
+    const updatedBookState = { ...booksState };
 
-    const updatedBookState = {
-      ...booksState,
-      [activeBook]: {
-        ...booksState[activeBook],
-        topics: updatedTopics
+    // 2. Percorre os livros para atualizar o campo do tópico alterado
+    Object.keys(updatedBookState).forEach((bookKey) => {
+      const book = updatedBookState[bookKey];
+      if (book.topics && Array.isArray(book.topics)) {
+        book.topics = book.topics.map((t) => {
+          if (t.id === topicId) {
+            return { ...t, [field]: value };
+          }
+          return t;
+        });
       }
-    };
+    });
 
+    // 3. Atualiza o estado local do React
     setBooksState(updatedBookState);
 
-    if (typeof savePreferences === 'function') {
-    await savePreferences({
-      ['books_data_global']: updatedBookState // Salva de forma global
-    });
-  }
-};
+    // 4. Salva de forma GLOBAL no Firestore (sempre acessível independente do ano)
+    if (typeof savePreferences === 'function' && user && db && appId) {
+      try {
+        await savePreferences({
+          'books_data_global': updatedBookState
+        });
+      } catch (err) {
+        console.error('Erro ao salvar progresso global do livro:', err);
+      }
+    }
+  };
 
   const handleToggleTopic = async (topicId) => {
     const key = `${selectedYear}_${activeBook}_${topicId}`;
