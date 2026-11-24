@@ -4767,8 +4767,7 @@ if (data['books_data_global']) {
 } else {
   setBooksState(BOOKS_DATA);
 }
-          }
-        }
+       
       } catch (err) {
         console.error('Erro ao carregar dados dos livros:', err);
       } finally {
