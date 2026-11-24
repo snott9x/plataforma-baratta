@@ -4745,29 +4745,27 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
       }
       try {
         setIsLoading(true);
-        // Caminho padrão do Firestore no seu projeto para as configurações do usuário
         const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
           const data = docSnap.data();
           
-          
-if (data['books_completed_global']) {
-  setCompletedTopics(data['books_completed_global']);
-} else {
-  setCompletedTopics({});
-}
+          if (data['books_completed_global']) {
+            setCompletedTopics(data['books_completed_global']);
+          } else {
+            setCompletedTopics({});
+          }
 
-if (data['books_data_global']) {
-  setBooksState({
-    ...BOOKS_DATA,
-    ...data['books_data_global']
-  });
-} else {
-  setBooksState(BOOKS_DATA);
-}
-       
+          if (data['books_data_global']) {
+            setBooksState({
+              ...BOOKS_DATA,
+              ...data['books_data_global']
+            });
+          } else {
+            setBooksState(BOOKS_DATA);
+          }
+        }
       } catch (err) {
         console.error('Erro ao carregar dados dos livros:', err);
       } finally {
