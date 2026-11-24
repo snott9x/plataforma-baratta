@@ -12,6 +12,7 @@ import {
 import {
   getFirestore,
   doc,
+  getDoc,
   setDoc,
   deleteDoc,
   onSnapshot,
@@ -4592,27 +4593,32 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
   const [activeBook, setActiveBook] = React.useState('algebrista');
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  // CARREGA OS DADOS SALVOS DO FIRESTORE ASSIM QUE ABRE A ABA OU MUDA O ANO
+  // Carrega os dados salvos do Firestore ao abrir a aba ou trocar o ano
   React.useEffect(() => {
-    const fetchSavedData = async () => {
-      if (!user || !db || !appId) return;
+    const loadUserData = async () => {
+      if (!user || !db || !appId) {
+        setIsLoading(false);
+        return;
+      }
       try {
-        // Usa a referência padrão do Firestore que o app usa para preferências
+        setIsLoading(true);
+        // Caminho padrão do Firestore no seu projeto para as configurações do usuário
         const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
         const docSnap = await getDoc(docRef);
-        
+
         if (docSnap.exists()) {
           const data = docSnap.data();
           
-          // Restaura os tópicos concluídos do ano selecionado
+          // Restaura os tópicos concluídos
           if (data[`books_completed_${selectedYear}`]) {
             setCompletedTopics(data[`books_completed_${selectedYear}`]);
           } else {
             setCompletedTopics({});
           }
 
-          // Restaura o progresso das questões e acertos do ano selecionado
+          // Restaura o progresso das questões e acertos
           if (data[`books_data_${selectedYear}`]) {
             setBooksState({
               ...BOOKS_DATA,
@@ -4622,12 +4628,14 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
             setBooksState(BOOKS_DATA);
           }
         }
-      } catch (error) {
-        console.error('Erro ao buscar dados salvos:', error);
+      } catch (err) {
+        console.error('Erro ao carregar dados dos livros:', err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchSavedData();
+    loadUserData();
   }, [selectedYear, user, db, appId]);
 
   const getRelevanceStyle = (relevance) => {
