@@ -4849,7 +4849,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
 
     if (typeof savePreferences === 'function') {
     await savePreferences({
-      ['books_data_global']: updatedBookState // Salva de forma global
+    'books_completed_global': updatedCompleted
     });
   }
 };
