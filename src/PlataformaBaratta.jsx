@@ -3478,7 +3478,7 @@ const handleGenerateReport = async () => {
         }
 
         const prefData = prefSnap.data();
-        const booksData = prefData[`books_data_${selectedYear}`];
+       const booksData = prefData['books_data_global'];
 
         if (!booksData) {
           showToast('Nenhum progresso de livros cadastrado no ano selecionado.', 'error');
