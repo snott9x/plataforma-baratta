@@ -101,29 +101,29 @@ const AREAS_ORDER = [
 
 const BOOKS_DATA = {
   algebrista: {
-    title: "O Algebrista — Volume 1",
+    title: "O Algebrista",
     topics: [
-      { id: 'alg_1', name: 'Capítulo 1: Números inteiros (Conjuntos, Operações, Módulo, Expressões)', relevance: 'Alta' },
-      { id: 'alg_2', name: 'Capítulo 2: Números racionais (Frações, Porcentagem, Dízimas, Reais)', relevance: 'Muito Alta' },
-      { id: 'alg_3', name: 'Capítulo 3: Expressões algébricas (Termos semelhantes, Polinômios, Valor numérico)', relevance: 'Média' },
-      { id: 'alg_4', name: 'Capítulo 4: Produtos notáveis (Quadrado da soma/diferença, Stevin, Cubos)', relevance: 'Média' },
-      { id: 'alg_5', name: 'Capítulo 5: Fatoração (Evidência, Agrupamento, Trinômios)', relevance: 'Média' },
-      { id: 'alg_6', name: 'Capítulo 6: MMC e MDC (Fatores numéricos e algébricos)', relevance: 'Média' },
-      { id: 'alg_7', name: 'Capítulo 7: Frações algébricas (Simplificação, Operações)', relevance: 'Baixa' },
-      { id: 'alg_8', name: 'Capítulo 8: Equações do primeiro grau (Resolução, Discussão, Inequação)', relevance: 'Alta' },
-      { id: 'alg_9', name: 'Capítulo 9: Sistemas de equações do primeiro grau (Substituição, Adição, Retas)', relevance: 'Média' },
-      { id: 'alg_10', name: 'Capítulo 10: Problemas do primeiro grau (Velocidade, Idades, Juros, Misturas)', relevance: 'Alta' },
-      { id: 'alg_11', name: 'Capítulo 11: Conjuntos e tópicos sobre análise (Venn, Intervalos, Médias, Funções)', relevance: 'Alta' },
-      { id: 'alg_12', name: 'Capítulo 12: Inequações do primeiro grau (Sistemas, Módulo, União e Interseção)', relevance: 'Média' },
-      { id: 'alg_13', name: 'Capítulo 13: Equações do segundo grau (Bhaskara, Soma e Produto, Gráfico)', relevance: 'Alta' },
-      { id: 'alg_14', name: 'Capítulo 14: Cálculo de radicais (Operações, Racionalização)', relevance: 'Média' },
-      { id: 'alg_15', name: 'Capítulo 15: Equações redutíveis ao segundo grau (Biquadradas e Irracionais)', relevance: 'Baixa' },
-      { id: 'alg_16', name: 'Capítulo 16: Sistemas do segundo grau (Sistemas não lineares)', relevance: 'Baixa' },
-      { id: 'alg_17', name: 'Capítulo 17: Inequações do segundo grau (Trinômios, Módulo)', relevance: 'Baixa' },
-      { id: 'alg_18', name: 'Capítulo 18: Problemas do segundo grau', relevance: 'Média' },
-      { id: 'alg_19', name: 'Capítulo 19: Funções (Domínio, Composta, Afim, Inversa)', relevance: 'Muito Alta' },
-      { id: 'alg_20', name: 'Capítulo 20: Trinômio do segundo grau (Vértice, Concavidade, Gráficos)', relevance: 'Alta' },
-      { id: 'alg_21', name: 'Capítulo 21: Polinômios (Divisibilidade, Teorema do Resto, Girard)', relevance: 'Baixa' }
+      { id: 'alg_1', name: '1. Números inteiros (Conjuntos, Operações, Módulo, Expressões)', relevance: 'Alta' },
+      { id: 'alg_2', name: '2. Números racionais (Frações, Porcentagem, Dízimas, Reais)', relevance: 'Muito Alta' },
+      { id: 'alg_3', name: '3. Expressões algébricas (Termos semelhantes, Polinômios, Valor numérico)', relevance: 'Média' },
+      { id: 'alg_4', name: '4. Produtos notáveis (Quadrado da soma/diferença, Stevin, Cubos)', relevance: 'Média' },
+      { id: 'alg_5', name: '5. Fatoração (Evidência, Agrupamento, Trinômios)', relevance: 'Média' },
+      { id: 'alg_6', name: '6. MMC e MDC (Fatores numéricos e algébricos)', relevance: 'Média' },
+      { id: 'alg_7', name: '7. Frações algébricas (Simplificação, Operações)', relevance: 'Baixa' },
+      { id: 'alg_8', name: '8. Equações do primeiro grau (Resolução, Discussão, Inequação)', relevance: 'Alta' },
+      { id: 'alg_9', name: '9. Sistemas de equações do primeiro grau (Substituição, Adição, Retas)', relevance: 'Média' },
+      { id: 'alg_10', name: '10. Problemas do primeiro grau (Velocidade, Idades, Juros, Misturas)', relevance: 'Alta' },
+      { id: 'alg_11', name: '11. Conjuntos e tópicos sobre análise (Venn, Intervalos, Médias, Funções)', relevance: 'Alta' },
+      { id: 'alg_12', name: '12. Inequações do primeiro grau (Sistemas, Módulo, União e Interseção)', relevance: 'Média' },
+      { id: 'alg_13', name: '13. Equações do segundo grau (Bhaskara, Soma e Produto, Gráfico)', relevance: 'Alta' },
+      { id: 'alg_14', name: '14. Cálculo de radicais (Operações, Racionalização)', relevance: 'Média' },
+      { id: 'alg_15', name: '15. Equações redutíveis ao segundo grau (Biquadradas e Irracionais)', relevance: 'Baixa' },
+      { id: 'alg_16', name: '16. Sistemas do segundo grau (Sistemas não lineares)', relevance: 'Baixa' },
+      { id: 'alg_17', name: '17. Inequações do segundo grau (Trinômios, Módulo)', relevance: 'Baixa' },
+      { id: 'alg_18', name: '18. Problemas do segundo grau', relevance: 'Média' },
+      { id: 'alg_19', name: '19. Funções (Domínio, Composta, Afim, Inversa)', relevance: 'Muito Alta' },
+      { id: 'alg_20', name: '20. Trinômio do segundo grau (Vértice, Concavidade, Gráficos)', relevance: 'Alta' },
+      { id: 'alg_21', name: '21. Polinômios (Divisibilidade, Teorema do Resto, Girard)', relevance: 'Baixa' }
     ]
   },
   tqm_fundamental: {
@@ -4783,9 +4783,9 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     switch (relevance) {
       case 'Muito Alta':
         return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-bold';
-      case 'Alta':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
       case 'Média':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      case 'Alta':
         return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
       case 'Baixa':
         return 'bg-zinc-200/10 text-white border-zinc-200/30 font-semibold';
@@ -4854,7 +4854,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
             <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | Sincronizado ☁️
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span>
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -4886,8 +4886,8 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
           
           <div className="flex items-center gap-3 text-[10px] text-zinc-400 flex-wrap">
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Muito Alta</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Alta</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Média</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Média</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Alta</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-white"></span> Baixa</span>
           </div>
         </div>
