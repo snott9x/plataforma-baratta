@@ -4596,33 +4596,18 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
   const [completedTopics, setCompletedTopics] = React.useState({});
 
   // CARREGA DO FIRESTORE QUANDO ABRE A ABA OU MUDA O ANO
+ // APAGUE ESTE BLOCO INTEIRO DO SEU CÓDIGO:
   React.useEffect(() => {
     const loadFromFirestore = async () => {
       if (!user || !db || !appId) return;
       try {
         const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
         const snap = await getDoc(prefRef);
-        if (snap.exists()) {
-          const data = snap.data();
-          if (data[`books_completed_${selectedYear}`]) {
-            setCompletedTopics(data[`books_completed_${selectedYear}`]);
-          } else {
-            setCompletedTopics({});
-          }
-          if (data[`books_data_${selectedYear}`]) {
-            setBooksState({
-              ...BOOKS_DATA,
-              ...data[`books_data_${selectedYear}`]
-            });
-          }
-        }
-      } catch (err) {
-        console.error('Erro ao carregar do Firestore:', err);
-      }
+        // ...
+      } catch (err) { ... }
     };
     loadFromFirestore();
   }, [selectedYear, user, db, appId]);
-
 
 
   const getRelevanceStyle = (relevance) => {
