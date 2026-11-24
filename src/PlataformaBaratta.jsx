@@ -4809,20 +4809,6 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
       }
     });
 
-    setBooksState(updatedBookState);
-
-    // Salva na chave GLOBAL do Firestore (independente do ano selecionado)
-    if (typeof savePreferences === 'function' && user && db && appId) {
-      try {
-        await savePreferences({
-          'books_data_global': updatedBookState // <-- CHAVE GLOBAL CORRETA
-        });
-      } catch (err) {
-        console.error('Erro ao salvar dados globais dos livros:', err);
-      }
-    }
-  };
-
     // 3. Atualiza o estado local do React
     setBooksState(updatedBookState);
 
@@ -4833,12 +4819,12 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
           'books_data_global': updatedBookState
         });
       } catch (err) {
-        console.error('Erro ao salvar progresso global do livro:', err);
+        console.error('Erro ao salvar dados globais dos livros:', err);
       }
     }
   };
 
-  const handleToggleTopic = async (topicId) => {
+ const handleToggleTopic = async (topicId) => {
     const key = `${selectedYear}_${activeBook}_${topicId}`;
     const isCompleted = !!completedTopics[key];
     
