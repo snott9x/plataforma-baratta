@@ -4593,6 +4593,43 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
 
+  // CARREGA OS DADOS SALVOS DO FIRESTORE ASSIM QUE ABRE A ABA OU MUDA O ANO
+  React.useEffect(() => {
+    const fetchSavedData = async () => {
+      if (!user || !db || !appId) return;
+      try {
+        // Usa a referência padrão do Firestore que o app usa para preferências
+        const docRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          
+          // Restaura os tópicos concluídos do ano selecionado
+          if (data[`books_completed_${selectedYear}`]) {
+            setCompletedTopics(data[`books_completed_${selectedYear}`]);
+          } else {
+            setCompletedTopics({});
+          }
+
+          // Restaura o progresso das questões e acertos do ano selecionado
+          if (data[`books_data_${selectedYear}`]) {
+            setBooksState({
+              ...BOOKS_DATA,
+              ...data[`books_data_${selectedYear}`]
+            });
+          } else {
+            setBooksState(BOOKS_DATA);
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados salvos:', error);
+      }
+    };
+
+    fetchSavedData();
+  }, [selectedYear, user, db, appId]);
+
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
       case 'Muito Alta':
