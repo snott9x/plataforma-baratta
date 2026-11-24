@@ -4588,20 +4588,10 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
 // ============================================================================
 // ABA 7: LIVROS 
 // ============================================================================
-
 function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db, appId }) {
-  const [isLoading, setIsLoading] = React.useState(false);
   const [activeBook, setActiveBook] = React.useState('algebrista');
   const [booksState, setBooksState] = React.useState(BOOKS_DATA);
   const [completedTopics, setCompletedTopics] = React.useState({});
-
-  // CARREGA DO FIRESTORE QUANDO ABRE A ABA OU MUDA O ANO
- // APAGUE ESTE BLOCO INTEIRO DO SEU CÓDIGO:
-  React.useEffect(() => {
-    const loadFromFirestore = async () => {
-      if (!user || !db || !appId) return;
-  }, [selectedYear, user, db, appId]);
-
 
   const getRelevanceStyle = (relevance) => {
     switch (relevance) {
@@ -4635,7 +4625,6 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
 
     setBooksState(updatedBookState);
 
-    // SALVA AS QUESTÕES NO FORMATO DE PREFERÊNCIAS
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_data_${selectedYear}`]: updatedBookState
@@ -4655,7 +4644,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     } else {
       updatedCompleted[key] = true;
       
-      // Concede exatamente 5 de XP via função global
+      // Concede exatamente 5 de XP
       if (typeof awardXp === 'function') {
         awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
@@ -4665,7 +4654,6 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
 
     setCompletedTopics(updatedCompleted);
 
-    // SALVA NO FORMATO CORRETO DE PREFERÊNCIAS QUE O APP LÊ
     if (typeof savePreferences === 'function') {
       await savePreferences({
         [`books_completed_${selectedYear}`]: updatedCompleted
@@ -4680,7 +4668,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
             <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | {isLoading ? 'Carregando...' : 'Sincronizado ☁️'}
+              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span> | Sincronizado ☁️
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
