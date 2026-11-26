@@ -1444,13 +1444,6 @@ const gamificationStats = useMemo(() => {
           ))}
         </select>
 
-        <button
-          onClick={toggleDarkMode}
-          aria-label="Alternar tema claro ou escuro"
-          className="p-2 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-white/15 transition-colors"
-        >
-          {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-        </button>
       </div>
 
     </div>
