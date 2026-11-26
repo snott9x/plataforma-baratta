@@ -320,7 +320,6 @@ const XP_LEVELS = [
 const TABS = [
   'Dashboard',
   'Inserir notas',
-  'Conteúdos',
   'Boletim',
   'Estatísticas',
   'Livros',
