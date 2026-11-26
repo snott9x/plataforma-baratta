@@ -42,6 +42,7 @@ import {
   Eye,
   Sliders,
   Info,
+  Lock,
   ChevronRight,
   Calendar,
   FolderOpen,
