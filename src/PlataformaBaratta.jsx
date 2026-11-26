@@ -4824,8 +4824,9 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     }
   };
 
- const handleToggleTopic = async (topicId) => {
-    const key = `${selectedYear}_${activeBook}_${topicId}`;
+const handleToggleTopic = async (topicId) => {
+    // Chave GLOBAL: não inclui o 'selectedYear', garantindo que o status seja o mesmo em qualquer ano
+    const key = `${activeBook}_${topicId}`;
     const isCompleted = !!completedTopics[key];
     
     const updatedCompleted = { ...completedTopics };
@@ -4836,7 +4837,7 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
     } else {
       updatedCompleted[key] = true;
       
-      // Concede exatamente 5 de XP
+      // Concede o XP EXCLUSIVAMENTE vinculado ao ano ativo atual
       if (typeof awardXp === 'function') {
         awardXp('book_topic_complete', 'Estudo de Livro (Matemática)', topicId, 5);
       }
@@ -4846,12 +4847,13 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
 
     setCompletedTopics(updatedCompleted);
 
+    // Salva globalmente no Firestore
     if (typeof savePreferences === 'function') {
-    await savePreferences({
-    'books_completed_global': updatedCompleted
-    });
-  }
-};
+      await savePreferences({
+        'books_completed_global': updatedCompleted
+      });
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -4899,9 +4901,13 @@ function BooksTab({ selectedYear, showToast, savePreferences, awardXp, user, db,
         </div>
 
         <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2">
-          {booksState[activeBook].topics.map((t) => {
-            const key = `${selectedYear}_${activeBook}_${t.id}`;
+         {booksState[activeBook].topics.map((t) => {
+            // Chave GLOBAL para o componente saber se está concluído em qualquer ano
+            const key = `${activeBook}_${t.id}`;
             const isCompleted = !!completedTopics[key];
+
+            return (
+              // ... o restante do seu código do card continua igual ...
 
             return (
               <div
