@@ -1408,7 +1408,7 @@ const gamificationStats = useMemo(() => {
               onClick={() => setActiveTab(tab)}
               className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
                 isActive 
-                  ? 'bg-gradient-to-r from-blue-600 to-[#007AFF] text-white shadow-[0_0_18px_rgba(0,122,255,0.45)] border border-blue-400/30' 
+                  ? 'bg-gradient-to-r from-blue-600 to-[#007AFF] text-white shadow-[0_0_25px_rgba(0,122,255,0.53)] border border-blue-400/30' 
                   : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10'
               }`}
             >
