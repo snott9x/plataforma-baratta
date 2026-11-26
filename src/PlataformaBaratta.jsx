@@ -5494,20 +5494,20 @@ function AchievementsTab({
               : 'bg-slate-900/40 border-white/5 opacity-75'
           }`}
           >
-                {/* ÍCONE DO RANK MAIOR (SEM O CÍRCULO COLORIDO DE FUNDO) */}
-                <div className="relative z-10 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0">
-                  {isUnlocked ? (
-                    <img 
-                      src={step.badge} 
-                      alt={step.name} 
-                      className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-lg scale-110" 
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-slate-800 dark:bg-white/10 flex items-center justify-center text-slate-400 border border-white/10 shadow-inner">
-                      <Lock className="w-5 h-5 text-slate-400" />
-                    </div>
-                  )}
-                </div>
+                {/* ÍCONE DO RANK */}
+<div className="relative z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
+  {isUnlocked ? (
+    <img 
+      src={step.badge} 
+      alt={step.name} 
+      className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md" 
+    />
+  ) : (
+    <div className="w-10 h-10 rounded-full bg-slate-800 dark:bg-white/10 flex items-center justify-center text-slate-400 border border-white/10 shadow-inner">
+      <Lock className="w-4 h-4 text-slate-400" />
+    </div>
+  )}
+</div>
 
                 {/* CARD DO DEGRAU DA TRILHA */}
                 <div className="flex-1 min-w-0">
