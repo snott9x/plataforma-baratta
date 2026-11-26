@@ -927,11 +927,7 @@ export default function App() {
     }
   };
 
-  const toggleDarkMode = () => {
-    const next = !darkMode;
-    setDarkMode(next);
-    savePreferences({ darkMode: next });
-  };
+ 
 
 const awardXp = async (actionKey, label, refId, scoreValue) => {
   // SE FOR LIVRO, GARANTE QUE O VALOR SEJA EXATAMENTE 5 XP
@@ -1381,7 +1377,8 @@ const gamificationStats = useMemo(() => {
   // INTERFACE PRINCIPAL
   // ==========================================================================
   return (
-  <div className={darkMode ? 'dark' : ''}>
+ // Como deve ficar (modo escuro fixo e permanente):
+<div className="dark">
     <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#07090e] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-[#007AFF]/20 selection:text-[#007AFF] relative overflow-x-hidden">
       
       {/* --- GLOWS E GRADIENTES AMBIENTES DE FUNDO (APENAS NO MODO ESCURO) --- */}
