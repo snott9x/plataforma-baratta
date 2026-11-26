@@ -5368,7 +5368,7 @@ function AchievementsTab({
       </div>
 
       {/* CARTÃO PRINCIPAL DO NÍVEL ATUAL */}
-      <AppleCard className="bg-gradient-to-r from-[#007AFF]/15 via-[#007AFF]/5 to-transparent border-[#007AFF]/30">
+     <div className="rounded-3xl p-6 bg-gradient-to-r from-[#0F172A] via-[#0B1120] to-[#090D16] border border-[#007AFF]/40 shadow-lg">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#007AFF]/20 text-[#007AFF] text-[10px] font-extrabold uppercase tracking-wider mb-2">
@@ -5455,128 +5455,136 @@ function AchievementsTab({
       )}
 
     {/* TRILHA DE EVOLUÇÃO DE XP COM LINHA GRADIENTE */}
-<AppleCard className="p-6">
-  <div className="mb-6">
-    <h3 className="text-base font-bold text-slate-900 dark:text-white">
-      Trilha de Evolução
-    </h3>
-    <p className="text-xs text-slate-500">
-      Seu caminho do Bronze ao Surreal
-    </p>
-  </div>
+{/* TRILHA DE EVOLUÇÃO DE XP COM FUNDO MIDNIGHT NAVY & GLOW */}
+      <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#0B1120] via-[#0F172A] to-[#090D16] border border-slate-800/80 shadow-2xl">
+        
+        {/* Pontos de luz ambientais (Glows sutis no fundo) */}
+        <div className="pointer-events-none absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+        <div className="pointer-events-none absolute top-1/2 -right-24 w-96 h-96 bg-[#007AFF]/15 rounded-full blur-3xl -translate-y-1/2" />
 
-        {/* Linha vertical com gradiente fluindo de verde para azul e cinza */}
- <div className="space-y-4">
-    {XP_LEVELS_TRAIL.map((step, index) => {
-      const nextStep = XP_LEVELS_TRAIL[index + 1];
-      const isUnlocked = currentXp >= step.minXp;
-      const isCurrent =
-        isUnlocked && (!nextStep || currentXp < nextStep.minXp);
-      const xpMissing = step.minXp - currentXp;
+        {/* Conteúdo principal */}
+        <div className="relative z-10">
+          <div className="mb-6">
+            <h3 className="text-lg font-bold text-white tracking-tight">
+              Trilha de Evolução
+            </h3>
+            <p className="text-xs text-slate-400">
+              Seu caminho do Bronze ao Surreal
+            </p>
+          </div>
 
-      let segmentProgress = 0;
-      if (isCurrent && nextStep) {
-        const range = nextStep.minXp - step.minXp;
-        const earnedInLevel = currentXp - step.minXp;
-        segmentProgress = Math.min(100, Math.max(0, Math.round((earnedInLevel / range) * 100)));
-      } else if (isUnlocked && !nextStep) {
-        segmentProgress = 100;
-      }
+          <div className="space-y-4">
+            {XP_LEVELS_TRAIL.map((step, index) => {
+              const nextStep = XP_LEVELS_TRAIL[index + 1];
+              const isUnlocked = currentXp >= step.minXp;
+              const isCurrent =
+                isUnlocked && (!nextStep || currentXp < nextStep.minXp);
+              const xpMissing = step.minXp - currentXp;
 
-      return (
-        <div 
-          key={step.level} 
-          className={`relative flex items-center gap-4 p-4 rounded-2xl transition-all border ${
-            isCurrent
-              ? 'bg-[#007AFF]/10 border-[#007AFF] shadow-md scale-[1.01]'
-              : isUnlocked
-              ? 'bg-emerald-500/5 border-emerald-500/30'
-              : 'bg-slate-900/40 border-white/5 opacity-75'
-          }`}
-          >
-                {/* ÍCONE DO RANK */}
-<div className="relative z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
-  {isUnlocked ? (
-    <img 
-      src={step.badge} 
-      alt={step.name} 
-      className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md" 
-    />
-  ) : (
-    <div className="w-10 h-10 rounded-full bg-slate-800 dark:bg-white/10 flex items-center justify-center text-slate-400 border border-white/10 shadow-inner">
-      <Lock className="w-4 h-4 text-slate-400" />
-    </div>
-  )}
-</div>
+              let segmentProgress = 0;
+              if (isCurrent && nextStep) {
+                const range = nextStep.minXp - step.minXp;
+                const earnedInLevel = currentXp - step.minXp;
+                segmentProgress = Math.min(100, Math.max(0, Math.round((earnedInLevel / range) * 100)));
+              } else if (isUnlocked && !nextStep) {
+                segmentProgress = 100;
+              }
 
-                {/* CARD DO DEGRAU DA TRILHA */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                        Nível {step.level}
-                      </span>
-                      <span className="text-slate-300">•</span>
-                      <h4 className="text-base font-bold text-slate-900 dark:text-white">
-                        {step.name}
-                      </h4>
-
-                      {isCurrent && (
-                        <span className="ml-2 px-2 py-0.5 rounded-full bg-[#007AFF]/20 text-[#007AFF] text-[10px] font-extrabold tracking-wider uppercase">
-                          VOCÊ ESTÁ AQUI
-                        </span>
-                      )}
-                      {isUnlocked && !isCurrent && (
-                        <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold tracking-wider uppercase">
-                          CONCLUÍDO
-                        </span>
-                      )}
-                    </div>
-
-                    <span className="text-sm font-extrabold text-slate-300 tabular-nums">
-                      {step.minXp} XP
-                    </span>
-                  </div>
-
-                  {/* DETALHE DE PROGRESSO OU QUANTO FALTA */}
-                  <div className="mt-2">
-                    {isCurrent ? (
-                      nextStep ? (
-                        <div className="space-y-1.5">
-                          <div className="flex justify-between text-[11px] text-slate-400">
-                            <span>Progresso para {nextStep.name}</span>
-                            <span className="font-semibold text-[#007AFF]">
-                              Faltam {nextStep.minXp - currentXp} XP
-                            </span>
-                          </div>
-                          <div className="w-full h-2 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-[#007AFF] rounded-full transition-all duration-500"
-                              style={{ width: `${segmentProgress}%` }}
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <p className="text-xs text-[#007AFF] font-medium">
-                          Patente máxima alcançada! Continue mantendo o ritmo.
-                        </p>
-                      )
-                    ) : isUnlocked ? (
-                      <p className="text-xs text-slate-400">
-                        Etapa superada no seu histórico de estudos.
-                      </p>
+              return (
+                <div 
+                  key={step.level} 
+                  className={`relative flex items-center gap-4 p-4 rounded-2xl transition-all border backdrop-blur-md ${
+                    isCurrent
+                      ? 'bg-[#007AFF]/15 border-[#007AFF] shadow-[0_0_25px_rgba(0,122,255,0.18)] scale-[1.01]'
+                      : isUnlocked
+                      ? 'bg-emerald-500/[0.07] border-emerald-500/25 hover:bg-emerald-500/[0.11]'
+                      : 'bg-slate-900/60 border-slate-800/80 opacity-75'
+                  }`}
+                >
+                  {/* ÍCONE DO RANK */}
+                  <div className="relative z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
+                    {isUnlocked ? (
+                      <img 
+                        src={step.badge} 
+                        alt={step.name} 
+                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md" 
+                      />
                     ) : (
-                      <p className="text-xs text-slate-400 font-medium">
-                        Bloqueado • Faltam <strong className="text-slate-300">{xpMissing} XP</strong> para desbloquear
-                      </p>
+                      <div className="w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-400 border border-white/10 shadow-inner">
+                        <Lock className="w-4 h-4 text-slate-400" />
+                      </div>
                     )}
                   </div>
+
+                  {/* CARD DO DEGRAU DA TRILHA */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                          Nível {step.level}
+                        </span>
+                        <span className="text-slate-500">•</span>
+                        <h4 className="text-base font-bold text-white">
+                          {step.name}
+                        </h4>
+
+                        {isCurrent && (
+                          <span className="ml-2 px-2 py-0.5 rounded-full bg-[#007AFF]/20 text-[#007AFF] text-[10px] font-extrabold tracking-wider uppercase">
+                            VOCÊ ESTÁ AQUI
+                          </span>
+                        )}
+                        {isUnlocked && !isCurrent && (
+                          <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold tracking-wider uppercase">
+                            CONCLUÍDO
+                          </span>
+                        )}
+                      </div>
+
+                      <span className="text-sm font-extrabold text-slate-300 tabular-nums">
+                        {step.minXp} XP
+                      </span>
+                    </div>
+
+                    {/* DETALHE DE PROGRESSO OU QUANTO FALTA */}
+                    <div className="mt-2">
+                      {isCurrent ? (
+                        nextStep ? (
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between text-[11px] text-slate-400">
+                              <span>Progresso para {nextStep.name}</span>
+                              <span className="font-semibold text-[#007AFF]">
+                                Faltam {nextStep.minXp - currentXp} XP
+                              </span>
+                            </div>
+                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-[#007AFF] rounded-full transition-all duration-500"
+                                style={{ width: `${segmentProgress}%` }}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-xs text-[#007AFF] font-medium">
+                            Patente máxima alcançada! Continue mantendo o ritmo.
+                          </p>
+                        )
+                      ) : isUnlocked ? (
+                        <p className="text-xs text-slate-400">
+                          Etapa superada no seu histórico de estudos.
+                        </p>
+                      ) : (
+                        <p className="text-xs text-slate-400 font-medium">
+                          Bloqueado • Faltam <strong className="text-slate-300">{xpMissing} XP</strong> para desbloquear
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </AppleCard>
+      </div>
 
       {/* RENDERIZAÇÃO DO TOAST */}
       {toast && (
