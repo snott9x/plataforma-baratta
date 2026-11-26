@@ -5312,6 +5312,10 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
 // ============================================================================
 // ABA 9: PROGRESSO — GAMIFICAÇÃO POR CONSISTÊNCIA
 // ============================================================================
+// ============================================================================
+// ABA 9: PROGRESSO – GAMIFICAÇÃO POR CONSISTÊNCIA
+// ============================================================================
+
 const XP_LEVELS_TRAIL = [
   { level: 1, name: 'Bronze', minXp: 0, badge: '/bronze.webp' },
   { level: 2, name: 'Prata', minXp: 1000, badge: '/prata.webp' },
@@ -5340,10 +5344,10 @@ function AchievementsTab({
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Progresso
+            Trilha de Evolução
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Acompanhe sua evolução de XP e veja o quanto falta para alcançar os próximos níveis.
+            Seu caminho do Bronze ao Surreal.
           </p>
         </div>
 
@@ -5362,7 +5366,10 @@ function AchievementsTab({
       <AppleCard className="bg-gradient-to-r from-[#007AFF]/15 via-[#007AFF]/5 to-transparent border-[#007AFF]/30">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#007AFF]">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#007AFF]/20 text-[#007AFF] text-[10px] font-extrabold uppercase tracking-wider mb-2">
+              VOCÊ ESTÁ AQUI
+            </div>
+            <span className="block text-xs font-bold uppercase tracking-wider text-[#007AFF]">
               Patente Atual • {gamificationStats.currentLevel.name}
             </span>
             <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1 tabular-nums">
@@ -5453,7 +5460,7 @@ function AchievementsTab({
           </p>
         </div>
 
-        <div className="relative pl-4 sm:pl-6 space-y-6 before:content-[''] before:absolute before:left-[27px] sm:before:left-[35px] before:top-4 before:bottom-4 before:w-0.5 before:bg-slate-200 dark:before:bg-white/10">
+        <div className="relative pl-4 sm:pl-6 space-y-4 before:content-[''] before:absolute before:left-[27px] sm:before:left-[35px] before:top-4 before:bottom-4 before:w-0.5 before:bg-slate-200 dark:before:bg-white/10">
           {XP_LEVELS_TRAIL.map((step, index) => {
             const nextStep = XP_LEVELS_TRAIL[index + 1];
             const isUnlocked = currentXp >= step.minXp;
@@ -5472,56 +5479,62 @@ function AchievementsTab({
             }
 
             return (
-              <div key={step.level} className="relative flex items-start gap-4">
+              <div 
+                key={step.level} 
+                className={`relative flex items-center gap-4 p-4 rounded-2xl transition-all border ${
+                  isCurrent
+                    ? 'bg-[#007AFF]/10 border-[#007AFF] shadow-md scale-[1.01]'
+                    : isUnlocked
+                    ? 'bg-emerald-500/5 border-emerald-500/30'
+                    : 'bg-slate-900/40 border-white/5 opacity-75'
+                }`}
+              >
                 {/* NÓ / MARCADOR DA TRILHA */}
                 <div
-                  className={`relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 transition-all ${
+                  className={`relative z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 transition-all ${
                     isCurrent
-                      ? 'bg-[#007AFF] text-white ring-4 ring-[#007AFF]/25 scale-110 shadow-md'
+                      ? 'bg-[#007AFF] text-white ring-4 ring-[#007AFF]/25 shadow-md'
                       : isUnlocked
                       ? 'bg-emerald-500 text-white shadow-sm'
-                      : 'bg-slate-200 dark:bg-white/10 text-slate-400'
+                      : 'bg-slate-800 dark:bg-white/10 text-slate-400'
                   }`}
                 >
-                 {isUnlocked ? (
-  <img 
-    src={step.badge} 
-    alt={step.name} 
-    className="w-5 h-5 object-contain" 
-  />
-) : (
-  step.level
-)}
+                  {isUnlocked ? (
+                    <img 
+                      src={step.badge} 
+                      alt={step.name} 
+                      className="w-6 h-6 sm:w-7 sm:h-7 object-contain drop-shadow" 
+                    />
+                  ) : (
+                    step.level
+                  )}
                 </div>
 
                 {/* CARD DO DEGRAU DA TRILHA */}
-                <div
-                  className={`flex-1 p-4 rounded-2xl border transition-all ${
-                    isCurrent
-                      ? 'bg-[#007AFF]/10 border-[#007AFF] shadow-sm'
-                      : isUnlocked
-                      ? 'bg-slate-50/80 dark:bg-white/[0.04] border-slate-200/80 dark:border-white/10'
-                      : 'bg-slate-50/40 dark:bg-white/[0.01] border-slate-200/40 dark:border-white/5 opacity-60'
-                  }`}
-                >
+                <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-slate-900 dark:text-white">
-                        Nível {step.level} • {step.name}
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                        Nível {step.level}
                       </span>
+                      <span className="text-slate-300">•</span>
+                      <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                        {step.name}
+                      </h4>
+
                       {isCurrent && (
-                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-[#007AFF] text-white">
-                          Você está aqui
+                        <span className="ml-2 px-2 py-0.5 rounded-full bg-[#007AFF]/20 text-[#007AFF] text-[10px] font-extrabold tracking-wider uppercase">
+                          VOCÊ ESTÁ AQUI
                         </span>
                       )}
                       {isUnlocked && !isCurrent && (
-                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-                          Concluído
+                        <span className="ml-2 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold tracking-wider uppercase">
+                          CONCLUÍDO
                         </span>
                       )}
                     </div>
 
-                    <span className="text-xs font-extrabold tabular-nums text-slate-600 dark:text-slate-300">
+                    <span className="text-sm font-extrabold text-slate-300 tabular-nums">
                       {step.minXp} XP
                     </span>
                   </div>
@@ -5531,7 +5544,7 @@ function AchievementsTab({
                     {isCurrent ? (
                       nextStep ? (
                         <div className="space-y-1.5">
-                          <div className="flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                          <div className="flex justify-between text-[11px] text-slate-400">
                             <span>Progresso para {nextStep.name}</span>
                             <span className="font-semibold text-[#007AFF]">
                               Faltam {nextStep.minXp - currentXp} XP
@@ -5550,12 +5563,12 @@ function AchievementsTab({
                         </p>
                       )
                     ) : isUnlocked ? (
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-xs text-slate-400">
                         Etapa superada no seu histórico de estudos.
                       </p>
                     ) : (
-                      <p className="text-[11px] text-slate-400 font-medium">
-                        Bloqueado • Faltam <strong className="text-slate-600 dark:text-slate-300">{xpMissing} XP</strong> para desbloquear
+                      <p className="text-xs text-slate-400 font-medium">
+                        Bloqueado • Faltam <strong className="text-slate-300">{xpMissing} XP</strong> para desbloquear
                       </p>
                     )}
                   </div>
