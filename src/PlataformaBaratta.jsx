@@ -5465,7 +5465,35 @@ function AchievementsTab({
     </p>
   </div>
 
-     
+        {/* Linha vertical com gradiente fluindo de verde para azul e cinza */}
+  <div className="relative pl-6 sm:pl-8 space-y-4 before:content-[''] before:absolute before:left-[35px] sm:before:left-[43px] before:top-6 before:bottom-6 before:w-1 before:bg-gradient-to-b before:from-emerald-500 before:via-[#007AFF] before:to-slate-700">
+    {XP_LEVELS_TRAIL.map((step, index) => {
+      const nextStep = XP_LEVELS_TRAIL[index + 1];
+      const isUnlocked = currentXp >= step.minXp;
+      const isCurrent =
+        isUnlocked && (!nextStep || currentXp < nextStep.minXp);
+      const xpMissing = step.minXp - currentXp;
+
+      let segmentProgress = 0;
+      if (isCurrent && nextStep) {
+        const range = nextStep.minXp - step.minXp;
+        const earnedInLevel = currentXp - step.minXp;
+        segmentProgress = Math.min(100, Math.max(0, Math.round((earnedInLevel / range) * 100)));
+      } else if (isUnlocked && !nextStep) {
+        segmentProgress = 100;
+      }
+
+      return (
+        <div 
+          key={step.level} 
+          className={`relative flex items-center gap-4 p-4 rounded-2xl transition-all border ${
+            isCurrent
+              ? 'bg-[#007AFF]/10 border-[#007AFF] shadow-md scale-[1.01]'
+              : isUnlocked
+              ? 'bg-emerald-500/5 border-emerald-500/30'
+              : 'bg-slate-900/40 border-white/5 opacity-75'
+          }`}
+          >
                 {/* ÍCONE DO RANK MAIOR (SEM O CÍRCULO COLORIDO DE FUNDO) */}
                 <div className="relative z-10 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0">
                   {isUnlocked ? (
