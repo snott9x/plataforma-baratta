@@ -1604,7 +1604,7 @@ const gamificationStats = useMemo(() => {
             />
           )}
 
-          {activeTab === 'Biblioteca' && (
+          {activeTab === 'Conteúdos' && (
             <LibraryTab
               selectedYear={selectedYear}
               subjects={subjects}
