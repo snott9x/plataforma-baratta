@@ -4868,16 +4868,28 @@ const handleToggleTopic = async (topicId) => {
     }
   };
 
- return (
+return (
   <div className="max-w-4xl mx-auto space-y-6">
-    <div className="bg-[#0d121f] border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+    {/* CARTÃO DO CABEÇALHO COM RELEVO TRANSLÚCIDO */}
+    <div className="bg-[#0d121f]/90 backdrop-blur-md border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_8px_30px_rgba(0,0,0,0.5)]">
       <div className="flex flex-wrap justify-between items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100">Central de Estudos de Livros</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Ano Letivo Ativo: <span className="text-[#007AFF] font-bold">{selectedYear}</span>
-          </p>
+        <div className="flex items-center gap-3.5">
+          {/* Barra vertical luminosa */}
+          <div className="w-1 h-10 rounded-full bg-[#007AFF] shadow-[0_0_12px_#007AFF]" />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-100">
+              Central de Estudos de Livros
+            </h1>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Ano Letivo Ativo:{' '}
+              <span className="text-[#007AFF] font-bold drop-shadow-[0_0_8px_rgba(0,122,255,0.4)]">
+                {selectedYear}
+              </span>
+            </p>
+          </div>
         </div>
+
+        {/* BOTÕES COM EFEITO VIDRO LAPIDADO */}
         <div className="flex gap-2 flex-wrap">
           {[
             { key: 'algebrista', label: 'O Algebrista' },
@@ -4888,9 +4900,9 @@ const handleToggleTopic = async (topicId) => {
               key={b.key}
               onClick={() => setActiveBook(b.key)}
               className={`px-4 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
-                activeBook === b.key 
-                  ? 'bg-[#007AFF] text-white shadow-[0_4px_15px_rgba(0,122,255,0.4)]' 
-                  : 'bg-blue-950/40 text-slate-300 hover:bg-blue-900/30 border border-blue-900/40'
+                activeBook === b.key
+                  ? 'bg-gradient-to-b from-[#007AFF]/35 to-[#007AFF]/10 text-white border border-[#007AFF]/50 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_4px_15px_rgba(0,122,255,0.3)] backdrop-blur-md'
+                  : 'bg-blue-950/30 text-slate-300 hover:bg-blue-900/30 border border-blue-900/40 hover:border-blue-800/60'
               }`}
             >
               {b.label}
@@ -4900,23 +4912,35 @@ const handleToggleTopic = async (topicId) => {
       </div>
     </div>
 
-    <div className="bg-[#0d121f] border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
-      <div className="border-b border-blue-900/40 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
+    {/* CARTÃO DA LISTA DE TÓPICOS COM FEIXE DE LUZ NA DIVISÓRIA */}
+    <div className="bg-[#0d121f]/90 backdrop-blur-md border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_8px_30px_rgba(0,0,0,0.5)]">
+      <div className="relative border-b border-blue-900/40 pb-3.5 mb-4 flex flex-wrap justify-between items-center gap-2">
         <div>
           <h3 className="text-sm font-bold text-slate-100">{booksState[activeBook].title}</h3>
           <p className="text-xs text-slate-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
         </div>
-        
+
         <div className="flex items-center gap-3 text-[10px] text-slate-400 flex-wrap">
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Muito Alta</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Média</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#007AFF]"></span> Alta</span>
-          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-300"></span> Baixa</span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]"></span> Muito Alta
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.6)]"></span> Média
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#007AFF] shadow-[0_0_6px_rgba(0,122,255,0.6)]"></span> Alta
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-slate-300"></span> Baixa
+          </span>
         </div>
+
+        {/* Feixe de luz sutil na linha divisória */}
+        <div className="absolute bottom-0 left-0 w-36 h-[1px] bg-gradient-to-r from-[#007AFF] to-transparent" />
       </div>
 
       <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2">
-         {booksState[activeBook].topics.map((t) => {
+        {booksState[activeBook].topics.map((t) => {
             // Chave GLOBAL para o componente saber se está concluído em qualquer ano
             const key = `${activeBook}_${t.id}`;
             const isCompleted = !!completedTopics[key];
