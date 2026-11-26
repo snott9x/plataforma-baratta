@@ -548,13 +548,14 @@ async function extractTextFromPdfFile(file) {
 function AppleCard({ children, className = '', noPadding = false }) {
   return (
     <div
-      className={`bg-white dark:bg-[#1C1C1E] border border-slate-200/80 dark:border-white/10 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-none transition-all duration-200 ${
+      className={`bg-white dark:bg-[#1C1C1E] border border-slate-200/80 dark:border-white/10 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.03)] dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-[0_8px_25px_rgba(0,122,255,0.12)] dark:hover:shadow-[0_8px_25px_rgba(0,122,255,0.2)] ${
         noPadding ? '' : 'p-5 sm:p-6'
       } ${className}`}
     >
       {children}
     </div>
   );
+}
 }
 
 function EmptyState({ icon: Icon, title, description, action }) {
