@@ -5402,7 +5402,7 @@ function AchievementsTab({
             </div>
           </div>
         </div>
-      </AppleCard>
+      </div>
 
       {/* CONFIGURAÇÃO DE XP (OPCIONAL) */}
       {showConfig && (
