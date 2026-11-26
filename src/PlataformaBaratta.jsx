@@ -5466,7 +5466,7 @@ function AchievementsTab({
   </div>
 
         {/* Linha vertical com gradiente fluindo de verde para azul e cinza */}
-  <div className="relative pl-6 sm:pl-8 space-y-4 before:content-[''] before:absolute before:left-[35px] sm:before:left-[43px] before:top-6 before:bottom-6 before:w-1 before:bg-gradient-to-b before:from-emerald-500 before:via-[#007AFF] before:to-slate-700">
+ <div className="space-y-4">
     {XP_LEVELS_TRAIL.map((step, index) => {
       const nextStep = XP_LEVELS_TRAIL[index + 1];
       const isUnlocked = currentXp >= step.minXp;
