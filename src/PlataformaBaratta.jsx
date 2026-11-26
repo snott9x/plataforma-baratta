@@ -5310,9 +5310,8 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
     </div>
   );
 }
-// ============================================================================
-// ABA 9: PROGRESSO — GAMIFICAÇÃO POR CONSISTÊNCIA
-// ============================================================================
+
+
 // ============================================================================
 // ABA 9: PROGRESSO – GAMIFICAÇÃO POR CONSISTÊNCIA
 // ============================================================================
@@ -5334,13 +5333,8 @@ const XP_LEVELS_TRAIL = [
 
 function AchievementsTab({
   gamificationStats,
-  xpConfig,
-  onUpdateXpConfig,
   toast
 }) {
-  const [showConfig, setShowConfig] = useState(false);
-  const [draftConfig, setDraftConfig] = useState(xpConfig);
-
   const currentXp = gamificationStats?.totalXp || 0;
 
   return (
@@ -5355,20 +5349,10 @@ function AchievementsTab({
             Seu caminho do Bronze ao Surreal.
           </p>
         </div>
-
-        <button
-          onClick={() => {
-            setDraftConfig(xpConfig);
-            setShowConfig(!showConfig);
-          }}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-[#1C1C1E] border border-slate-200 dark:border-white/10 hover:border-[#007AFF]/50 transition-colors"
-        >
-          <Sliders className="w-3.5 h-3.5 text-[#007AFF]" /> Configurar Valores de XP
-        </button>
       </div>
 
       {/* CARTÃO PRINCIPAL DO NÍVEL ATUAL */}
-     <div className="rounded-3xl p-6 bg-gradient-to-r from-[#0F172A] via-[#0B1120] to-[#090D16] border border-[#007AFF]/40 shadow-lg">
+      <div className="rounded-3xl p-6 bg-gradient-to-r from-[#0F172A] via-[#0B1120] to-[#090D16] border border-[#007AFF]/40 shadow-lg">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#007AFF]/20 text-[#007AFF] text-[10px] font-extrabold uppercase tracking-wider mb-2">
@@ -5377,10 +5361,10 @@ function AchievementsTab({
             <span className="block text-xs font-bold uppercase tracking-wider text-[#007AFF]">
               Patente Atual • {gamificationStats.currentLevel.name}
             </span>
-            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1 tabular-nums">
+            <h2 className="text-3xl font-extrabold text-white mt-1 tabular-nums">
               {currentXp} XP
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-xs text-slate-400 mt-1">
               {gamificationStats.nextLevel
                 ? `Faltam ${
                     gamificationStats.nextLevel.minXp - currentXp
@@ -5390,11 +5374,11 @@ function AchievementsTab({
           </div>
 
           <div className="w-full sm:w-64">
-            <div className="flex justify-between text-xs font-semibold mb-1.5">
+            <div className="flex justify-between text-xs font-semibold mb-1.5 text-slate-300">
               <span>Nível {gamificationStats.currentLevel.level}</span>
               <span>{gamificationStats.progressPercent}%</span>
             </div>
-            <div className="w-full h-3 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
+            <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#007AFF] rounded-full transition-all duration-500"
                 style={{ width: `${gamificationStats.progressPercent}%` }}
@@ -5404,65 +5388,13 @@ function AchievementsTab({
         </div>
       </div>
 
-      {/* CONFIGURAÇÃO DE XP (OPCIONAL) */}
-      {showConfig && (
-        <AppleCard className="space-y-4">
-          <h3 className="text-sm font-bold">Valores de XP por Ação</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {[
-              { key: 'registerExam', label: 'Cadastrar prova' },
-              { key: 'completeDiagnosis', label: 'Diagnóstico por conteúdo' },
-              { key: 'uploadChapter', label: 'Organizar capítulo PDF' },
-              { key: 'approveSyllabus', label: 'Aprovar tópicos IA' },
-              { key: 'generateReport', label: 'Gerar relatório' }
-            ].map((item) => (
-              <div key={item.key}>
-                <label className="block text-[11px] text-slate-500 mb-1">{item.label}</label>
-                <input
-                  type="number"
-                  min="5"
-                  max="500"
-                  value={draftConfig[item.key]}
-                  onChange={(e) =>
-                    setDraftConfig((prev) => ({
-                      ...prev,
-                      [item.key]: Number(e.target.value)
-                    }))
-                  }
-                  className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-1.5 text-sm font-bold"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-end gap-2">
-            <button
-              onClick={() => setShowConfig(false)}
-              className="px-4 py-1.5 text-xs font-semibold text-slate-500"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={() => {
-                onUpdateXpConfig(draftConfig);
-                setShowConfig(false);
-              }}
-              className="px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#007AFF] text-white"
-            >
-              Salvar XP
-            </button>
-          </div>
-        </AppleCard>
-      )}
-
-    {/* TRILHA DE EVOLUÇÃO DE XP COM LINHA GRADIENTE */}
-{/* TRILHA DE EVOLUÇÃO DE XP COM FUNDO MIDNIGHT NAVY & GLOW */}
+      {/* TRILHA DE EVOLUÇÃO DE XP */}
       <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#0B1120] via-[#0F172A] to-[#090D16] border border-slate-800/80 shadow-2xl">
         
-        {/* Pontos de luz ambientais (Glows sutis no fundo) */}
+        {/* Pontos de luz ambientais */}
         <div className="pointer-events-none absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
         <div className="pointer-events-none absolute top-1/2 -right-24 w-96 h-96 bg-[#007AFF]/15 rounded-full blur-3xl -translate-y-1/2" />
 
-        {/* Conteúdo principal */}
         <div className="relative z-10">
           <div className="mb-6">
             <h3 className="text-lg font-bold text-white tracking-tight">
@@ -5501,16 +5433,24 @@ function AchievementsTab({
                       : 'bg-slate-900/60 border-slate-800/80 opacity-75'
                   }`}
                 >
-                  {/* ÍCONE DO RANK */}
+                  {/* NÓ / ÍCONE DO RANK */}
                   <div className="relative z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
-                    {isUnlocked ? (
-                      <img 
-                        src={step.badge} 
-                        alt={step.name} 
-                        className="w-10 h-10 sm:w-12 sm:h-12 object-contain drop-shadow-md" 
-                      />
+                    {isUnlocked && !isCurrent ? (
+                      <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md ring-4 ring-emerald-500/20">
+                        <svg className="w-5 h-5 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    ) : isCurrent ? (
+                      <div className="w-10 h-10 rounded-full bg-[#007AFF]/20 border-2 border-[#007AFF] text-[#007AFF] flex items-center justify-center shadow-lg ring-4 ring-[#007AFF]/30">
+                        <img 
+                          src={step.badge} 
+                          alt={step.name} 
+                          className="w-6 h-6 object-contain drop-shadow" 
+                        />
+                      </div>
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-400 border border-white/10 shadow-inner">
+                      <div className="w-10 h-10 rounded-full bg-slate-800/80 border border-white/10 text-slate-400 flex items-center justify-center shadow-inner">
                         <Lock className="w-4 h-4 text-slate-400" />
                       </div>
                     )}
