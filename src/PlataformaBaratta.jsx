@@ -5316,6 +5316,10 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
 // ABA 9: PROGRESSO – GAMIFICAÇÃO POR CONSISTÊNCIA
 // ============================================================================
 
+// ============================================================================
+// ABA 9: PROGRESSO – GAMIFICAÇÃO POR CONSISTÊNCIA
+// ============================================================================
+
 const XP_LEVELS_TRAIL = [
   { level: 1, name: 'Bronze', minXp: 0, badge: '/bronze.webp' },
   { level: 2, name: 'Prata', minXp: 1000, badge: '/prata.webp' },
