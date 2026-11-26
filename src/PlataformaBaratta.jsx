@@ -1,6 +1,18 @@
 console.log("🔥 ESSE ARQUIVO ESTÁ SENDO EXECUTADO DE VERDADE!");
 
-
+// ============================================================================
+// COMPONENTE DE ESTADO VAZIO GLOBAL
+// ============================================================================
+function EmptyState({ message = "Aguardando dados", icon = "∅", className = "" }) {
+  return (
+    <div className={`flex flex-col items-center justify-center py-4 text-center ${className}`}>
+      <div className="w-7 h-7 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-400 mb-1">
+        <span className="text-xs font-bold">{icon}</span>
+      </div>
+      <span className="text-xs text-slate-400 font-medium">{message}</span>
+    </div>
+  );
+}
 
 
 // ============================================================================
@@ -707,8 +719,8 @@ function HorizontalBarChart({ items }) {
   const validItems = items.filter((i) => i.value !== null && i.value !== undefined);
   if (validItems.length === 0) {
     return (
-      <div className="h-44 flex items-center justify-center text-sm text-slate-400 dark:text-slate-500">
-        Nenhum dado disponível para comparação.
+      <div className="h-44 flex items-center justify-center">
+        <EmptyState message="Nenhum dado disponível para comparação" className="py-0" />
       </div>
     );
   }
