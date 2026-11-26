@@ -1,7 +1,24 @@
 console.log("🔥 ESSE ARQUIVO ESTÁ SENDO EXECUTADO DE VERDADE!");
+
+// ============================================================================
+// COMPONENTE DE ESTADO VAZIO GLOBAL
+// ============================================================================
+function EmptyState({ message = "Aguardando dados", icon = "∅", className = "" }) {
+  return (
+    <div className={`flex flex-col items-center justify-center py-4 text-center ${className}`}>
+      <div className="w-7 h-7 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-400 mb-1">
+        <span className="text-xs font-bold">{icon}</span>
+      </div>
+      <span className="text-xs text-slate-400 font-medium">{message}</span>
+    </div>
+  );
+}
+
+
 // ============================================================================
 // COMPONENTE DE BOTÃO GLOBAL COM BRILHO NEON
 // ============================================================================
+
 function Button({ children, variant = 'primary', className = '', ...props }) {
   const baseStyles = "px-5 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 cursor-pointer";
   
