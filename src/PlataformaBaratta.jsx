@@ -556,7 +556,7 @@ function AppleCard({ children, className = '', noPadding = false }) {
     </div>
   );
 }
-}
+
 
 function EmptyState({ icon: Icon, title, description, action }) {
   return (
