@@ -5315,9 +5315,9 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
 const XP_LEVELS_TRAIL = [
   { level: 1, name: 'Bronze', minXp: 0, badge: '/bronze.webp' },
   { level: 2, name: 'Prata', minXp: 1000, badge: '/prata.webp' },
-  { level: 3, name: 'Ouro', minXp: 2000, badge: '/ouro.webp' },
-  { level: 4, name: 'Platina', minXp: 2500, badge: '/platina.png' },
-  { level: 5, name: 'Diamante', minXp: 3000, badge: '/diamante.webp' },
+  { level: 3, name: 'Ouro', minXp: 2000, badge: '/Ouro.webp' },
+  { level: 4, name: 'Platina', minXp: 2500, badge: '/Platina.png' },
+  { level: 5, name: 'Diamante', minXp: 3000, badge: '/Diamante.webp' },
   { level: 6, name: 'Elite', minXp: 3500, badge: '/elite.webp' },
   { level: 7, name: 'Lenda', minXp: 4000, badge: '/lenda.png' },
   { level: 8, name: 'Surreal', minXp: 4200, badge: '/surreal.webp' }
