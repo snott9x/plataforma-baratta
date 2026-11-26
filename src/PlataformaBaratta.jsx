@@ -1479,8 +1479,6 @@ const gamificationStats = useMemo(() => {
         );
       })}
     </div>
-
-  </div>
 </header>
 
         {/* BANNER DISCRETO PARA DADOS DE EXEMPLO */}
