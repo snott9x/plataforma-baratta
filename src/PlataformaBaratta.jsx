@@ -287,8 +287,8 @@ const XP_LEVELS = [
   { level: 4, name: 'Platina', minXp: 2500 },
   { level: 5, name: 'Diamante', minXp: 3000 },
   { level: 6, name: 'Elite', minXp: 3500 },
-  { level: 7, name: 'Lenda', minXp: 3700 },
-  { level: 8, name: 'Surreal', minXp: 3800 }
+  { level: 7, name: 'Lenda', minXp: 4000 },
+  { level: 8, name: 'Surreal', minXp: 4200 }
 ];
 
 const TABS = [
@@ -5319,8 +5319,8 @@ const XP_LEVELS_TRAIL = [
   { level: 4, name: 'Platina', minXp: 2500, badge: '💠' },
   { level: 5, name: 'Diamante', minXp: 3000, badge: '💎' },
   { level: 6, name: 'Elite', minXp: 3500, badge: '🔥' },
-  { level: 7, name: 'Lenda', minXp: 3700, badge: '⚡' },
-  { level: 8, name: 'Surreal', minXp: 3800, badge: '👑' }
+  { level: 7, name: 'Lenda', minXp: 4000, badge: '⚡' },
+  { level: 8, name: 'Surreal', minXp: 4200, badge: '👑' }
 ];
 
 function AchievementsTab({
