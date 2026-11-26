@@ -1,4 +1,24 @@
 console.log("🔥 ESSE ARQUIVO ESTÁ SENDO EXECUTADO DE VERDADE!");
+// ============================================================================
+// COMPONENTE DE BOTÃO GLOBAL COM BRILHO NEON
+// ============================================================================
+function Button({ children, variant = 'primary', className = '', ...props }) {
+  const baseStyles = "px-5 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 cursor-pointer";
+  
+  // Estilo principal com o brilho neon e reflexo translúcido
+  const primaryStyles = "bg-gradient-to-r from-blue-600 to-[#007AFF] text-white shadow-[0_0_20px_rgba(0,122,255,0.4)] hover:shadow-[0_0_30px_rgba(0,122,255,0.6)] border border-blue-400/30 active:scale-98";
+  
+  // Estilo secundário / neutro (para ações menos prioritárias)
+  const secondaryStyles = "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700";
+
+  const selectedVariant = variant === 'secondary' ? secondaryStyles : primaryStyles;
+
+  return (
+    <button className={`${baseStyles} ${selectedVariant} ${className}`} {...props}>
+      {children}
+    </button>
+  );
+}
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
@@ -1388,7 +1408,7 @@ const gamificationStats = useMemo(() => {
               onClick={() => setActiveTab(tab)}
               className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
                 isActive 
-                  ? 'bg-[#007AFF] text-white shadow-sm' 
+                  ? 'bg-gradient-to-r from-blue-600 to-[#007AFF] text-white shadow-[0_0_18px_rgba(0,122,255,0.45)] border border-blue-400/30' 
                   : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10'
               }`}
             >
