@@ -553,7 +553,7 @@ async function extractTextFromPdfFile(file) {
 function AppleCard({ children, className = '', noPadding = false }) {
   return (
     <div
-      className={`bg-white dark:bg-gradient-to-br dark:from-[#0f172a]/90 dark:via-[#111827]/95 dark:to-[#090d16] backdrop-blur-md border border-slate-200/80 dark:border-blue-500/15 rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.30)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-[0_8px_10px_rgba(0,122,255,0.20)] dark:hover:shadow-[0_8px_25px_rgba(0,122,255,0.2)] ${
+      className={`bg-[#0d121f] dark:bg-[#0d121f] border border-blue-900/40 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-[#007AFF]/60 hover:shadow-[0_8px_30px_rgba(0,122,255,0.25)] ${
         noPadding ? '' : 'p-5 sm:p-6'
       } ${className}`}
     >
@@ -1383,26 +1383,31 @@ const gamificationStats = useMemo(() => {
   // INTERFACE PRINCIPAL
   // ==========================================================================
   return (
-    <div className={darkMode ? 'dark' : ''}>
-      <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-[#007AFF]/20 selection:text-[#007AFF]">
-        {/* CABEÇALHO FIXO ESTILO APPLE */}
-      <header className="sticky top-0 z-30 w-full px-6 bg-white/85 dark:bg-[#1C1C1E]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 print:hidden">
-  <div className="flex items-center justify-between h-16 w-full">
-    <div className="flex items-center justify-between h-16 w-full">
+  <div className={darkMode ? 'dark' : ''}>
+    <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#07090e] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-[#007AFF]/20 selection:text-[#007AFF] relative overflow-x-hidden">
       
-      {/* 1. LADO ESQUERDO: LOGO */}
-      <div className="flex items-center shrink-0">
-        <button 
-          onClick={() => setActiveTab('Dashboard')}
-          className="flex items-center focus:outline-none group"
-        >
-          <img 
-            src="/logocompleta.png" 
-            alt="Plataforma Baratta" 
-            className="h-12 w-auto object-contain" 
-          />
-        </button>
-      </div>
+      {/* --- GLOWS E GRADIENTES AMBIENTES DE FUNDO (APENAS NO MODO ESCURO) --- */}
+      <div className="hidden dark:block fixed top-0 left-1/4 w-[500px] h-[500px] bg-[#007AFF]/10 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="hidden dark:block fixed bottom-0 right-10 w-[550px] h-[550px] bg-[#007AFF]/8 rounded-full blur-[130px] pointer-events-none z-0" />
+      <div className="hidden dark:block fixed top-1/2 left-10 w-[350px] h-[350px] bg-indigo-600/8 rounded-full blur-[110px] pointer-events-none z-0" />
+
+      {/* CABEÇALHO FIXO COM IDENTIDADE BARATTA */}
+      <header className="sticky top-0 z-30 w-full px-6 bg-white/85 dark:bg-[#0d121f]/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-blue-900/40 print:hidden">
+        <div className="flex items-center justify-between h-16 w-full">
+          
+          {/* 1. LADO ESQUERDO: LOGO */}
+          <div className="flex items-center shrink-0">
+            <button 
+              onClick={() => setActiveTab('Dashboard')}
+              className="flex items-center focus:outline-none group"
+            >
+              <img 
+                src="/logocompleta.png" 
+                alt="Plataforma Baratta" 
+                className="h-12 w-auto object-contain" 
+              />
+            </button>
+          </div>
 
       {/* 2. CENTRO: ABAS DE NAVEGAÇÃO PRINCIPAL */}
       <nav className="hidden lg:flex items-center space-x-1 mx-4">
