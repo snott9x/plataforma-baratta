@@ -1569,11 +1569,6 @@ const gamificationStats = useMemo(() => {
                     rep
                   );
                 }
-                await awardXp(
-                  'generateReport',
-                  `Relatório inteligente gerado (${rep.trimester || 'Geral'})`,
-                  rep.id
-                );
               }}
               showToast={showToast}
             />
