@@ -5460,7 +5460,8 @@ function AchievementsTab({
           </p>
         </div>
 
-        <div className="relative pl-4 sm:pl-6 space-y-4 before:content-[''] before:absolute before:left-[27px] sm:before:left-[35px] before:top-4 before:bottom-4 before:w-0.5 before:bg-slate-200 dark:before:bg-white/10">
+        {/* TRILHA VERTICAL COM LINHA DE CONEXÃO LATERAL */}
+        <div className="relative pl-6 sm:pl-8 space-y-4 before:content-[''] before:absolute before:left-[35px] sm:before:left-[43px] before:top-6 before:bottom-6 before:w-1 before:bg-gradient-to-b before:from-emerald-500 via-[#007AFF] before:to-slate-700">
           {XP_LEVELS_TRAIL.map((step, index) => {
             const nextStep = XP_LEVELS_TRAIL[index + 1];
             const isUnlocked = currentXp >= step.minXp;
@@ -5489,24 +5490,18 @@ function AchievementsTab({
                     : 'bg-slate-900/40 border-white/5 opacity-75'
                 }`}
               >
-                {/* NÓ / MARCADOR DA TRILHA */}
-                <div
-                  className={`relative z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 transition-all ${
-                    isCurrent
-                      ? 'bg-[#007AFF] text-white ring-4 ring-[#007AFF]/25 shadow-md'
-                      : isUnlocked
-                      ? 'bg-emerald-500 text-white shadow-sm'
-                      : 'bg-slate-800 dark:bg-white/10 text-slate-400'
-                  }`}
-                >
+                {/* ÍCONE DO RANK MAIOR (SEM O CÍRCULO COLORIDO DE FUNDO) */}
+                <div className="relative z-10 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0">
                   {isUnlocked ? (
                     <img 
                       src={step.badge} 
                       alt={step.name} 
-                      className="w-6 h-6 sm:w-7 sm:h-7 object-contain drop-shadow" 
+                      className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-lg scale-110" 
                     />
                   ) : (
-                    step.level
+                    <div className="w-12 h-12 rounded-full bg-slate-800 dark:bg-white/10 flex items-center justify-center text-slate-400 border border-white/10 shadow-inner">
+                      <Lock className="w-5 h-5 text-slate-400" />
+                    </div>
                   )}
                 </div>
 
