@@ -5088,41 +5088,48 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
   const remainingAreas = areaRanking.filter(a => a.avg === null || validAreasWithData.indexOf(a) >= 3);
 
   return (
-    <div className="space-y-6">
+  <div className="space-y-6 max-w-5xl mx-auto">
+    {/* CABEÇALHO DO RANKING COM RELEVO E BARRA DE LUZ */}
+    <div className="bg-[#0d121f]/90 backdrop-blur-md border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_8px_30px_rgba(0,0,0,0.5)]">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Ranking Acumulado
-          </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Calculado sobre todas as avaliações já registradas em cada matéria (soma das notas / quantidade de provas).
-          </p>
+        <div className="flex items-center gap-3.5">
+          {/* Barra vertical luminosa */}
+          <div className="w-1 h-10 rounded-full bg-[#007AFF] shadow-[0_0_12px_#007AFF]" />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-100">
+              Ranking Acumulado
+            </h1>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Calculado sobre todas as avaliações já registradas em cada matéria (soma das notas / quantidade de provas).
+            </p>
+          </div>
         </div>
 
-        {/* BOTÃO DE ESCOLHA (SELETOR ESTILO APPLE COM AZUL NO ATIVO) */}
-        <div className="inline-flex p-1 rounded-xl bg-slate-200/60 dark:bg-white/10 border border-slate-300/40 dark:border-white/10 self-start sm:self-auto">
+        {/* BOTÃO DE ESCOLHA COM EFEITO VIDRO LAPIDADO */}
+        <div className="inline-flex p-1.5 rounded-xl bg-[#07090e]/80 border border-blue-900/40 shadow-inner self-start sm:self-auto">
           <button
             onClick={() => setRankingType('subjects')}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all duration-300 ${
               rankingType === 'subjects'
-                ? 'bg-[#007AFF] text-white shadow-sm'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-gradient-to-b from-[#007AFF]/35 to-[#007AFF]/10 text-white border border-[#007AFF]/50 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,122,255,0.3)] backdrop-blur-md'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-blue-950/30'
             }`}
           >
             Ranking de Matérias
           </button>
           <button
             onClick={() => setRankingType('areas')}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all duration-300 ${
               rankingType === 'areas'
-                ? 'bg-[#007AFF] text-white shadow-sm'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-gradient-to-b from-[#007AFF]/35 to-[#007AFF]/10 text-white border border-[#007AFF]/50 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,122,255,0.3)] backdrop-blur-md'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-blue-950/30'
             }`}
           >
             Ranking de Áreas
           </button>
         </div>
       </div>
+    </div>
 
       {/* CONTEÚDO CONDICIONAL CONFORME A ESCOLHA */}
       {rankingType === 'subjects' ? (
