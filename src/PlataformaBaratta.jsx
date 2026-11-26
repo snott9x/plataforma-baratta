@@ -754,7 +754,6 @@ export default function App() {
   const [syncStatus, setSyncStatus] = useState('Conectando...');
 
   // Preferências visuais e navegação
-  const [darkMode, setDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [selectedYear, setSelectedYear] = useState(2026);
   const [availableYears, setAvailableYears] = useState([2026, 2027, 2028]);
@@ -837,7 +836,6 @@ export default function App() {
       (snap) => {
         if (snap.exists()) {
           const d = snap.data();
-          if (typeof d.darkMode === 'boolean') setDarkMode(d.darkMode);
           if (Array.isArray(d.subjects) && d.subjects.length > 0) setSubjects(d.subjects);
           if (Array.isArray(d.availableYears) && d.availableYears.length > 0)
             setAvailableYears(d.availableYears);
