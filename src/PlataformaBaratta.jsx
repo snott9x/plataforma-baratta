@@ -1723,36 +1723,36 @@ function DashboardTab({
 
   return (
     <div className="space-y-6">
-      {/* TOPO: SAUDAÇÃO, FRASE MOTIVACIONAL DIÁRIA E AÇÕES RÁPIDAS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <AppleCard className="lg:col-span-2 flex flex-col justify-between bg-gradient-to-br from-white to-slate-50/80 dark:from-[#1C1C1E] dark:to-[#161618]">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#007AFF]">
-                Central de Inteligência Acadêmica • {selectedYear}
-              </span>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
-                Visão Geral de Desempenho
-              </h1>
-            </div>
-            <button
-              onClick={() => setShowQuoteModal(true)}
-              title="Adicionar nova frase motivacional"
-              className="text-xs font-medium text-slate-500 hover:text-[#007AFF] dark:text-slate-400 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 transition-colors shrink-0"
-            >
-              + Frase
-            </button>
-          </div>
+     {/* TOPO: SAUDAÇÃO, FRASE MOTIVACIONAL DIÁRIA E AÇÕES RÁPIDAS */}
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+  <AppleCard className="lg:col-span-2 flex flex-col justify-between">
+    <div className="flex items-start justify-between gap-4">
+      <div>
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#007AFF]">
+          Central de Inteligência Acadêmica • {selectedYear}
+        </span>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-1">
+          Visão Geral de Desempenho
+        </h1>
+      </div>
+      <button
+        onClick={() => setShowQuoteModal(true)}
+        title="Adicionar nova frase motivacional"
+        className="text-xs font-medium text-slate-500 hover:text-[#007AFF] dark:text-slate-400 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-blue-950/40 border border-transparent dark:border-blue-900/40 transition-colors shrink-0"
+      >
+        + Frase
+      </button>
+    </div>
 
-          <div className="mt-5 pt-4 border-t border-slate-200/70 dark:border-white/10">
-            <p className="text-sm sm:text-base italic text-slate-700 dark:text-slate-200 leading-relaxed">
-              “{dailyQuote.text}”
-            </p>
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-              — {dailyQuote.author} • Reflexão do dia
-            </p>
-          </div>
-        </AppleCard>
+    <div className="mt-5 pt-4 border-t border-slate-200/70 dark:border-blue-900/40">
+      <p className="text-sm sm:text-base italic text-slate-700 dark:text-slate-100 leading-relaxed">
+        “{dailyQuote.text}”
+      </p>
+      <p className="text-xs text-slate-400 dark:text-slate-400 mt-1">
+        — {dailyQuote.author} • Reflexão do dia
+      </p>
+    </div>
+  </AppleCard>
 
         <AppleCard className="flex flex-col justify-between">
           <div>
@@ -4880,52 +4880,54 @@ const handleToggleTopic = async (topicId) => {
     }
   };
 
-  return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
-        <div className="flex flex-wrap justify-between items-center gap-4">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-white">Central de Estudos de Livros</h1>
-            <p className="text-xs text-zinc-400 mt-1">
-              Ano Letivo Ativo: <span className="text-indigo-400 font-bold">{selectedYear}</span>
-            </p>
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {[
-              { key: 'algebrista', label: 'O Algebrista' },
-              { key: 'tqm_fundamental', label: 'TQM Fundamental' },
-              { key: 'tqm_medio', label: 'TQM Médio' }
-            ].map((b) => (
-              <button
-                key={b.key}
-                onClick={() => setActiveBook(b.key)}
-                className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors ${
-                  activeBook === b.key ? 'bg-indigo-600 text-white shadow' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700/60'
-                }`}
-              >
-                {b.label}
-              </button>
-            ))}
-          </div>
+ return (
+  <div className="max-w-4xl mx-auto space-y-6">
+    <div className="bg-[#0d121f] border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+      <div className="flex flex-wrap justify-between items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-100">Central de Estudos de Livros</h1>
+          <p className="text-xs text-slate-400 mt-1">
+            Ano Letivo Ativo: <span className="text-[#007AFF] font-bold">{selectedYear}</span>
+          </p>
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          {[
+            { key: 'algebrista', label: 'O Algebrista' },
+            { key: 'tqm_fundamental', label: 'TQM Fundamental' },
+            { key: 'tqm_medio', label: 'TQM Médio' }
+          ].map((b) => (
+            <button
+              key={b.key}
+              onClick={() => setActiveBook(b.key)}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all duration-300 ${
+                activeBook === b.key 
+                  ? 'bg-[#007AFF] text-white shadow-[0_4px_15px_rgba(0,122,255,0.4)]' 
+                  : 'bg-blue-950/40 text-slate-300 hover:bg-blue-900/30 border border-blue-900/40'
+              }`}
+            >
+              {b.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div className="bg-[#0d121f] border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+      <div className="border-b border-blue-900/40 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
+        <div>
+          <h3 className="text-sm font-bold text-slate-100">{booksState[activeBook].title}</h3>
+          <p className="text-xs text-slate-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
+        </div>
+        
+        <div className="flex items-center gap-3 text-[10px] text-slate-400 flex-wrap">
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Muito Alta</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Média</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#007AFF]"></span> Alta</span>
+          <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-300"></span> Baixa</span>
         </div>
       </div>
 
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 space-y-4 shadow-lg">
-        <div className="border-b border-zinc-800 pb-3 mb-4 flex flex-wrap justify-between items-center gap-2">
-          <div>
-            <h3 className="text-sm font-bold text-zinc-200">{booksState[activeBook].title}</h3>
-            <p className="text-xs text-zinc-400">Marque o checklist dos tópicos concluídos e registre suas questões resolvidas.</p>
-          </div>
-          
-          <div className="flex items-center gap-3 text-[10px] text-zinc-400 flex-wrap">
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span> Muito Alta</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span> Média</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-sky-400"></span> Alta</span>
-            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-white"></span> Baixa</span>
-          </div>
-        </div>
-
-        <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2">
+      <div className="space-y-3 max-h-[650px] overflow-y-auto pr-2">
          {booksState[activeBook].topics.map((t) => {
             // Chave GLOBAL para o componente saber se está concluído em qualquer ano
             const key = `${activeBook}_${t.id}`;
@@ -4935,12 +4937,12 @@ const handleToggleTopic = async (topicId) => {
               <div
                 key={t.id}
                 className={`p-4 rounded-xl border transition-all ${
-                  isCompleted ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-zinc-800 bg-zinc-950'
+                  isCompleted ? 'border-emerald-500/50 bg-emerald-950/20' : 'border-blue-900/40 bg-[#07090e]/60'
                 } space-y-3`}
               >
                 <div className="flex flex-wrap justify-between items-start gap-2">
                   <div>
-                    <h4 className="text-sm font-bold text-white">{t.name}</h4>
+                    <h4 className="text-sm font-bold text-slate-100">{t.name}</h4>
                     <span className={`px-2.5 py-0.5 text-[10px] border rounded-md mt-1.5 inline-block ${getRelevanceStyle(t.relevance)}`}>
                       Relevância: {t.relevance}
                     </span>
@@ -4948,33 +4950,35 @@ const handleToggleTopic = async (topicId) => {
                   <button
                     type="button"
                     onClick={() => handleToggleTopic(t.id)}
-                    className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${
-                      isCompleted ? 'bg-emerald-600 text-white shadow' : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-zinc-700'
+                    className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                      isCompleted 
+                        ? 'bg-emerald-600 text-white shadow' 
+                        : 'bg-blue-950/40 text-slate-300 hover:bg-[#007AFF]/20 border border-blue-900/40 hover:border-[#007AFF]/60'
                     }`}
                   >
                     {isCompleted ? 'Concluído (+5 XP)' : 'Marcar Concluído'}
                   </button>
                 </div>
                 
-                <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-zinc-800/80">
+                <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-blue-900/30">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-zinc-400">Questões Feitas:</span>
+                    <span className="text-xs text-slate-400">Questões Feitas:</span>
                     <input
                       type="number"
                       value={t.total || ''}
                       onChange={(e) => handleTopicInput(t.id, 'total', e.target.value)}
                       placeholder="0"
-                      className="w-20 bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                      className="w-20 bg-[#07090e] border border-blue-900/40 rounded-lg px-2 py-1 text-xs text-slate-100 text-center focus:outline-none focus:border-[#007AFF]"
                     />
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-zinc-400">Acertos:</span>
+                    <span className="text-xs text-slate-400">Acertos:</span>
                     <input
                       type="number"
                       value={t.hits || ''}
                       onChange={(e) => handleTopicInput(t.id, 'hits', e.target.value)}
                       placeholder="0"
-                      className="w-20 bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-indigo-500"
+                      className="w-20 bg-[#07090e] border border-blue-900/40 rounded-lg px-2 py-1 text-xs text-slate-100 text-center focus:outline-none focus:border-[#007AFF]"
                     />
                   </div>
                 </div>
