@@ -4057,7 +4057,7 @@ const handleGenerateReport = async () => {
 }
 
 // ============================================================================
-// ABA 6: BIBLIOTECA (PARTE A: ACERVO PDF + PARTE B: MAPEAMENTO DE PROVAS COM IA)
+// ABA 6: CONTEÚDOS (PARTE A: ACERVO PDF + PARTE B: MAPEAMENTO DE PROVAS COM IA)
 // ============================================================================
 function LibraryTab({
   selectedYear,
@@ -4271,42 +4271,49 @@ NUNCA invente assuntos que não estejam presentes no texto extraído dos capítu
       .sort((a, b) => Number(a.chapterNumber) - Number(b.chapterNumber));
   }, [chapters, filterSubject]);
 
-  return (
-    <div className="space-y-6">
+ return (
+  <div className="space-y-6 max-w-5xl mx-auto">
+    {/* CABEÇALHO DA SEÇÃO COM RELEVO E BARRA DE LUZ */}
+    <div className="bg-[#0d121f]/90 backdrop-blur-md border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_8px_30px_rgba(0,0,0,0.5)]">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Biblioteca e Mapeamento de Conteúdos
-          </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Organize os capítulos dos livros em PDF e extraia os conteúdos de cada avaliação com conferência obrigatória.
-          </p>
+        <div className="flex items-center gap-3.5">
+          {/* Barra vertical luminosa */}
+          <div className="w-1 h-10 rounded-full bg-[#007AFF] shadow-[0_0_12px_#007AFF]" />
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-100">
+              Biblioteca e Mapeamento de Conteúdos
+            </h1>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Organize os capítulos dos livros em PDF e extraia os conteúdos de cada avaliação com conferência obrigatória.
+            </p>
+          </div>
         </div>
 
-        <div className="flex bg-slate-200/70 dark:bg-white/10 p-1 rounded-xl">
+        {/* SELETOR DE ABAS COM EFEITO VIDRO LAPIDADO */}
+        <div className="flex bg-[#07090e]/80 p-1.5 rounded-xl border border-blue-900/40 shadow-inner">
           <button
             onClick={() => setSubTab('ACERVO')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all duration-300 ${
               subTab === 'ACERVO'
-                ? 'bg-white dark:bg-[#1C1C1E] text-[#007AFF] shadow-sm'
-                : 'text-slate-600 dark:text-slate-300'
+                ? 'bg-gradient-to-b from-[#007AFF]/35 to-[#007AFF]/10 text-white border border-[#007AFF]/50 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,122,255,0.3)] backdrop-blur-md'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-blue-950/30'
             }`}
           >
             Parte A • Acervo de Capítulos
           </button>
           <button
             onClick={() => setSubTab('PROVAS')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all duration-300 ${
               subTab === 'PROVAS'
-                ? 'bg-white dark:bg-[#1C1C1E] text-[#007AFF] shadow-sm'
-                : 'text-slate-600 dark:text-slate-300'
+                ? 'bg-gradient-to-b from-[#007AFF]/35 to-[#007AFF]/10 text-white border border-[#007AFF]/50 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_4px_12px_rgba(0,122,255,0.3)] backdrop-blur-md'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-blue-950/30'
             }`}
           >
             Parte B • Conteúdos de Cada Prova
           </button>
         </div>
       </div>
-
+    </div>
       {/* PARTE A: ACERVO DE LIVROS E CAPÍTULOS */}
       {subTab === 'ACERVO' && (
         <div className="space-y-6">
