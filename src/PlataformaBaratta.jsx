@@ -4907,9 +4907,6 @@ const handleToggleTopic = async (topicId) => {
             const isCompleted = !!completedTopics[key];
 
             return (
-              // ... o restante do seu código do card continua igual ...
-
-            return (
               <div
                 key={t.id}
                 className={`p-4 rounded-xl border transition-all ${
