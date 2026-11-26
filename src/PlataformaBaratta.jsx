@@ -5493,6 +5493,7 @@ function AchievementsTab({
               ? 'bg-emerald-500/5 border-emerald-500/30'
               : 'bg-slate-900/40 border-white/5 opacity-75'
           }`}
+          >
                 {/* ÍCONE DO RANK MAIOR (SEM O CÍRCULO COLORIDO DE FUNDO) */}
                 <div className="relative z-10 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0">
                   {isUnlocked ? (
