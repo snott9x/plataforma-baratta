@@ -3848,7 +3848,7 @@ const handleGenerateReport = async () => {
                 className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-3 py-2 text-xs sm:text-sm font-medium"
               >
                <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as Áreas</option>
-                {AREAS_ORDER
+             {AREAS_ORDER
   .filter(area => (selectedYear !== 2028 && selectedYear !== '2028') || area !== 'Redação')
   .map((area) => (
                   <option key={a} value={a} className="dark:bg-slate-900 dark:text-white">
