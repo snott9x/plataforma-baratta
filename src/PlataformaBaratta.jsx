@@ -141,9 +141,6 @@ const getAreasOrder = (year) => {
   return ['Matemática', 'Ciências da Natureza', 'Ciências Humanas', 'Linguagens', 'Redação'];
 };
 
-// Dentro do seu componente, onde você usa as matérias e áreas, basta chamar:
-const INITIAL_SUBJECTS = getSubjects(selectedYear);
-const AREAS_ORDER = getAreasOrder(selectedYear);
 
 const BOOKS_DATA = {
   algebrista: {
@@ -775,6 +772,8 @@ export default function App() {
   // Preferências visuais e navegação
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [selectedYear, setSelectedYear] = useState(2026);
+  const INITIAL_SUBJECTS = getSubjects(selectedYear);
+  const AREAS_ORDER = getAreasOrder(selectedYear);
   const [availableYears, setAvailableYears] = useState([2026, 2027, 2028]);
 
   // Dados acadêmicos persistentes
