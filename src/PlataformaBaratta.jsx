@@ -5090,8 +5090,6 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
     <div className="bg-[#0d121f]/90 backdrop-blur-md border border-blue-900/40 rounded-2xl p-6 space-y-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_8px_30px_rgba(0,0,0,0.5)]">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          {/* Barra vertical luminosa */}
-          <div className="w-1 h-10 rounded-full bg-[#007AFF] shadow-[0_0_12px_#007AFF]" />
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-100">
               Ranking Acumulado
