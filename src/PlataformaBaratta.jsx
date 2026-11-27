@@ -107,15 +107,15 @@ const getSubjects = (year) => {
   const is2028 = year === 2028 || year === '2028';
   
   const base = [
-    { id: 'mat', name: 'Matemática', area: 'Matemática' },
-    { id: 'fis', name: 'Física', area: 'Ciências da Natureza' },
-    { id: 'qui', name: 'Química', area: 'Ciências da Natureza' },
-    { id: 'bio', name: 'Biologia', area: 'Ciências da Natureza' },
     { id: 'por', name: 'Português', area: 'Linguagens' },
-    { id: 'ing', name: 'Inglês', area: 'Linguagens' },
+    { id: 'fis', name: 'Física', area: 'Ciências da Natureza' },
     { id: 'his', name: 'História', area: 'Ciências Humanas' },
-    { id: 'geo', name: 'Geografia', area: 'Ciências Humanas' },
     { id: 'art', name: 'História da Arte', area: 'Linguagens' },
+    { id: 'bio', name: 'Biologia', area: 'Ciências da Natureza' },
+    { id: 'geo', name: 'Geografia', area: 'Ciências Humanas' },
+    { id: 'qui', name: 'Química', area: 'Ciências da Natureza' },
+    { id: 'mat', name: 'Matemática', area: 'Matemática' },
+    { id: 'ing', name: 'Inglês', area: 'Linguagens' },
   ];
 
   if (is2028) {
