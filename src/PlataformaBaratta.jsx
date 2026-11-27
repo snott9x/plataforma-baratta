@@ -3305,13 +3305,13 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
               className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
             >
               <option value="ALL">Todas as áreas</option>
-             {AREAS_ORDER
+           {AREAS_ORDER
   .filter(area => (selectedYear !== 2028 && selectedYear !== '2028') || area !== 'Redação')
   .map((area) => (
-                <option key={a} value={a}>
-                  {a}
-                </option>
-              ))}
+    <option key={area} value={area}>
+      {area}
+    </option>
+  ))}
             </select>
           </div>
 
