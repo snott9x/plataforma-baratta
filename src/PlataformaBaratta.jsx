@@ -102,28 +102,48 @@ const appId = typeof __app_id !== 'undefined' ? __app_id : 'plataforma-baratta-v
 // ============================================================================
 // CONSTANTES E REGRAS DE NEGÓCIO DA PLATAFORMA BARATTA
 // ============================================================================
-const INITIAL_SUBJECTS = [
-  { id: 'mat', name: 'Matemática', area: 'Matemática' },
-  { id: 'fis', name: 'Física', area: 'Ciências da Natureza' },
-  { id: 'qui', name: 'Química', area: 'Ciências da Natureza' },
-  { id: 'bio', name: 'Biologia', area: 'Ciências da Natureza' },
-  { id: 'por', name: 'Português', area: 'Linguagens' },
-  { id: 'ing', name: 'Inglês', area: 'Linguagens' },
-  { id: 'his', name: 'História', area: 'Ciências Humanas' },
-  { id: 'geo', name: 'Geografia', area: 'Ciências Humanas' },
-  { id: 'fil', name: 'Filosofia', area: 'Ciências Humanas' },
-  { id: 'soc', name: 'Sociologia', area: 'Ciências Humanas' },
-  { id: 'art', name: 'História da Arte', area: 'Linguagens' },
-  { id: 'red', name: 'Redação', area: 'Redação' },
-];
+// Matérias dinâmicas baseadas no ano (2028 junta Filosofia/Sociologia e remove Redação)
+const getSubjects = (year) => {
+  const is2028 = year === 2028 || year === '2028';
+  
+  const base = [
+    { id: 'mat', name: 'Matemática', area: 'Matemática' },
+    { id: 'fis', name: 'Física', area: 'Ciências da Natureza' },
+    { id: 'qui', name: 'Química', area: 'Ciências da Natureza' },
+    { id: 'bio', name: 'Biologia', area: 'Ciências da Natureza' },
+    { id: 'por', name: 'Português', area: 'Linguagens' },
+    { id: 'ing', name: 'Inglês', area: 'Linguagens' },
+    { id: 'his', name: 'História', area: 'Ciências Humanas' },
+    { id: 'geo', name: 'Geografia', area: 'Ciências Humanas' },
+  ];
 
-const AREAS_ORDER = [
-  'Matemática',
-  'Ciências da Natureza',
-  'Ciências Humanas',
-  'Linguagens',
-  'Redação'
-];
+  if (is2028) {
+    base.push(
+      { id: 'fil_soc', name: 'Filosofia/Sociologia', area: 'Ciências Humanas' }
+    );
+  } else {
+    base.push(
+      { id: 'fil', name: 'Filosofia', area: 'Ciências Humanas' },
+      { id: 'soc', name: 'Sociologia', area: 'Ciências Humanas' },
+      { id: 'art', name: 'História da Arte', area: 'Linguagens' },
+      { id: 'red', name: 'Redação', area: 'Redação' }
+    );
+  }
+
+  return base;
+};
+
+const getAreasOrder = (year) => {
+  const is2028 = year === 2028 || year === '2028';
+  if (is2028) {
+    return ['Matemática', 'Ciências da Natureza', 'Ciências Humanas', 'Linguagens'];
+  }
+  return ['Matemática', 'Ciências da Natureza', 'Ciências Humanas', 'Linguagens', 'Redação'];
+};
+
+// Dentro do seu componente, onde você usa as matérias e áreas, basta chamar:
+const INITIAL_SUBJECTS = getSubjects(selectedYear);
+const AREAS_ORDER = getAreasOrder(selectedYear);
 
 const BOOKS_DATA = {
   algebrista: {
