@@ -1460,10 +1460,12 @@ const gamificationStats = useMemo(() => {
 
       {/* 3. LADO DIREITO: CONTROLES GLOBAIS (ANO, STATUS, TEMA) */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-       <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 text-[11px] font-medium border border-[#007AFF]/30 shadow-[0_0_10px_rgba(0,122,255,0.15)]">
-  {/* Símbolo / Ícone do rank à esquerda */}
+      <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 text-[11px] font-medium border border-[#007AFF]/30 shadow-[0_0_10px_rgba(0,122,255,0.15)]">
+  {/* Busca a badge correspondente na lista XP_LEVELS_TRAIL pelo nome do rank */}
   <img 
-    src={gamificationStats?.currentLevel?.badge || '/bronze.webp'} 
+    src={
+      XP_LEVELS_TRAIL.find(lvl => lvl.name === gamificationStats?.currentLevel?.name)?.badge || '/bronze.webp'
+    } 
     alt={gamificationStats?.currentLevel?.name || 'Bronze'} 
     className="w-4 h-4 object-contain drop-shadow" 
   />
