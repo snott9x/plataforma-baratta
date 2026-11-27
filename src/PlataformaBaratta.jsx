@@ -775,6 +775,10 @@ export default function App() {
   const INITIAL_SUBJECTS = getSubjects(selectedYear);
   const AREAS_ORDER = getAreasOrder(selectedYear);
   const [availableYears, setAvailableYears] = useState([2026, 2027, 2028]);
+  // Atualiza as matérias automaticamente sempre que o ano mudar
+useEffect(() => {
+  setSubjects(getSubjects(selectedYear));
+}, [selectedYear]);
 
   // Dados acadêmicos persistentes
   const [subjects, setSubjects] = useState(INITIAL_SUBJECTS);
