@@ -1459,19 +1459,11 @@ const gamificationStats = useMemo(() => {
       </nav>
 
       {/* 3. LADO DIREITO: CONTROLES GLOBAIS (ANO, STATUS, TEMA) */}
-     <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 text-[11px] font-medium border border-[#007AFF]/30 shadow-[0_0_10px_rgba(0,122,255,0.15)]">
-  {/* Símbolo / Ícone do rank à esquerda */}
-  <img 
-    src={gamificationStats?.currentLevel?.badge || '/bronze.webp'} 
-    alt={gamificationStats?.currentLevel?.name || 'Bronze'} 
-    className="w-4 h-4 object-contain drop-shadow" 
-  />
-
-  {/* Nome do rank à direita */}
-  <span className="text-slate-700 dark:text-slate-200 font-bold tracking-wide">
-    {gamificationStats?.currentLevel?.name || 'Bronze'}
-  </span>
-</div>
+      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#007AFF]" />
+          <span>{syncStatus}</span>
+        </div>
 
         <select
           aria-label="Selecionar ano letivo"
@@ -5416,6 +5408,10 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
   );
 }
 
+
+// ============================================================================
+// ABA 9: PROGRESSO – GAMIFICAÇÃO POR CONSISTÊNCIA
+// ============================================================================
 
 // ============================================================================
 // ABA 9: PROGRESSO – GAMIFICAÇÃO POR CONSISTÊNCIA
