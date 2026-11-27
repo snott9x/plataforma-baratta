@@ -1,7 +1,12 @@
 console.log("🔥 ESSE ARQUIVO ESTÁ SENDO EXECUTADO DE VERDADE!");
 
-
-
+const AREAS_ORDER = [
+  'Matemática',
+  'Ciências da Natureza',
+  'Ciências Humanas',
+  'Linguagens',
+  'Redação'
+];
 
 // ============================================================================
 // COMPONENTE DE BOTÃO GLOBAL COM BRILHO NEON
@@ -773,7 +778,12 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [selectedYear, setSelectedYear] = useState(2026);
   const INITIAL_SUBJECTS = getSubjects(selectedYear);
-  const AREAS_ORDER = getAreasOrder(selectedYear);
+ const getAreasOrder = (year) => {
+  const is2028 = Number(year) === 2028;
+  return is2028
+    ? ['Matemática', 'Ciências da Natureza', 'Ciências Humanas', 'Linguagens']
+    : AREAS_ORDER;
+};
   const [availableYears, setAvailableYears] = useState([2026, 2027, 2028]);
   // Atualiza as matérias automaticamente sempre que o ano mudar
 useEffect(() => {
@@ -1264,7 +1274,9 @@ const awardXp = async (actionKey, label, refId, scoreValue) => {
       sortedSubjects.length > 0 ? sortedSubjects[sortedSubjects.length - 1] : null;
 
     // Médias por área no ano
-    const areaStats = AREAS_ORDER.map((areaName) => {
+    const areaStats = AREAS_ORDER
+  .filter(areaName => (selectedYear !== 2028 && selectedYear !== '2028') || areaName !== 'Redação')
+  .map((areaName) => {
       const areaSubjs = subjectsWithData.filter((s) => s.subject.area === areaName);
       const avg =
         areaSubjs.length > 0
@@ -2802,7 +2814,9 @@ const handleAiOrganizeMapping = () => {
                 onChange={(e) => setNewSubjArea(e.target.value)}
                 className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-2 text-sm"
               >
-                {AREAS_ORDER.map((area) => (
+                {AREAS_ORDER
+  .filter(area => (selectedYear !== 2028 && selectedYear !== '2028') || area !== 'Redação')
+  .map((area) => (
                   <option key={area} value={area} className="bg-white dark:bg-[#1C1C1E]">
                     {area}
                   </option>
@@ -3291,7 +3305,9 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
               className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-2.5 py-2 text-xs font-medium"
             >
               <option value="ALL">Todas as áreas</option>
-              {AREAS_ORDER.map((a) => (
+             {AREAS_ORDER
+  .filter(area => (selectedYear !== 2028 && selectedYear !== '2028') || area !== 'Redação')
+  .map((area) => (
                 <option key={a} value={a}>
                   {a}
                 </option>
@@ -3832,7 +3848,9 @@ const handleGenerateReport = async () => {
                 className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-900 dark:text-white px-3 py-2 text-xs sm:text-sm font-medium"
               >
                <option value="ALL" className="dark:bg-slate-900 dark:text-white">Todas as Áreas</option>
-                {AREAS_ORDER.map((a) => (
+                {AREAS_ORDER
+  .filter(area => (selectedYear !== 2028 && selectedYear !== '2028') || area !== 'Redação')
+  .map((area) => (
                   <option key={a} value={a} className="dark:bg-slate-900 dark:text-white">
                     {a}
                   </option>
@@ -5076,7 +5094,9 @@ function RankingTab({ exams, subjects, bandLabels, selectedYear }) {
   }, [filteredExams, subjects]);
 
   const areaRanking = useMemo(() => {
-    const areas = AREAS_ORDER.map((areaName) => {
+    const areas = AREAS_ORDER
+  .filter(areaName => (selectedYear !== 2028 && selectedYear !== '2028') || areaName !== 'Redação')
+  .map((areaName) => {
       const areaSubjs = subjectRanking.filter(
         (s) => s.subject.area === areaName && s.avg !== null
       );
