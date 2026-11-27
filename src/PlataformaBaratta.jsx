@@ -115,6 +115,7 @@ const getSubjects = (year) => {
     { id: 'ing', name: 'Inglês', area: 'Linguagens' },
     { id: 'his', name: 'História', area: 'Ciências Humanas' },
     { id: 'geo', name: 'Geografia', area: 'Ciências Humanas' },
+    { id: 'art', name: 'História da Arte', area: 'Linguagens' },
   ];
 
   if (is2028) {
@@ -125,7 +126,6 @@ const getSubjects = (year) => {
     base.push(
       { id: 'fil', name: 'Filosofia', area: 'Ciências Humanas' },
       { id: 'soc', name: 'Sociologia', area: 'Ciências Humanas' },
-      { id: 'art', name: 'História da Arte', area: 'Linguagens' },
       { id: 'red', name: 'Redação', area: 'Redação' }
     );
   }
