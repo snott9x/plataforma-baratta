@@ -3437,13 +3437,28 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
       </div>
 
       {/* EVOLUÇÃO E APROVEITAMENTO POR CONTEÚDO */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AppleCard>
-          <h3 className="text-base font-semibold mb-1">Evolução Temporal no Recorte</h3>
-          <p className="text-xs text-slate-500 mb-4">
-            Acompanhamento de notas ao longo das avaliações
-          </p>
-          <LineEvolutionChart dataPoints={stats.evolution} />
+      <AppleCard>
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <div>
+              <h3 className="text-base font-semibold mb-1">Evolução Temporal no Recorte</h3>
+              <p className="text-xs text-slate-500">
+                Acompanhamento de notas ao longo das avaliações
+              </p>
+            </div>
+
+            {/* 🟢 INPUT DA META */}
+            <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/10">
+              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Meta:</span>
+              <input 
+                type="number" 
+                value={targetGoal} 
+                onChange={(e) => setTargetGoal(Number(e.target.value))}
+                className="w-14 bg-transparent text-xs font-bold text-slate-900 dark:text-white text-center focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <LineEvolutionChart dataPoints={stats.evolution} targetGoal={targetGoal} />
         </AppleCard>
 
         <AppleCard>
