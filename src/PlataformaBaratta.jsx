@@ -618,15 +618,18 @@ function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 85 }) {
   const innerH = height - padTop - padBottom;
 
   const coords = dataPoints.map((d, idx) => {
-    const x =
-      dataPoints.length === 1
-        ? padLeft + innerW / 2
-        : padLeft + (idx / (dataPoints.length - 1)) * innerW;
-    const y = d.value !== null ? padTop + innerH - (d.value / 100) * innerH : null;
-  // Cálculo da posição vertical (Y) da linha de meta
-  const targetY = padTop + innerH - (Math.min(100, Math.max(0, targetGoal)) / 100) * innerH;
-    return { ...d, x, y };
-  });
+      const x =
+        dataPoints.length === 1
+          ? padLeft + innerW / 2
+          : padLeft + (idx / (dataPoints.length - 1)) * innerW;
+      const y = d.value !== null ? padTop + innerH - (d.value / 100) * innerH : null;
+      return { ...d, x, y };
+    });
+
+    // 🟢 O CÁLCULO DA META DEVE FICAR AQUI FORA DO .map()
+    const targetY = padTop + innerH - (Math.min(100, Math.max(0, targetGoal)) / 100) * innerH;
+
+    const activeCoords = coords.filter((c) => c.y !== null);
 
   const activeCoords = coords.filter((c) => c.y !== null);
   const pathD = activeCoords
