@@ -597,7 +597,7 @@ function EmptyState({ icon: Icon, title, description, action }) {
   );
 }
 
-function LineEvolutionChart({ dataPoints, height = 210 }) {
+function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 80 }) {
   // dataPoints: [{ label: 'P1', value: 82 }, ...]
   const validPoints = dataPoints.filter((d) => d.value !== null && d.value !== undefined);
 
@@ -765,7 +765,7 @@ function HorizontalBarChart({ items }) {
 // COMPONENTE PRINCIPAL: PLATAFORMA BARATTA
 // ============================================================================
 export default function App() {
- const [targetGoal, setTargetGoal] = useState(70);
+ const [targetGoal, setTargetGoal] = useState(80);
   
   // Splash screen
   const [showSplash, setShowSplash] = useState(true);
