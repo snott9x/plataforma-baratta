@@ -5636,7 +5636,7 @@ function AchievementsTab({
         </div>
       </div>
     </div>
-
+)
       {/* RENDERIZAÇÃO DO TOAST */}
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#1C1C1E]/95 dark:bg-white/95 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/10 dark:border-slate-200 animate-bounce transition-all">
