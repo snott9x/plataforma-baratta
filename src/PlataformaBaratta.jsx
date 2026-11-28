@@ -1335,8 +1335,8 @@ const awardXp = async (actionKey, label, refId, scoreValue) => {
       .sort((a, b) => a.accuracy - b.accuracy)
       .slice(0, 5);
 
-    const recentExams = [...yearExams]
-      .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+   const recentExams = [...yearExams]
+      .sort((a, b) => (b.id || '').localeCompare(a.id || ''))
       .slice(0, 5);
 
     return {
@@ -1922,13 +1922,13 @@ function DashboardTab({
           <div className="mt-2 flex items-baseline justify-between">
             <div>
               <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
-                {metrics.worstSubject ? metrics.worstSubject.subject.name : '—'}
+                {.worstSubject ? .worstSubject.subject.name : '—'}
               </div>
               <p className="text-xs text-slate-400 mt-1">Prioridade de acompanhamento</p>
             </div>
             <div className="text-sm font-semibold text-amber-600 dark:text-amber-400 shrink-0">
-              {metrics.worstSubject
-                ? `Média ${formatScore(metrics.worstSubject.annualAvg)}`
+              {.worstSubject
+                ? `Média ${formatScore(.worstSubject.annualAvg)}`
                 : 'Sem dados'}
             </div>
           </div>
