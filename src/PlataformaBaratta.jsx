@@ -765,6 +765,8 @@ function HorizontalBarChart({ items }) {
 // COMPONENTE PRINCIPAL: PLATAFORMA BARATTA
 // ============================================================================
 export default function App() {
+ const [targetGoal, setTargetGoal] = useState(70);
+  
   // Splash screen
   const [showSplash, setShowSplash] = useState(true);
   const [splashFading, setSplashFading] = useState(false);
@@ -778,7 +780,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [selectedYear, setSelectedYear] = useState(2026);
   const INITIAL_SUBJECTS = getSubjects(selectedYear);
- const getAreasOrder = (year) => {
+  const getAreasOrder = (year) => {
   const is2028 = Number(year) === 2028;
   return is2028
     ? ['Matemática', 'Ciências da Natureza', 'Ciências Humanas', 'Linguagens']
