@@ -1754,8 +1754,12 @@ function DashboardTab({
 
   const generalBand = getPerformanceBand(metrics.generalAvg, bandLabels);
 
-  // Encontra a avaliação mais recente cadastrada no ano
-  const latestExam = metrics.recentExams && metrics.recentExams.length > 0 ? metrics.recentExams[0] : null;
+ // Ordena para garantir que a prova mais recente cadastrada venha primeiro
+  const sortedExams = metrics.recentExams && metrics.recentExams.length > 0 
+    ? [...metrics.recentExams].sort((a, b) => (b.id || 0) - (a.id || 0)) 
+    : [];
+
+  const latestExam = sortedExams.length > 0 ? sortedExams[0] : null;
   const latestExamSubject = latestExam ? subjects.find((s) => s.id === latestExam.subjectId) : null;
 
   return (
