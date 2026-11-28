@@ -597,7 +597,7 @@ function EmptyState({ icon: Icon, title, description, action }) {
   );
 }
 
-function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 80 }) {
+function LineEvolutionChart({ dataPoints, height = 210 }) {
   // dataPoints: [{ label: 'P1', value: 82 }, ...]
   const validPoints = dataPoints.filter((d) => d.value !== null && d.value !== undefined);
 
@@ -625,9 +625,6 @@ function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 80 }) {
     const y = d.value !== null ? padTop + innerH - (d.value / 100) * innerH : null;
     return { ...d, x, y };
   });
-
-  // 🟢 1. CÁLCULO DA POSIÇÃO VERTICAL DA META
-  const targetY = padTop + innerH - (Math.min(100, Math.max(0, targetGoal)) / 100) * innerH;
 
   const activeCoords = coords.filter((c) => c.y !== null);
   const pathD = activeCoords
@@ -678,39 +675,6 @@ function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 80 }) {
         })}
 
         {areaD && <path d={areaD} fill="url(#barattaBlueGrad)" />}
-        
-        {/* 🟢 2. LINHA PONTILHADA DA META */}
-        <g className="transition-all duration-300">
-          <line
-            x1={padLeft}
-            y1={targetY}
-            x2={width - padRight}
-            y2={targetY}
-            stroke="#007AFF"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-            opacity="0.75"
-          />
-          <rect
-            x={width - padRight - 55}
-            y={targetY - 10}
-            width="55"
-            height="16"
-            rx="4"
-            className="fill-slate-900/80 dark:fill-slate-800/90"
-          />
-          <text
-            x={width - padRight - 28}
-            y={targetY + 2}
-            fill="#007AFF"
-            fontSize="10"
-            fontWeight="bold"
-            textAnchor="middle"
-          >
-            Meta: {targetGoal}
-          </text>
-        </g>
-
         {activeCoords.length > 1 && (
           <path
             d={pathD}
@@ -801,8 +765,6 @@ function HorizontalBarChart({ items }) {
 // COMPONENTE PRINCIPAL: PLATAFORMA BARATTA
 // ============================================================================
 export default function App() {
- const [targetGoal, setTargetGoal] = useState(80);
-  
   // Splash screen
   const [showSplash, setShowSplash] = useState(true);
   const [splashFading, setSplashFading] = useState(false);
@@ -816,7 +778,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [selectedYear, setSelectedYear] = useState(2026);
   const INITIAL_SUBJECTS = getSubjects(selectedYear);
-  const getAreasOrder = (year) => {
+ const getAreasOrder = (year) => {
   const is2028 = Number(year) === 2028;
   return is2028
     ? ['Matemática', 'Ciências da Natureza', 'Ciências Humanas', 'Linguagens']
@@ -3473,28 +3435,13 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
       </div>
 
       {/* EVOLUÇÃO E APROVEITAMENTO POR CONTEÚDO */}
-      <AppleCard>
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-            <div>
-              <h3 className="text-base font-semibold mb-1">Evolução Temporal no Recorte</h3>
-              <p className="text-xs text-slate-500">
-                Acompanhamento de notas ao longo das avaliações
-              </p>
-            </div>
-
-            {/* 🟢 INPUT DA META */}
-            <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/10">
-              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Meta:</span>
-              <input 
-                type="number" 
-                value={targetGoal} 
-                onChange={(e) => setTargetGoal(Number(e.target.value))}
-                className="w-14 bg-transparent text-xs font-bold text-slate-900 dark:text-white text-center focus:outline-none"
-              />
-            </div>
-          </div>
-
-          <LineEvolutionChart dataPoints={stats.evolution} targetGoal={targetGoal} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <AppleCard>
+          <h3 className="text-base font-semibold mb-1">Evolução Temporal no Recorte</h3>
+          <p className="text-xs text-slate-500 mb-4">
+            Acompanhamento de notas ao longo das avaliações
+          </p>
+          <LineEvolutionChart dataPoints={stats.evolution} />
         </AppleCard>
 
         <AppleCard>
@@ -3539,6 +3486,7 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
           )}
         </AppleCard>
       </div>
+    </div>
   );
 }
 
