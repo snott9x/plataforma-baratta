@@ -626,6 +626,9 @@ function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 80 }) {
     return { ...d, x, y };
   });
 
+  // 🟢 1. CÁLCULO DA POSIÇÃO VERTICAL DA META
+  const targetY = padTop + innerH - (Math.min(100, Math.max(0, targetGoal)) / 100) * innerH;
+
   const activeCoords = coords.filter((c) => c.y !== null);
   const pathD = activeCoords
     .map((c, i) => `${i === 0 ? 'M' : 'L'} ${c.x.toFixed(1)} ${c.y.toFixed(1)}`)
@@ -675,6 +678,39 @@ function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 80 }) {
         })}
 
         {areaD && <path d={areaD} fill="url(#barattaBlueGrad)" />}
+        
+        {/* 🟢 2. LINHA PONTILHADA DA META */}
+        <g className="transition-all duration-300">
+          <line
+            x1={padLeft}
+            y1={targetY}
+            x2={width - padRight}
+            y2={targetY}
+            stroke="#007AFF"
+            strokeWidth="1.5"
+            strokeDasharray="4 4"
+            opacity="0.75"
+          />
+          <rect
+            x={width - padRight - 55}
+            y={targetY - 10}
+            width="55"
+            height="16"
+            rx="4"
+            className="fill-slate-900/80 dark:fill-slate-800/90"
+          />
+          <text
+            x={width - padRight - 28}
+            y={targetY + 2}
+            fill="#007AFF"
+            fontSize="10"
+            fontWeight="bold"
+            textAnchor="middle"
+          >
+            Meta: {targetGoal}
+          </text>
+        </g>
+
         {activeCoords.length > 1 && (
           <path
             d={pathD}
