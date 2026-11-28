@@ -5636,8 +5636,6 @@ function AchievementsTab({
         </div>
       </div>
     </div>
-  );
-}
 
       {/* RENDERIZAÇÃO DO TOAST */}
       {toast && (
