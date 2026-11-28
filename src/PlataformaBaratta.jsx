@@ -1846,7 +1846,7 @@ function DashboardTab({
         </AppleCard>
       </div>
 
-      {/* LINHA 2: MÉDIA GERAL E ÚLTIMA PROVA ADICIONADA (ESTICADOS) */}
+     {/* LINHA 2: MÉDIA GERAL E MELHOR ÁREA (ESTICADOS) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <AppleCard>
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -1871,26 +1871,21 @@ function DashboardTab({
 
         <AppleCard>
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Última Prova Adicionada
+            Melhor Área do Conhecimento
           </span>
           <div className="mt-2 flex items-baseline justify-between">
-            <div className="truncate pr-2">
+            <div>
               <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
-                {latestExamSubject ? latestExamSubject.name : '—'}
-                {latestExam && (
-                  <span className="ml-2 text-xs font-medium text-slate-500">
-                    ({latestExam.examCode})
-                  </span>
-                )}
+                {metrics.areaStats && metrics.areaStats.filter(a => a.avg !== null).length > 0
+                  ? [...metrics.areaStats].filter(a => a.avg !== null).sort((a, b) => b.avg - a.avg)[0].area
+                  : '—'}
               </div>
-              <p className="text-xs text-slate-400 mt-1">
-                {latestExam ? `${latestExam.trimester}º Trimestre ${latestExam.date ? `• ${latestExam.date}` : ''}` : 'Nenhuma avaliação recente'}
-              </p>
+              <p className="text-xs text-slate-400 mt-1">Maior desempenho agrupado no ENEM</p>
             </div>
-            <div className="text-right shrink-0">
-              <span className="text-2xl font-bold text-[#007AFF] tabular-nums">
-                {latestExam ? formatScore(latestExam.score) : '—'}
-              </span>
+            <div className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
+              {metrics.areaStats && metrics.areaStats.filter(a => a.avg !== null).length > 0
+                ? `Média ${formatScore([...metrics.areaStats].filter(a => a.avg !== null).sort((a, b) => b.avg - a.avg)[0].avg)}`
+                : 'Sem dados'}
             </div>
           </div>
         </AppleCard>
