@@ -1922,13 +1922,13 @@ function DashboardTab({
           <div className="mt-2 flex items-baseline justify-between">
             <div>
               <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
-                {worstSubject ? .worstSubject.subject.name : '—'}
+                {metrics.worstSubject ? metrics.worstSubject.subject.name : '—'}
               </div>
               <p className="text-xs text-slate-400 mt-1">Prioridade de acompanhamento</p>
             </div>
             <div className="text-sm font-semibold text-amber-600 dark:text-amber-400 shrink-0">
-              {.worstSubject
-                ? `Média ${formatScore(.worstSubject.annualAvg)}`
+              {metrics.worstSubject
+                ? `Média ${formatScore(metrics.worstSubject.annualAvg)}`
                 : 'Sem dados'}
             </div>
           </div>
