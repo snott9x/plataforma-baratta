@@ -3503,7 +3503,6 @@ function StatisticsTab({ selectedYear, availableYears, exams, subjects, bandLabe
           )}
         </AppleCard>
       </div>
-    </div>
   );
 }
 
