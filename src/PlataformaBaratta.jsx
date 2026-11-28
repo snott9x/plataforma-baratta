@@ -1754,38 +1754,42 @@ function DashboardTab({
 
   const generalBand = getPerformanceBand(metrics.generalAvg, bandLabels);
 
+  // Encontra a avaliação mais recente cadastrada no ano
+  const latestExam = metrics.recentExams && metrics.recentExams.length > 0 ? metrics.recentExams[0] : null;
+  const latestExamSubject = latestExam ? subjects.find((s) => s.id === latestExam.subjectId) : null;
+
   return (
     <div className="space-y-6">
-     {/* TOPO: SAUDAÇÃO, FRASE MOTIVACIONAL DIÁRIA E AÇÕES RÁPIDAS */}
-<div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-  <AppleCard className="lg:col-span-2 flex flex-col justify-between">
-    <div className="flex items-start justify-between gap-4">
-      <div>
-        <span className="text-xs font-semibold uppercase tracking-wider text-[#007AFF]">
-          Central de Inteligência Acadêmica • {selectedYear}
-        </span>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-1">
-          Visão Geral de Desempenho
-        </h1>
-      </div>
-      <button
-        onClick={() => setShowQuoteModal(true)}
-        title="Adicionar nova frase motivacional"
-        className="text-xs font-medium text-slate-500 hover:text-[#007AFF] dark:text-slate-400 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-blue-950/40 border border-transparent dark:border-blue-900/40 transition-colors shrink-0"
-      >
-        + Frase
-      </button>
-    </div>
+      {/* TOPO: SAUDAÇÃO, FRASE MOTIVACIONAL DIÁRIA E AÇÕES RÁPIDAS */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <AppleCard className="lg:col-span-2 flex flex-col justify-between">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#007AFF]">
+                Central de Inteligência Acadêmica • {selectedYear}
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mt-1">
+                Visão Geral de Desempenho
+              </h1>
+            </div>
+            <button
+              onClick={() => setShowQuoteModal(true)}
+              title="Adicionar nova frase motivacional"
+              className="text-xs font-medium text-slate-500 hover:text-[#007AFF] dark:text-slate-400 px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-blue-950/40 border border-transparent dark:border-blue-900/40 transition-colors shrink-0"
+            >
+              + Frase
+            </button>
+          </div>
 
-    <div className="mt-5 pt-4 border-t border-slate-200/70 dark:border-blue-900/40">
-      <p className="text-sm sm:text-base italic text-slate-700 dark:text-slate-100 leading-relaxed">
-        “{dailyQuote.text}”
-      </p>
-      <p className="text-xs text-slate-400 dark:text-slate-400 mt-1">
-        — {dailyQuote.author} • Reflexão do dia
-      </p>
-    </div>
-  </AppleCard>
+          <div className="mt-5 pt-4 border-t border-slate-200/70 dark:border-blue-900/40">
+            <p className="text-sm sm:text-base italic text-slate-700 dark:text-slate-100 leading-relaxed">
+              “{dailyQuote.text}”
+            </p>
+            <p className="text-xs text-slate-400 dark:text-slate-400 mt-1">
+              — {dailyQuote.author} • Reflexão do dia
+            </p>
+          </div>
+        </AppleCard>
 
         <AppleCard className="flex flex-col justify-between">
           <div>
@@ -1838,8 +1842,8 @@ function DashboardTab({
         </AppleCard>
       </div>
 
-      {/* KPIS PRINCIPAIS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* LINHA 2: MÉDIA GERAL E ÚLTIMA PROVA ADICIONADA (ESTICADOS) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <AppleCard>
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
             Média Geral ({selectedYear})
@@ -1863,53 +1867,71 @@ function DashboardTab({
 
         <AppleCard>
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Melhor 
+            Última Prova Adicionada
           </span>
-          <div className="mt-2">
-            <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
-              {metrics.bestSubject ? metrics.bestSubject.subject.name : '—'}
+          <div className="mt-2 flex items-baseline justify-between">
+            <div className="truncate pr-2">
+              <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
+                {latestExamSubject ? latestExamSubject.name : '—'}
+                {latestExam && (
+                  <span className="ml-2 text-xs font-medium text-slate-500">
+                    ({latestExam.examCode})
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                {latestExam ? `${latestExam.trimester}º Trimestre ${latestExam.date ? `• ${latestExam.date}` : ''}` : 'Nenhuma avaliação recente'}
+              </p>
             </div>
-            <div className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">
+            <div className="text-right shrink-0">
+              <span className="text-2xl font-bold text-[#007AFF] tabular-nums">
+                {latestExam ? formatScore(latestExam.score) : '—'}
+              </span>
+            </div>
+          </div>
+        </AppleCard>
+      </div>
+
+      {/* LINHA 3: MELHOR MATÉRIA E MENOR MÉDIA (ESTICADOS) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <AppleCard>
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+            Melhor Matéria
+          </span>
+          <div className="mt-2 flex items-baseline justify-between">
+            <div>
+              <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
+                {metrics.bestSubject ? metrics.bestSubject.subject.name : '—'}
+              </div>
+              <p className="text-xs text-slate-400 mt-1">Maior desempenho acumulado no ano</p>
+            </div>
+            <div className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
               {metrics.bestSubject ? `Média ${formatScore(metrics.bestSubject.annualAvg)}` : 'Sem dados'}
             </div>
           </div>
-          <p className="text-xs text-slate-400 mt-2">Maior desempenho acumulado no ano</p>
         </AppleCard>
 
         <AppleCard>
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Menor Média
+            Menor Média (Prioridade)
           </span>
-          <div className="mt-2">
-            <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
-              {metrics.worstSubject ? metrics.worstSubject.subject.name : '—'}
+          <div className="mt-2 flex items-baseline justify-between">
+            <div>
+              <div className="text-lg font-bold text-slate-900 dark:text-white truncate">
+                {metrics.worstSubject ? metrics.worstSubject.subject.name : '—'}
+              </div>
+              <p className="text-xs text-slate-400 mt-1">Prioridade de acompanhamento</p>
             </div>
-            <div className="text-sm font-semibold text-amber-600 dark:text-amber-400 mt-0.5">
+            <div className="text-sm font-semibold text-amber-600 dark:text-amber-400 shrink-0">
               {metrics.worstSubject
                 ? `Média ${formatScore(metrics.worstSubject.annualAvg)}`
                 : 'Sem dados'}
             </div>
           </div>
-          <p className="text-xs text-slate-400 mt-2">Prioridade de acompanhamento</p>
-        </AppleCard>
-
-        <AppleCard>
-          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Avaliações Cadastradas
-          </span>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-bold text-slate-900 dark:text-white tabular-nums">
-              {metrics.totalExamsCount}
-            </span>
-            <span className="text-xs text-slate-500">provas em {selectedYear}</span>
-          </div>
-          <p className="text-xs text-slate-400 mt-2">
-            {metrics.subjectsWithData.length} de {subjects.length} s avaliadas
-          </p>
         </AppleCard>
       </div>
 
-      {/* GRÁFICOS PRINCIPAIS */}
+      {/* LINHA 4: GRÁFICOS PRINCIPAIS LADO A LADO */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <AppleCard>
           <div className="flex items-center justify-between mb-4">
@@ -1937,163 +1959,6 @@ function DashboardTab({
             </div>
           </div>
           <LineEvolutionChart dataPoints={metrics.trimesterStats} />
-        </AppleCard>
-
-        <AppleCard>
-          <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
-            Comparação entre s
-          </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-            Médias anuais (ou provisórias) das matérias avaliadas
-          </p>
-          <HorizontalBarChart
-            items={[...metrics.subjectsWithData]
-              .sort((a, b) => b.annualAvg - a.annualAvg)
-              .map((s) => ({
-                label: s.subject.name,
-                sublabel: s.isAnnualProvisional ? '(Provisória)' : '',
-                value: s.annualAvg
-              }))}
-          />
-        </AppleCard>
-
-        <AppleCard>
-          <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
-            Comparação entre Áreas do Conhecimento
-          </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-            Desempenho médio agrupado por área ENEM
-          </p>
-          <HorizontalBarChart
-            items={metrics.areaStats
-              .filter((a) => a.avg !== null)
-              .sort((a, b) => b.avg - a.avg)
-              .map((a) => ({
-                label: a.area,
-                sublabel: `(${a.count} ${a.count === 1 ? 'matéria' : 'matérias'})`,
-                value: a.avg
-              }))}
-          />
-        </AppleCard>
-      </div>
-
-      {/* PONTOS DE ATENÇÃO E DESEMPENHO RECENTE */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AppleCard>
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-base font-semibold text-slate-900 dark:text-white">
-                Principais Pontos de Atenção
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Conteúdos com aproveitamento abaixo de 75% nas provas diagnosticadas
-              </p>
-            </div>
-            <button
-              onClick={() => onNavigate('Relatórios')}
-              className="text-xs font-semibold text-[#007AFF] hover:underline"
-            >
-              Ver Relatório IA
-            </button>
-          </div>
-
-          {metrics.attentionTopics.length === 0 ? (
-            <p className="text-sm text-slate-500 dark:text-slate-400 py-6 text-center">
-              Nenhum conteúdo crítico identificado com os dados atuais.
-            </p>
-          ) : (
-            <div className="space-y-3">
-              {metrics.attentionTopics.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200/60 dark:border-white/5"
-                >
-                  <div>
-                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-                      {item.topic}
-                    </div>
-                    <div className="text-xs text-slate-500">
-                      {item.subjectName} • {item.correct}/{item.total} acertos
-                    </div>
-                  </div>
-                  <span
-                    className={`text-xs font-bold px-2.5 py-1 rounded-lg ${
-                      item.accuracy < 60
-                        ? 'bg-red-500/10 text-red-600 dark:text-red-400'
-                        : 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
-                    }`}
-                  >
-                    {item.accuracy.toFixed(0)}%
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </AppleCard>
-
-        <AppleCard>
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-base font-semibold text-slate-900 dark:text-white">
-                Desempenho Recente
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Últimas avaliações registradas em {selectedYear}
-              </p>
-            </div>
-            <button
-              onClick={() => onNavigate('Boletim')}
-              className="text-xs font-semibold text-[#007AFF] hover:underline"
-            >
-              Abrir Boletim
-            </button>
-          </div>
-
-          {metrics.recentExams.length === 0 ? (
-            <p className="text-sm text-slate-500 dark:text-slate-400 py-6 text-center">
-              Nenhuma avaliação registrada ainda para {selectedYear}.
-            </p>
-          ) : (
-            <div className="space-y-2.5">
-              {metrics.recentExams.map((ex) => {
-                const subj = subjects.find((s) => s.id === ex.subjectId);
-                const band = getPerformanceBand(ex.score, bandLabels);
-                return (
-                  <div
-                    key={ex.id}
-                    className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-white/5"
-                  >
-                    <div>
-                      <div className="text-sm font-semibold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                        <span>{subj ? subj.name : ex.subjectId}</span>
-                        <span className="text-xs font-medium px-2 py-0.5 rounded bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300">
-                          {ex.examCode}
-                        </span>
-                        {ex.isDemo && (
-                          <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600">
-                            Exemplo
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-xs text-slate-400 mt-0.5">
-                        {ex.trimester}º Trimestre {ex.date ? `• ${ex.date}` : ''}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-base font-bold text-slate-900 dark:text-white tabular-nums">
-                        {formatScore(ex.score)}
-                      </div>
-                      {band && (
-                        <span className="text-[11px] font-medium text-slate-500">
-                          {band.label}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </AppleCard>
       </div>
 
