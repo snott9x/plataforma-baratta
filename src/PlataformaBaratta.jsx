@@ -752,7 +752,7 @@ function LineEvolutionChart({ dataPoints, height = 210, targetGoal = 85 }) {
             Meta: {targetGoal}
           </text>
         </g>
-        {/* 👆 FIM DA LINHA DA META 👆 */}
+      
 
       </svg>
     </div>
@@ -799,7 +799,7 @@ function HorizontalBarChart({ items }) {
     </div>
   );
 }
-
+}
 // ============================================================================
 // COMPONENTE PRINCIPAL: PLATAFORMA BARATTA
 // ============================================================================
