@@ -5541,15 +5541,13 @@ function AchievementsTab({
                       : 'bg-slate-900/60 border-slate-800/80 opacity-75'
                   }`}
                 >
-                  {/* NÓ / ÍCONE DO RANK (Agora exibe a badge do nível se concluído ou atual) */}
+                  {/* NÓ / ÍCONE DO RANK */}
                   <div className="relative z-10 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
                     {isUnlocked && !isCurrent ? (
-                      <div className="w-10 h-10 rounded-full bg-emerald-500/20 border-2 border-emerald-500/50 text-white flex items-center justify-center shadow-md ring-4 ring-emerald-500/10">
-                        <img 
-                          src={step.badge} 
-                          alt={step.name} 
-                          className="w-6 h-6 object-contain drop-shadow" 
-                        />
+                      <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md ring-4 ring-emerald-500/20">
+                        <svg className="w-5 h-5 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
                       </div>
                     ) : isCurrent ? (
                       <div className="w-10 h-10 rounded-full bg-[#007AFF]/20 border-2 border-[#007AFF] text-[#007AFF] flex items-center justify-center shadow-lg ring-4 ring-[#007AFF]/30">
@@ -5635,8 +5633,7 @@ function AchievementsTab({
           </div>
         </div>
       </div>
-    </div>
-)
+
       {/* RENDERIZAÇÃO DO TOAST */}
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#1C1C1E]/95 dark:bg-white/95 text-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl border border-white/10 dark:border-slate-200 animate-bounce transition-all">
